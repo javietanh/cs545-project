@@ -1,5 +1,6 @@
-package edu.mum.shopping;
+package edu.mum.config;
 
+import edu.mum.ShoppingApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 

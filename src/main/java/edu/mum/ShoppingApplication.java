@@ -1,4 +1,4 @@
-package edu.mum.shopping;
+package edu.mum;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

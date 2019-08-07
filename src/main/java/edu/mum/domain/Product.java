@@ -1,4 +1,4 @@
-package edu.mum.shopping.domain;
+package edu.mum.domain;
 
 import lombok.Data;
 
@@ -11,10 +11,10 @@ public class Product {
     @Id
     @GeneratedValue
     private Long id;
-    @Column(nullable=false)
+    @Column(nullable = false)
     private String name;
     private String description;
-    @Column(nullable=false)
+    @Column(nullable = false)
     private BigDecimal price;
     private String image;
     private Boolean available;

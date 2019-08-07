@@ -1,4 +1,4 @@
-package edu.mum.shopping.domain;
+package edu.mum.domain;
 
 import lombok.Data;
 
@@ -17,7 +17,7 @@ public class Orders {
     private List<OrderItem> orderItems;
     private BigDecimal totalAmount;
     @ManyToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(name="buyer_id")
+    @JoinColumn(name = "buyer_id")
     private Buyer buyer;
     private String shippingAddress;
     private String billingAddress;

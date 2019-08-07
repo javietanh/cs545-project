@@ -22,6 +22,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+
+        http.authorizeRequests()
+                .antMatchers("/").permitAll()
+                .antMatchers("/h2_console/**").permitAll();
+
+        http.csrf().disable();
+        http.headers().frameOptions().disable();
+
         // ignored homepage, account area from authentication.
         http.authorizeRequests()
                 .antMatchers("/", "/account/**").permitAll()

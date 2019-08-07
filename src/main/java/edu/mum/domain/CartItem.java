@@ -1,4 +1,4 @@
-package edu.mum.shopping.domain;
+package edu.mum.domain;
 
 import lombok.Data;
 
@@ -12,7 +12,7 @@ public class CartItem {
     @GeneratedValue
     private Long id;
     @OneToOne
-    @JoinColumn(name="product_id")
+    @JoinColumn(name = "product_id")
     private Product product;
     private BigDecimal price;
     private int quantity;

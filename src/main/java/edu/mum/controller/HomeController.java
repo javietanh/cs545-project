@@ -26,19 +26,19 @@ public class HomeController {
 
     // buyer homepage
     @GetMapping("/buyer")
-    public String buyerHomepage(){
+    public String buyerHomepage() {
         return "/buyer/index";
     }
 
     // seller homepage
     @GetMapping("/seller")
-    public String sellerHomepage(){
+    public String sellerHomepage() {
         return "/seller/index";
     }
 
     // admin homepage
     @GetMapping("/admin")
-    public String adminHomepage(){
+    public String adminHomepage() {
         return "/admin/index";
     }
 }

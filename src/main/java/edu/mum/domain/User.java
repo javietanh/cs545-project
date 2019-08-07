@@ -1,4 +1,4 @@
-package edu.mum.shopping.domain;
+package edu.mum.domain;
 
 import lombok.Data;
 
@@ -16,12 +16,12 @@ public class User {
     private Long id;
     private String firstName;
     private String lastName;
-    @Column(unique=true)
+    @Column(unique = true)
     @NotBlank
-    @Email(message="{errors.invalid_email}")
+    @Email(message = "{errors.invalid_email}")
     private String email;
     @NotBlank
-    @Size(min=4)
+    @Size(min = 4)
     private String password;
     private String phone;
     private String address;

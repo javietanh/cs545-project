@@ -1,4 +1,4 @@
-package edu.mum.shopping.domain;
+package edu.mum.domain;
 
 public enum Role {
     ADMIN, SELLER, BUYER

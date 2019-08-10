@@ -1,10 +1,63 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Login</title>
-</head>
-<body>
+<html lang="en"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org/"
+      layout:decorate="~{layouts/account}">
+<div class="container" layout:fragment="content">
 
-</body>
+    <div class="card card-login mx-auto mt-5">
+
+        <div class="card-header">Login</div>
+        <div class="card-body">
+
+            <!-- display login error -->
+            <div th:if="${param.error}">
+                <div class="alert alert-danger">
+                    Email or Password invalid.
+                </div>
+            </div>
+            <!-- display login error -->
+
+
+            <form th:action="@{/account/login}" method="post">
+                <div class="form-group">
+                    <div class="form-label-group">
+                        <input type="email"
+                               id="inputEmail"
+                               name="email"
+                               class="form-control"
+                               placeholder="Email address"
+                               required="required"
+                               autofocus="autofocus">
+                        <label for="inputEmail">Email address</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="form-label-group">
+                        <input type="password"
+                               id="inputPassword"
+                               name="password"
+                               class="form-control"
+                               placeholder="Password"
+                               required="required">
+                        <label for="inputPassword">Password</label>
+                    </div>
+                </div>
+
+                <div class="custom-control custom-switch mb-3">
+                    <input type="checkbox" class="custom-control-input" id="remember-me" name="remember-me" value="=remember-me">
+                    <label class="custom-control-label" for="remember-me">Remember Password</label>
+                </div>
+
+                <button type="submit" name="submit" th:value="Login" class="btn btn-primary btn-lg btn-block">Login</button>
+
+            </form>
+            <div class="text-center">
+                <a class="d-block small mt-3" th:href="@{/account/register}">Register an Account</a>
+                <a class="d-block small" th:href="@{/account/forgot-password}">Forgot Password?</a>
+            </div>
+        </div>
+
+    </div>
+
+</div>
 </html>

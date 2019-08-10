@@ -1,10 +1,35 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org/"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+	<title layout:title-pattern="$CONTENT_TITLE - $LAYOUT_TITLE">MUM</title>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible"
+	      content="IE=edge">
+	<meta name="viewport"
+	      content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<!-- stylesheet -->
+	<link type="text/css"
+	      rel="stylesheet"
+	      th:href="@{/vendor/fontawesome-free/css/all.min.css}">
+	<link type="text/css"
+	      rel="stylesheet"
+	      th:href="@{/css/sb-admin.css}">
+	<link type="text/css"
+	      rel="stylesheet"
+	      th:href="@{/css/main.css}">
 </head>
-<body>
+<body class="bg-dark">
+	<div class="jumbotron vertical-center bg-dark">
+		<div class="container text-center"
+		     layout:fragment="content">Contents
+		</div>
+	</div>
+	<!-- javascript -->
+	<script th:src="@{/vendor/jquery/jquery.min.js}"></script>
+	<script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+	<script th:src="@{/vendor/jquery-easing/jquery.easing.min.js}"></script>
 
 </body>
 </html>

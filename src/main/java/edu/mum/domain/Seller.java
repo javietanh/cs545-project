@@ -3,6 +3,7 @@ package edu.mum.domain;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -17,8 +18,16 @@ public class Seller {
     @JoinColumn(name = "user_id")
     private User user;
     @OneToMany(mappedBy = "seller", cascade = CascadeType.ALL)
-    private List<Product> products;
+    private List<Product> products = new ArrayList<Product>();
     private Boolean status;
     @ManyToMany(mappedBy = "sellers")
-    private List<Buyer> buyers;
+    private List<Buyer> buyers = new ArrayList<Buyer>();
+
+    public void addBuyer(Buyer buyer) {
+        buyers.add(buyer);
+    }
+
+    public void removeBuyer(Buyer buyer) {
+        buyers.remove(buyer);
+    }
 }

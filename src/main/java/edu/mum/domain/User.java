@@ -6,6 +6,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -29,5 +30,5 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Role role;
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<Message> messages;
+    private List<Message> messages = new ArrayList<Message>();
 }

@@ -9,7 +9,7 @@ import java.util.List;
 
 @Data
 @Entity
-public class Orders {
+public class Order {
     @Id
     @GeneratedValue
     private Long id;

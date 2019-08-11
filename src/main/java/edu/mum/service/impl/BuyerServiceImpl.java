@@ -1,12 +1,13 @@
-package edu.mum.service;
+package edu.mum.service.impl;
 
-import edu.mum.domain.Buyer;
-import edu.mum.domain.Role;
-import edu.mum.domain.Seller;
+import edu.mum.domain.*;
 import edu.mum.repository.BuyerRepository;
-import edu.mum.repository.SellerRepository;
+import edu.mum.repository.OrderItemRepository;
+import edu.mum.service.BuyerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class BuyerServiceImpl implements BuyerService {
@@ -14,7 +15,7 @@ public class BuyerServiceImpl implements BuyerService {
     private BuyerRepository buyerRepository;
 
     @Autowired
-    private SellerRepository sellerRepository;
+    private OrderItemRepository orderItemRepository;
 
     @Override
     public Buyer saveBuyer(Buyer buyer) {
@@ -39,5 +40,16 @@ public class BuyerServiceImpl implements BuyerService {
         buyer.unfollowSeller(seller);
         seller.removeBuyer(buyer);
         buyerRepository.save(buyer);
+    }
+
+    @Override
+    public List<Orders> getOrdersByBuyerId(Long buyerId) {
+        return buyerRepository.findById(buyerId).get().getOrders();
+    }
+
+    @Override
+    public void addReview(OrderItem item, String review) {
+        item.setReview(review);
+        orderItemRepository.save(item);
     }
 }

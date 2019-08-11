@@ -22,8 +22,8 @@ public class OrderItem {
     private Orders order;
     private String review;
     private Boolean reviewStatus;
-    private int rating;
-    private String orderStatus;
+    private int rating = 0;
+    private OrderItemStatus orderStatus = OrderItemStatus.ORDERED;
     private LocalDateTime shippingDate;
     private LocalDateTime deliveredDate;
 }

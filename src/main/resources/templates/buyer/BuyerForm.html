@@ -2,11 +2,6 @@
       xmlns:th=="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/buyer}">
-<head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" type="text/css" th:href="@{/css/shop-homepage.css}"/>
-    <title>Employee Form</title>
-</head>
 <div class="container" layout:fragment="content">
     <P>
         <h1>Buyer homepage!!!!</h1>
@@ -23,6 +18,8 @@
             <input type="text" th:field="*{user.email}"/><br/>
             <label>Password: </label>
             <input type="text" th:field="*{user.password}"/><br/>
+            <label>Confirm Password: </label>
+            <input type="text" /><br/>
             <label>Phone: </label>
             <input type="text" th:field="*{user.phone}"/><br/>
             <label>Address: </label>

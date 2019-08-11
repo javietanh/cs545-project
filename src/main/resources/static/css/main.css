@@ -2,8 +2,8 @@ html, body {
     height: 100%;
 }
 
-.jumbotron .vertical-center {
-    margin-bottom: 0; /* Remove the default bottom margin of .jumbotron */
+.jumbotron {
+    margin-bottom: 0!important; /* Remove the default bottom margin of .jumbotron */
 }
 
 .vertical-center {

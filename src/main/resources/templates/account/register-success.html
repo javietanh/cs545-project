@@ -1,0 +1,24 @@
+<html lang="en"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{layouts/account}">
+<div class="container"
+     layout:fragment="content">
+	
+	<!-- main content -->
+	<div class="card mx-auto text-center">
+		<div class="card-body">
+			<div class="card-title">
+				<i class="fa fa-check fa-5x text-success"></i>
+				
+				<p class="font-italic text-success" th:text="#{register.success}"></p>
+			</div>
+		</div>
+		<div class="card-footer">
+			<a th:href="@{/account/login}" th:text="#{button.loginPage}">Login Page</a>
+		</div>
+	</div>
+	<!-- main content -->
+	
+</div>
+</html>

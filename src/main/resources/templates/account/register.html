@@ -1,0 +1,52 @@
+<html lang="en"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{layouts/account}">
+<div class="container"
+     layout:fragment="content">
+	
+	<div class="card mx-auto">
+		<div class="card-header">
+			<i class="fa fa-id-card text-primary"></i>
+			<span th:text="#{register.title}"
+			      th:remove="tag">Registration</span>
+		</div>
+		<div class="card-body">
+			<div class="card-title">
+			
+			</div>
+			<div class="row">
+				<div class="col-sm-6">
+					<div class="card text-center">
+						<div class="card-body">
+							<h5 class="card-title">
+								<span class="fa fa-handshake fa-5x text-primary"></span>
+							</h5>
+							<p class="card-text font-italic"
+							   th:text="#{register.seller.tooltips}">Register to sell something on webiste.</p>
+							<a th:href="@{/account/seller-register}"
+							   class="btn btn-primary"
+							   th:text="#{button.seller}">Seller Registration</a>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-6">
+					<div class="card text-center">
+						<div class="card-body">
+							<h5 class="card-title">
+								<span class="fa fa-shopping-cart fa-5x text-success"></span>
+							</h5>
+							<p class="card-text font-italic"
+							   th:text="#{register.buyer.tooltips}">Register to buy something on website.</p>
+							<a th:href="@{/account/buyer-register}"
+							   class="btn btn-success"
+							   th:text="#{button.buyer}">Buyer Registration</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</div>
+</html>

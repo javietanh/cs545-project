@@ -1,8 +1,6 @@
 package edu.mum.service.impl;
 
-import edu.mum.domain.Buyer;
 import edu.mum.domain.Seller;
-import edu.mum.domain.User;
 import edu.mum.repository.SellerRepository;
 import edu.mum.service.SellerService;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -13,7 +13,7 @@ public class Message {
     private Long id;
     private String messageContent;
     private String messageStatus;
-    private LocalDateTime messageDate;
+    private LocalDateTime messageDate = LocalDateTime.now();
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "user_id")
     private User user;

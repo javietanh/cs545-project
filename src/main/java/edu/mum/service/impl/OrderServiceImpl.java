@@ -31,11 +31,11 @@ public class OrderServiceImpl implements OrderService {
         for (CartItem ci : cartItems) {
             OrderItem oi = new OrderItem();
             oi.setProduct(ci.getProduct());
-            oi.setPrice(ci.getPrice());
             oi.setQuantity(ci.getQuantity());
             order.addOrderItem(oi);
             oi.setOrder(order);
-            totalAmount = totalAmount.add(ci.getPrice().multiply(new BigDecimal(ci.getQuantity())));
+            totalAmount = totalAmount.add(ci.getProduct().getPrice().multiply(new BigDecimal(ci.getQuantity())));
+            cartRepository.delete(ci);
         }
         order.setTotalAmount(totalAmount);
         order.setBuyer(buyer);
@@ -49,11 +49,13 @@ public class OrderServiceImpl implements OrderService {
         order.setStatus(OrderStatus.COMPLETED);
         Integer points = order.getTotalAmount().divide(new BigDecimal(100)).intValue();
         order.getBuyer().setPoints(order.getBuyer().getPoints() + points);
+        orderRepository.save(order);
     }
 
     @Override
     public void cancelOrder(Orders order) {
         order.setStatus(OrderStatus.CANCELED);
+        orderRepository.save(order);
     }
 
 

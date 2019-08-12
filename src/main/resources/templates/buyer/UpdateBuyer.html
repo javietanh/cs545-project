@@ -10,21 +10,23 @@
     </p>
 
     <div >
-        <form th:object="${buyer}" action="#" th:action="@{/register/buyer}" method="post">
+        <form th:object="${buyer}" action="#" th:action="@{/buyer/profile/update}" th:method="post">
             <label>First Name: </label>
             <input type="text" th:field="*{user.firstName}"/><br/>
             <label>Last Name: </label>
             <input type="text" th:field="*{user.lastName}"/><br/>
-            <label>Email: </label>
-            <input type="text" th:field="*{user.email}"/><br/>
-            <label>Password: </label>
-            <input type="password" th:field="*{user.password}"/><br/>
-            <label>Confirm Password: </label>
-            <input type="password" th:field="*{user.confirmPassword}"/><br/>
             <label>Phone: </label>
             <input type="text" th:field="*{user.phone}"/><br/>
             <label>Address: </label>
             <input type="text" th:field="*{user.address}"/><br/>
+            <div style="display:none">
+                <input th:field="*{id}"/><br/>
+                <input th:field="*{user.id}"/><br/>
+                <input th:field="*{user.email}"/><br/>
+                <input type="text" th:field="*{user.password}"/><br/>
+                <input type="text" th:field="*{user.confirmPassword}"/><br/>
+                <input type="text" th:field="*{user.role}"/><br/>
+            </div>
             <input type="submit" value="Submit"/>
         </form>
     </div>

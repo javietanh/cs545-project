@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface CartService {
     public CartItem saveCartItem(Buyer buyer, CartItem item);
-    public void removeCartItem(Buyer buyer, Long id);
+    public void removeCartItem(Long id);
     public List<CartItem> getCartByBuyerId(Long buyerId);
     public BigDecimal getTotalAmount(Long buyerId);
 }

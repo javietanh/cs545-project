@@ -24,6 +24,7 @@ public class Orders {
     private String billingAddress;
     private String paymentMethod;
     private String paymentInfo;
+    @Enumerated(EnumType.STRING)
     private OrderStatus status = OrderStatus.NEW;
     private LocalDateTime orderedDate;
     private LocalDateTime endDate;

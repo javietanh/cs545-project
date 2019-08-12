@@ -3,6 +3,7 @@ package edu.mum.service.impl;
 import edu.mum.domain.Buyer;
 import edu.mum.domain.CartItem;
 import edu.mum.domain.OrderItem;
+import edu.mum.repository.BuyerRepository;
 import edu.mum.repository.CartRepository;
 import edu.mum.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,9 +25,9 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public void removeCartItem(Buyer buyer, Long id) {
+    public void removeCartItem(Long id) {
         CartItem item = cartRepository.findById(id).get();
-        buyer.removeCartItem(item);
+        item.getBuyer().removeCartItem(item);
         cartRepository.delete(item);
     }
 
@@ -40,7 +41,7 @@ public class CartServiceImpl implements CartService {
         List<CartItem> cartItems = (List) cartRepository.getCartItemByBuyerId(buyerId);
         BigDecimal totalAmount = new BigDecimal(0.00);
         for (CartItem ci : cartItems) {
-            totalAmount = totalAmount.add(ci.getPrice().multiply(new BigDecimal(ci.getQuantity())));
+            totalAmount = totalAmount.add(ci.getProduct().getPrice().multiply(new BigDecimal(ci.getQuantity())));
         }
         return totalAmount;
     }

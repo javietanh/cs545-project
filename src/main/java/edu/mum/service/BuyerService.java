@@ -5,10 +5,13 @@ import edu.mum.domain.*;
 import java.util.List;
 
 public interface BuyerService {
-    public Buyer saveBuyer(Buyer buyer);
-    public Buyer getBuyerById(Long id);
-    public void followSeller(Buyer buyer, Seller seller);
-    public void unfollowSeller(Buyer buyer, Seller seller);
-    public List<Orders> getOrdersByBuyerId(Long buyerId);
-    public void addReview(OrderItem item, String review);
+    Buyer saveBuyer(Buyer buyer);
+    Buyer updateBuyer(Buyer buyer);
+    Buyer getBuyerById(Long id);
+    Buyer getBuyerByUser(User user);
+    void followSeller(Buyer buyer, Seller seller);
+    void unfollowSeller(Buyer buyer, Seller seller);
+    List<Orders> getOrdersByBuyerId(Long buyerId);
+    void addReview(OrderItem item, String review);
+
 }

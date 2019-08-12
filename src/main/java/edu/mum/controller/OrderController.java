@@ -23,7 +23,7 @@ public class OrderController {
     private BuyerService buyerService;
 
     @GetMapping("/orders/{orderId}")
-    public String getOrder(@PathVariable("buyerId") Long buyerId, @PathVariable("orderId") Long orderId, Model model) {
+    public String getOrder(@PathVariable("orderId") Long orderId, Model model) {
         model.addAttribute("order", orderService.getOrderByOrderId(orderId));
         return "/buyer/OrderDetail";
     }
@@ -32,13 +32,15 @@ public class OrderController {
     public String completeOrder(@PathVariable("orderId") Long orderId, Model model) {
         Orders order = orderService.getOrderByOrderId(orderId);
         orderService.completeOrder(order);
-        return "redirect:/buyer/{buyerId}/orders/{orderId}";
+        Long buyerId = order.getBuyer().getId();
+        return "redirect:/buyer/" + buyerId + "/orders/";
     }
 
     @PostMapping("/orders/{orderId}/cancel")
     public String cancelOrder(@PathVariable("orderId") Long orderId, Model model) {
         Orders order = orderService.getOrderByOrderId(orderId);
         orderService.cancelOrder(order);
-        return "redirect:/buyer/{buyerId}/orders";
+        Long buyerId = order.getBuyer().getId();
+        return "redirect:/buyer/" + buyerId + "/orders";
     }
 }

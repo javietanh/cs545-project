@@ -1,8 +1,10 @@
 package edu.mum.service.impl;
 
+import ch.qos.logback.core.net.SyslogOutputStream;
 import edu.mum.domain.*;
 import edu.mum.repository.BuyerRepository;
 import edu.mum.repository.OrderItemRepository;
+import edu.mum.repository.UserRepository;
 import edu.mum.service.BuyerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,8 +26,21 @@ public class BuyerServiceImpl implements BuyerService {
     }
 
     @Override
+    public Buyer updateBuyer(Buyer buyer) {
+        Buyer persistedBuyer = getBuyerById(buyer.getId());
+        persistedBuyer.setUser(buyer.getUser());
+        System.out.println(persistedBuyer);
+        return buyerRepository.save(persistedBuyer);
+    }
+
+    @Override
     public Buyer getBuyerById(Long id) {
         return buyerRepository.findById(id).get();
+    }
+
+    @Override
+    public Buyer getBuyerByUser(User user) {
+        return buyerRepository.findBuyerByUser(user);
     }
 
     @Override

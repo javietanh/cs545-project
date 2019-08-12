@@ -11,10 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -38,13 +35,13 @@ public class BuyerController {
     }
 
     @PostMapping("/register/buyer")
-    public String saveBuyer(@Valid Buyer buyer, BindingResult result) {
+    public String saveNewBuyer(@Valid Buyer buyer, BindingResult result) {
         if (result.hasErrors()) {
             return "/buyer/BuyerForm";
         }
         buyerService.saveBuyer(buyer);
         Long buyerId = buyer.getId();
-        return "redirect:/buyer/profile/{buyerId}";
+        return "redirect:/buyer/" + buyerId + "/profile";
     }
 
     @GetMapping("/buyer/{buyerId}/profile")
@@ -55,8 +52,20 @@ public class BuyerController {
 
     @GetMapping("/buyer/{buyerId}/profile/update")
     public String updateBuyer(@PathVariable Long buyerId, Model model) {
-        model.addAttribute("buyer", buyerService.getBuyerById(buyerId));
-        return "/buyer/BuyerForm";
+        Buyer buyer = buyerService.getBuyerById(buyerId);
+        buyer.getUser().setConfirmPassword(buyer.getUser().getPassword());
+        model.addAttribute("buyer", buyer);
+        return "/buyer/UpdateBuyer";
+    }
+
+    @PostMapping("/buyer/profile/update")
+    public String saveBuyer(@Valid Buyer buyer, BindingResult result) {
+        if (result.hasErrors()) {
+            return "/buyer/UpdateBuyer";
+        }
+        Buyer updatedBuyer = buyerService.updateBuyer(buyer);
+        Long buyerId = updatedBuyer.getId();
+        return "redirect:/buyer/" + buyerId + "/profile";
     }
 
     @GetMapping("/buyer/home/{buyerId}")
@@ -92,17 +101,19 @@ public class BuyerController {
     }
 
     @GetMapping("/buyer/{buyerId}/checkout")
-    public String checkout(@PathVariable("buyerId") Long buyerId, @ModelAttribute("order") Orders order, Model model) {
+    public String getCheckout(@PathVariable("buyerId") Long buyerId, @ModelAttribute("order") Orders order, Model model) {
         model.addAttribute("cart", cartService.getCartByBuyerId(buyerId));
         model.addAttribute("totalAmount", cartService.getTotalAmount(buyerId));
+        model.addAttribute("buyer", buyerService.getBuyerById(buyerId));
         return "/buyer/Checkout";
     }
 
-    @PostMapping("/buyer/{buyerId}/checkout")
+    @PostMapping("/buyer/{buyerId}/order")
     public String placeOrder(@PathVariable("buyerId") Long buyerId, @Valid Orders order, Model model) {
         Buyer buyer = buyerService.getBuyerById(buyerId);
         orderService.saveOrder(buyer, order);
-        return "redirect:/buyer/{buyerId}/orders/{orderId}";
+        Long orderId = order.getId();
+        return "redirect:/orders/" + orderId;
     }
 
 }

@@ -59,6 +59,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         System.out.println("=== admin user created ===");
         System.out.println(admin);
         System.out.println("=== admin user created ===");
+
     }
 
     @Override
@@ -66,13 +67,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         // ignored homepage, account area from authentication. and h2 database console
         http.authorizeRequests()
-            .antMatchers("/", "/account/**", "/h2-console/**").permitAll()
+            .antMatchers("/", "/account/**", "/register/**", "/h2-console/**").permitAll()
             // allow access to all area until security module finish
-            //.antMatchers("/admin/**", "/buyer/**", "/seller/**").permitAll()
+            .antMatchers("/admin/**", "/buyer/**", "/seller/**").permitAll()
             // checking permission on areas
-            .antMatchers("/admin/**").hasRole("ADMIN")
-            .antMatchers("/seller/**").hasRole("SELLER")
-            .antMatchers("/buyer/**").hasRole("BUYER")
+//            .antMatchers("/admin/**").hasRole("ADMIN")
+//            .antMatchers("/seller/**").hasRole("SELLER")
+//            .antMatchers("/buyer/**").hasRole("BUYER")
             .and()
             .formLogin()
             .loginPage("/account/login")

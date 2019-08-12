@@ -1,8 +1,15 @@
 <html lang="en"
-      xmlns:th=="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layouts/buyer}">
-<div class="container" layout:fragment="content">
+      xmlns:th=="http://www.thymeleaf.org">
+<!--      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"-->
+<!--      layout:decorate="~{layouts/buyer}">-->
+<head>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+    <script type="text/javascript" th:src="@{/js/cart.js}"></script>
+</head>
+<!--<div class="container" layout:fragment="content">-->
+    <script>
+        var buyerId = "${buyer.id}";
+    </script>
     <P>
         <h1>Buyer homepage!!!!</h1>
         <small>Implement your buyer function on this area</small>
@@ -15,17 +22,22 @@
                 <th>Price</th>
                 <th>Quantity</th>
             </tr>
+            <div id='cart-item'>
+                <tr  th:each="item: ${cart}">
+                    <td th:text="${item.product.name}"></td>
+                    <td th:text="${item.product.price}"></td>
+                    <td th:text="${item.quantity}"></td>
+                    <td>
+                        <a href="#" class='remove-item' th:data="${item.id}">Remove</a>
+                    </td>
+                </tr>
+            </div>
 
-            <tr th:each="item: ${cart}">
-                <td th:text="${item.product.name}"></td>
-                <td th:text="${item.price}"></td>
-                <td th:text="${item.quantity}"></td>
-                <td>
-                    <button onclick="removeItem();">Remove</button>
-                </td>
-            </tr>
 
         </table>
+        <form th:object="${buyer}" action="#" th:action="@{/buyer/} + ${buyer.id} + @{/checkout}">
+            <input type="submit" value="Checkout"/>
+        </form>
     </div>
-</div>
+<!--</div>-->
 </html>

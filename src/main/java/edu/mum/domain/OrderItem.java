@@ -15,7 +15,6 @@ public class OrderItem {
     @OneToOne
     @JoinColumn(name = "product_id")
     private Product product;
-    private BigDecimal price;
     private int quantity;
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "order_id")
@@ -23,6 +22,7 @@ public class OrderItem {
     private String review;
     private Boolean reviewStatus;
     private int rating = 0;
+    @Enumerated(EnumType.STRING)
     private OrderItemStatus orderStatus = OrderItemStatus.ORDERED;
     private LocalDateTime shippingDate;
     private LocalDateTime deliveredDate;

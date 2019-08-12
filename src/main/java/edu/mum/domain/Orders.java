@@ -5,6 +5,7 @@ import lombok.Data;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -14,8 +15,8 @@ public class Orders {
     @GeneratedValue
     private Long id;
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
-    private List<OrderItem> orderItems;
-    private BigDecimal totalAmount;
+    private List<OrderItem> orderItems = new ArrayList<OrderItem>();
+    private BigDecimal totalAmount = new BigDecimal(0.00);
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "buyer_id")
     private Buyer buyer;
@@ -23,8 +24,12 @@ public class Orders {
     private String billingAddress;
     private String paymentMethod;
     private String paymentInfo;
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private OrderStatus status = OrderStatus.NEW;
     private LocalDateTime orderedDate;
     private LocalDateTime endDate;
 
+    public void addOrderItem(OrderItem item) {
+        orderItems.add(item);
+    }
 }

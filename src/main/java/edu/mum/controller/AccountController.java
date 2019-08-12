@@ -2,8 +2,11 @@ package edu.mum.controller;
 
 import edu.mum.domain.*;
 import edu.mum.service.BuyerService;
+import edu.mum.service.MessageService;
 import edu.mum.service.SellerService;
 import edu.mum.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
@@ -14,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 @RequestMapping("/account")
@@ -22,6 +26,9 @@ public class AccountController {
     private UserService userService;
     private SellerService sellerService;
     private BuyerService buyerService;
+
+    @Autowired
+    private MessageService messageService;
 
     public AccountController(UserService userService, SellerService sellerService, BuyerService buyerService) {
         this.userService = userService;
@@ -32,6 +39,29 @@ public class AccountController {
     /*
         Get Request
      */
+
+    @GetMapping(value = {"/messages"},
+            produces = MediaType.APPLICATION_JSON_VALUE,
+            consumes = MediaType.APPLICATION_JSON_VALUE
+    )
+    public @ResponseBody
+    List<Message> getUserMessages() {
+        // get current user principal
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if(auth != null && auth.isAuthenticated()){
+            List<Message> messages = userService.getLast5UnreadNotifyMessageByUserEmail(auth.getName());
+            return messages;
+        }
+
+        return null;
+    }
+
+    @GetMapping(value = {"/profile"})
+    public String getProfileForm() {
+        return "/account/profile";
+    }
+
+
     @GetMapping(value = {"/login"})
     public String getLoginForm() {
         return "/account/login";
@@ -140,6 +170,15 @@ public class AccountController {
 
         // moving to success page.
         return "redirect:/account/register-success";
+    }
+
+    /*
+        DELETE
+     */
+    @DeleteMapping(value = {"/messages"}, produces = MediaType.APPLICATION_JSON_VALUE,
+                                          consumes = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody void setMessageRead(@RequestBody Long id){
+        messageService.setMessageRead(id);
     }
 
 }

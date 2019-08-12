@@ -3,8 +3,10 @@ package edu.mum.service;
 import edu.mum.domain.User;
 import edu.mum.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
+
 
 public class UserServiceImpl implements UserService {
     @Autowired

@@ -15,7 +15,7 @@ public class Product {
     private String name;
     private String description;
     @Column(nullable = false)
-    private BigDecimal price;
+    private Double price;
     private String image;
     private Boolean available;
     @ManyToOne(cascade = CascadeType.MERGE)

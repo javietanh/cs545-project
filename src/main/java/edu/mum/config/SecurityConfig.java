@@ -52,6 +52,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         admin.setLastName("Admin");
         admin.setPhone("000-000-0000");
         admin.setAddress("207B West stone Ave, FairField, IO 52556");
+        admin.setAvatar("/img/admin.png");
         admin.setRole(Role.ADMIN);
         admin.setMessages(new ArrayList<>());
         userService.save(admin);

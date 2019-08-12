@@ -1,0 +1,33 @@
+<html lang="en"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{layouts/user}">
+<div class="container"
+     layout:fragment="content">
+	<div class="row">
+		<div class="col-lg-4">
+			<div class="card">
+				<div class="card-header">
+					User Avatar
+				</div>
+				<div class="card-body text-center">
+					<img th:src="${userInfo.avatarUrl}"
+					     class="img-thumbnail p-4 border-0"/>
+				</div>
+			</div>
+		</div>
+		
+		<div class="col-lg-8">
+			<div class="card">
+				<div class="card-header">
+					Contact information
+				</div>
+				<div class="card-body">
+				
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</div>
+</html>

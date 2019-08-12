@@ -31,29 +31,41 @@
 	<!-- header -->
 	
 	<!-- container -->
-	<div layout:fragment="content">Contents</div>
+	<div id="wrapper">
+		
+		<!-- Sidebar -->
+		<span th:replace="layouts/fragments/sidebar :: sidebar" th:remove="tag"></span>
+		
+		<div id="content-wrapper">
+			
+			<div class="container-fluid">
+				
+				<div th:replace="layouts/fragments/breadcrumbs :: breadcrumbs" th:remove="tag"><!-- Breadcrumbs--></div>
+				
+				<div layout:fragment="content"><!-- Page Content --></div>
+			
+			</div>
+			<!-- /.container-fluid -->
+			
+			<!-- footer -->
+			<footer th:replace="layouts/fragments/sticky-footer :: footer">This is the website footer</footer>
+		
+		</div>
+		<!-- /.content-wrapper -->
+	
+	</div>
 	<!-- container -->
 	
-	<!-- footer -->
-	<footer th:replace="layouts/fragments/footer :: footer">This is the website footer</footer>
-	<!-- footer -->
-	
 	<!-- logout -->
-	<div th:replace="layouts/fragments/logout :: logout">Modal logout function</div>
+	<div th:replace="layouts/fragments/logout :: logout" th:remove="tag">Modal logout function</div>
 	<!-- logout -->
 	
 	<!-- Scroll to Top Button-->
-	<a class="scroll-to-top rounded"
-	   href="#page-top">
-		<i class="fas fa-angle-up"></i>
-	</a>
+	<div th:replace="layouts/fragments/scrolltop :: scrolltop" th:remove="tag">scroll top module</div>
 	<!-- Scroll to Top Button-->
 	
 	<!-- javascript -->
-	<script th:src="@{/vendor/jquery/jquery.min.js}"></script>
-	<script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
-	<script th:src="@{/vendor/jquery-easing/jquery.easing.min.js}"></script>
-	<script th:src="@{/js/sb-admin.min.js}"></script>
-	<script th:src="@{/js/main.js}"></script>
+	<div th:replace="layouts/fragments/javascripts :: javascripts" th:remove="tag">javascript module</div>
+
 </body>
 </html>

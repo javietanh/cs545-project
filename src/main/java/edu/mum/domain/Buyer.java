@@ -31,4 +31,16 @@ public class Buyer {
     public void unfollowSeller(Seller seller) {
         sellers.remove(seller);
     }
+
+    public void addCartItem(CartItem item) {
+        cartItems.add(item);
+    }
+
+    public void removeCartItem(CartItem item) {
+        cartItems.remove(item);
+    }
+
+    public void addOrder(Orders order) {
+        orders.add(order);
+    }
 }

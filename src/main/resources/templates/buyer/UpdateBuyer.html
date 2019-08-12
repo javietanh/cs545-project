@@ -1,0 +1,33 @@
+<html lang="en"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{layouts/user}">
+<div class="container" layout:fragment="content">
+    <P>
+        <h1>Buyer homepage!!!!</h1>
+        <small>Implement your buyer function on this area</small>
+    </p>
+
+    <div >
+        <form th:object="${buyer}" action="#" th:action="@{/buyer/profile/update}" th:method="post">
+            <label>First Name: </label>
+            <input type="text" th:field="*{user.firstName}"/><br/>
+            <label>Last Name: </label>
+            <input type="text" th:field="*{user.lastName}"/><br/>
+            <label>Phone: </label>
+            <input type="text" th:field="*{user.phone}"/><br/>
+            <label>Address: </label>
+            <input type="text" th:field="*{user.address}"/><br/>
+            <div style="display:none">
+                <input th:field="*{id}"/><br/>
+                <input th:field="*{user.id}"/><br/>
+                <input th:field="*{user.email}"/><br/>
+                <input type="text" th:field="*{user.password}"/><br/>
+                <input type="text" th:field="*{user.confirmPassword}"/><br/>
+                <input type="text" th:field="*{user.role}"/><br/>
+            </div>
+            <input type="submit" value="Submit"/>
+        </form>
+    </div>
+</div>
+</html>

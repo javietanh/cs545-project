@@ -1,6 +1,7 @@
 package edu.mum.controller;
 
 import edu.mum.domain.*;
+import edu.mum.domain.view.ChangePasswordDto;
 import edu.mum.service.BuyerService;
 import edu.mum.service.MessageService;
 import edu.mum.service.SellerService;
@@ -11,6 +12,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -57,7 +59,14 @@ public class AccountController {
     }
 
     @GetMapping(value = {"/profile"})
-    public String getProfileForm() {
+    public String getProfileForm(Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if(authentication != null){
+            User tempUser = userService.findByEmail(authentication.getName());
+            model.addAttribute("user", tempUser);
+        }
+        // add change password model
+        model.addAttribute("changePasswordDto", new ChangePasswordDto());
         return "/account/profile";
     }
 
@@ -100,6 +109,47 @@ public class AccountController {
     /*
         Post Request
      */
+    @PostMapping(value = {"/profile/security"})
+    public String changePassword(@Valid ChangePasswordDto changePasswordDto, BindingResult result){
+
+        // get current user.
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if(authentication != null) {
+
+            User user = userService.findByEmail(authentication.getName());
+
+            // validate the fields if data exists.
+            if (changePasswordDto.getNewPassword() != "" && user != null) {
+                if (!changePasswordDto.getNewPassword().equals(changePasswordDto.getConfirmNewPassword())) {
+                    result.rejectValue("confirmNewPassword", "", "New Password and Confirm New Password fields miss matched.");
+                }
+
+                if (changePasswordDto.getCurrentPassword() == "") {
+                    result.rejectValue("currentPassword", "", "Please provide your current password.");
+                }
+
+                // check the current password is correct.
+                Boolean validateCurrentPassword = userService.validatePassword(changePasswordDto.getCurrentPassword(), user.getPassword());
+
+                if(validateCurrentPassword == false){
+                    result.rejectValue("currentPassword", "", "Current Password is incorrect.");
+                }
+
+                // errors, show the errors
+                if (result.hasErrors()) {
+                    return "/account/profile";
+                }
+
+                // everything good, change user password.
+                userService.changePassword(changePasswordDto.getNewPassword(), user);
+
+            }
+        }
+
+        return "redirect:/account/profile";
+    }
+
     @PostMapping(value = {"/buyer-register"})
     public String postBuyerRegister(@Valid User user, BindingResult result) {
 

@@ -21,6 +21,11 @@ public class UserServiceImpl implements UserService {
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
+    public Boolean validatePassword(String password, String hashedPassword) {
+        return bCryptPasswordEncoder.encode(password).equals(hashedPassword);
+    }
+
+    @Override
     public User save(User user) {
         String hashPassword = bCryptPasswordEncoder.encode(user.getPassword());
         // change to hashed password
@@ -28,6 +33,13 @@ public class UserServiceImpl implements UserService {
         user.setConfirmPassword(hashPassword);
         user.setRegisterDate(LocalDate.now());
         // persisted user to db.
+        return userRepository.save(user);
+    }
+
+    @Override
+    public User changePassword(String newRawPassword, User user) {
+        String hashedPassword = bCryptPasswordEncoder.encode(newRawPassword);
+        user.setPassword(hashedPassword);
         return userRepository.save(user);
     }
 

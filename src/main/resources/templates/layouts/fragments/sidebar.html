@@ -1,5 +1,6 @@
 <ul class="sidebar navbar-nav"
     th:fragment="sidebar"
+    sec:authorize="isAuthenticated()"
     xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
     xmlns:th="http://www.thymeleaf.org/">
 	

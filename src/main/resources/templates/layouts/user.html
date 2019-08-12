@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org/"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
 	<title layout:title-pattern="$CONTENT_TITLE - $LAYOUT_TITLE">MUM</title>
@@ -25,7 +26,7 @@
 	      rel="stylesheet"
 	      th:href="@{/css/sb-admin.css}">
 </head>
-<body id="page-top">
+<body id="page-top" sec:authorize="isAuthenticated()">
 	<!-- header -->
 	<nav th:replace="layouts/fragments/header :: header">This is the website header</nav>
 	<!-- header -->

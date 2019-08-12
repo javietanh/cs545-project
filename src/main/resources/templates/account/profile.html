@@ -18,6 +18,75 @@
 		</div>
 		
 		<div class="col-lg-8">
+			
+			<div class="mt-sm-3 mt-lg-0 mt-md-0 mt-xs-3"></div>
+			
+			<div class="card">
+				<form method="post"
+				      th:object="${changePasswordDto}"
+				      th:action="@{/account/profile/security}">
+					<div class="card-header">
+						<i class="fa fa-key"></i> Account Security - Change Password
+					</div>
+					<div class="card-body">
+						
+						<!-- validation -->
+						<div th:if="${#fields.hasErrors()}">
+							<div class="alert alert-danger pb-0"
+							     role="alert">
+								<h3>Error!</h3>
+								<ul class="">
+									<li th:each="error : ${#fields.errors('*')}"
+									    th:text="${error}"></li>
+								</ul>
+							</div>
+						</div>
+						<!-- validation -->
+						
+						<div class="form-group row">
+							<label for="currentPassword"
+							       class="col-sm-4 col-form-label">Current Password</label>
+							<div class="col-sm-8">
+								<input type="password"
+								       name="currentPassword"
+								       th:field="*{currentPassword}"
+								       class="form-control"
+								       id="currentPassword"/>
+							</div>
+						</div>
+						<div class="form-group row">
+							<label for="newPassword"
+							       class="col-sm-4 col-form-label">New Password</label>
+							<div class="col-sm-8">
+								<input type="password"
+								       name="newPassword"
+								       th:field="*{newPassword}"
+								       class="form-control"
+								       id="newPassword"/>
+							</div>
+						</div>
+						<div class="form-group row">
+							<label for="confirmNewPassword"
+							       class="col-sm-4 col-form-label">Confirm New Password</label>
+							<div class="col-sm-8">
+								<input type="password"
+								       name="confirmNewPassword"
+								       th:field="*{confirmNewPassword}"
+								       class="form-control"
+								       id="confirmNewPassword"/>
+							</div>
+						</div>
+					</div>
+					<div class="card-footer">
+						<button class="btn btn-primary">
+							<span class="fa fa-compact-disc"> <span th:text="#{button.save}"></span></span>
+						</button>
+					</div>
+				</form>
+			</div>
+			
+			<div class="mt-3"></div>
+			
 			<div class="card">
 				<div class="card-header">
 					Contact information

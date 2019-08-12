@@ -1,5 +1,6 @@
 package edu.mum.service.impl;
 
+import edu.mum.domain.Message;
 import edu.mum.domain.User;
 import edu.mum.repository.UserRepository;
 import edu.mum.service.UserService;
@@ -43,5 +44,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findByEmail(String email) {
         return userRepository.findByEmail(email);
+    }
+
+    @Override
+    public List<Message> getLast5UnreadNotifyMessageByUserEmail(String email) {
+        return userRepository.getLast5UnreadNotifyMessageByUserEmail(email);
     }
 }

@@ -1,7 +1,8 @@
-package edu.mum.service;
+package edu.mum.service.impl;
 
 import edu.mum.domain.OrderItem;
 import edu.mum.repository.OrderItemRepository;
+import edu.mum.service.OrderItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,4 +27,5 @@ public class OrderItemServiceImpl implements OrderItemService {
     public OrderItem getOrderItemById(Long id) {
         return orderItemRepository.findById(id).get();
     }
+
 }

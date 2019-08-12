@@ -36,6 +36,10 @@ public class HomeController {
         product2.setPrice(20.3);
         product3.setPrice(44.99);
         product4.setPrice(94.99);
+        product1.setImage("/img/products/coffee.png");
+        product2.setImage("/img/products/tv.jpg");
+        product3.setImage("/img/products/bed.jpeg");
+        product4.setImage("/img/products/bedroom.jpg");
         productService.saveProduct(product1);
         productService.saveProduct(product2);
         productService.saveProduct(product3);

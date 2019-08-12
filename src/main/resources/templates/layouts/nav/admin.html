@@ -1,0 +1,43 @@
+<div th:fragment="admin"
+     th:remove="tag"
+     xmlns:th="http://www.thymeleaf.org/"
+     xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+	
+	<li class="nav-item">
+		<a class="nav-link"
+		   href="index.html">
+			<i class="fas fa-fw fa-tachometer-alt"></i>
+			<span>Dashboard</span>
+		</a>
+	</li>
+	
+	<li class="nav-item">
+		<a class="nav-link"
+		   href="tables.html">
+			<i class="fas fa-fw fa-table"></i>
+			<span>Profile</span></a>
+	</li>
+	
+	<li class="nav-item">
+		<a class="nav-link"
+		   href="tables.html">
+			<i class="fas fa-fw fa-table"></i>
+			<span>Product</span></a>
+	</li>
+	
+	<li class="nav-item">
+		<a class="nav-link"
+		   href="tables.html">
+			<i class="fas fa-fw fa-table"></i>
+			<span>Seller</span></a>
+	</li>
+	
+	
+	<li class="nav-item">
+		<a class="nav-link"
+		   th:href="@{/admin/ads}">
+			<i class="fas fa-fw fa-table"></i>
+			<span>Ads</span></a>
+	</li>
+	
+</div>

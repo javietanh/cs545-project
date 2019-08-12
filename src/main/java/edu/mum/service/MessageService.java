@@ -10,4 +10,6 @@ public interface MessageService {
     public List<Message> getMessages();
 
     public Message getMessageById(Long id);
+
+    void setMessageRead(Long id);
 }

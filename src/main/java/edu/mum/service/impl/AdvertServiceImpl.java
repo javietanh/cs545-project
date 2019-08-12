@@ -1,7 +1,8 @@
-package edu.mum.service;
+package edu.mum.service.impl;
 
 import edu.mum.domain.Advert;
 import edu.mum.repository.AdvertRepository;
+import edu.mum.service.AdvertService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

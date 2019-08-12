@@ -21,14 +21,15 @@
         <div class="col-lg-9">
 
             <div class="card mt-4">
-                <img class="card-img-top img-fluid" src="http://placehold.it/900x400" alt="">
+                <img class="card-img-top img-fluid" th:src="${product.image}" th:alt="${product.name}">
                 <div class="card-body">
                     <h3 class="card-title" th:text="${product.name}"></h3>
                     <h4>$24.99</h4>
                     <a href="login.html" class="btn btn-success">Buy</a>
                     <p class="card-text" th:text="${product.description}"></p>
                     <span class="text-warning">&#9733; &#9733; &#9733; &#9733; &#9734;</span>
-                    4.0 stars
+                    <span th:if="${rating == 0}" >No rating</span>
+                    <span th:unless="${rating == 0}" th:text="${rating} + ' Stars'"></span>
                 </div>
             </div>
             <!-- /.card -->
@@ -37,22 +38,20 @@
                 <div class="card-header">
                     Product Reviews
                 </div>
-                <div class="card-body">
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis et enim aperiam inventore,
-                        similique necessitatibus neque non! Doloribus, modi sapiente laboriosam aperiam fugiat laborum.
-                        Sequi mollitia, necessitatibus quae sint natus.</p>
+                <div class="card-body" th:each="orderItem : ${orderItems}">
+                    <p th:text="${orderItem.review}"></p>
                     <small class="text-muted">Posted by Anonymous on 3/1/17</small>
                     <hr>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis et enim aperiam inventore,
-                        similique necessitatibus neque non! Doloribus, modi sapiente laboriosam aperiam fugiat laborum.
-                        Sequi mollitia, necessitatibus quae sint natus.</p>
-                    <small class="text-muted">Posted by Anonymous on 3/1/17</small>
-                    <hr>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis et enim aperiam inventore,
-                        similique necessitatibus neque non! Doloribus, modi sapiente laboriosam aperiam fugiat laborum.
-                        Sequi mollitia, necessitatibus quae sint natus.</p>
-                    <small class="text-muted">Posted by Anonymous on 3/1/17</small>
-                    <hr>
+<!--                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis et enim aperiam inventore,-->
+<!--                        similique necessitatibus neque non! Doloribus, modi sapiente laboriosam aperiam fugiat laborum.-->
+<!--                        Sequi mollitia, necessitatibus quae sint natus.</p>-->
+<!--                    <small class="text-muted">Posted by Anonymous on 3/1/17</small>-->
+<!--                    <hr>-->
+<!--                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis et enim aperiam inventore,-->
+<!--                        similique necessitatibus neque non! Doloribus, modi sapiente laboriosam aperiam fugiat laborum.-->
+<!--                        Sequi mollitia, necessitatibus quae sint natus.</p>-->
+<!--                    <small class="text-muted">Posted by Anonymous on 3/1/17</small>-->
+<!--                    <hr>-->
                     <a href="#" class="btn btn-success">Leave a Review</a>
                 </div>
             </div>

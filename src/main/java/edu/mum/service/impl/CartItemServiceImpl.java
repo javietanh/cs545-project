@@ -1,7 +1,8 @@
-package edu.mum.service;
+package edu.mum.service.impl;
 
 import edu.mum.domain.CartItem;
 import edu.mum.repository.CartItemRepository;
+import edu.mum.service.CartItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

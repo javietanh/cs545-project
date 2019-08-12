@@ -4,15 +4,6 @@
       layout:decorate="~{layouts/home}">
 <div class="container" layout:fragment="content">
 
-
-    <p>
-    <ul>
-        <li><a th:href="@{/admin}">Admin Home</a></li>
-        <li><a th:href="@{/seller}">Seller Home</a></li>
-        <li><a th:href="@{/buyer}">Buyer Home</a></li>
-    </ul>
-    </p>
-
     <div class="row">
 
         <div class="col-lg-3">
@@ -60,7 +51,7 @@
 
                 <div class="col-lg-4 col-md-6 mb-4" th:each="product : ${products}" >
                     <div class="card h-100">
-                        <a href="product.html"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
+                        <a href="product.html"><img class="card-img-top"  th:src="${product.image}" th:alt="${product.name}"></a>
                         <div class="card-body">
                             <h4 class="card-title">
                                 <a th:href="@{'/product/' + ${product.id}}" th:text="${product.name}">Item One</a>

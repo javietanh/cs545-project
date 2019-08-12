@@ -1,14 +1,15 @@
-package edu.mum.service;
+package edu.mum.service.impl;
 
 import edu.mum.domain.Product;
 import edu.mum.repository.ProductRepository;
+import edu.mum.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class ProductServiceImpl implements  ProductService {
+public class ProductServiceImpl implements ProductService {
     @Autowired
     ProductRepository productRepository;
 

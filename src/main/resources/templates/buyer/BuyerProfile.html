@@ -1,8 +1,8 @@
 <html lang="en"
-      xmlns:th=="http://www.thymeleaf.org">
-<!--      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"-->
-<!--      layout:decorate="~{layouts/buyer}">-->
-<!--<div class="container" layout:fragment="content">-->
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{layouts/user}">
+<div class="container" layout:fragment="content">
     <P>
         <h1>Buyer homepage!!!!</h1>
         <small>Implement your buyer function on this area</small>
@@ -15,9 +15,9 @@
         Phone: <span th:text="${buyer.user.phone}"></span></br>
         Address: <span th:text="${buyer.user.address}"></span></br>
         Points: <span th:text="${buyer.points}"></span></br>
-        <form th:object="${buyer}" action="#" th:action="@{/buyer/} + ${buyer.id} + @{/profile/update}">
+        <form th:object="${buyer}" action="#" th:action="@{/buyer/profile/update}">
             <input type="submit" value="Update"/>
         </form>
     </div>
-<!--</div>-->
+</div>
 </html>

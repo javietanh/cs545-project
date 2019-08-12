@@ -32,15 +32,13 @@ public class OrderController {
     public String completeOrder(@PathVariable("orderId") Long orderId, Model model) {
         Orders order = orderService.getOrderByOrderId(orderId);
         orderService.completeOrder(order);
-        Long buyerId = order.getBuyer().getId();
-        return "redirect:/buyer/" + buyerId + "/orders/";
+        return "redirect:/buyer/orders/";
     }
 
     @PostMapping("/orders/{orderId}/cancel")
     public String cancelOrder(@PathVariable("orderId") Long orderId, Model model) {
         Orders order = orderService.getOrderByOrderId(orderId);
         orderService.cancelOrder(order);
-        Long buyerId = order.getBuyer().getId();
-        return "redirect:/buyer/" + buyerId + "/orders";
+        return "redirect:/buyer/orders";
     }
 }

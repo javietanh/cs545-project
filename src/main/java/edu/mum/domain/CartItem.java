@@ -1,5 +1,6 @@
 package edu.mum.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -17,5 +18,6 @@ public class CartItem {
     private int quantity;
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "buyer_id")
+    @JsonIgnore
     private Buyer buyer;
 }

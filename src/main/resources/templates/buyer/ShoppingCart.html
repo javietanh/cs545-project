@@ -1,43 +1,42 @@
 <html lang="en"
-      xmlns:th=="http://www.thymeleaf.org">
-<!--      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"-->
-<!--      layout:decorate="~{layouts/buyer}">-->
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{layouts/user}">
 <head>
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
     <script type="text/javascript" th:src="@{/js/cart.js}"></script>
 </head>
-<!--<div class="container" layout:fragment="content">-->
-    <script>
-        var buyerId = "${buyer.id}";
-    </script>
+<div class="container" layout:fragment="content">
     <P>
         <h1>Buyer homepage!!!!</h1>
         <small>Implement your buyer function on this area</small>
     </p>
 
     <div >
-        <table>
-            <tr>
-                <th>Product</th>
-                <th>Price</th>
-                <th>Quantity</th>
-            </tr>
-            <div id='cart-item'>
-                <tr  th:each="item: ${cart}">
-                    <td th:text="${item.product.name}"></td>
-                    <td th:text="${item.product.price}"></td>
-                    <td th:text="${item.quantity}"></td>
-                    <td>
-                        <a href="#" class='remove-item' th:data="${item.id}">Remove</a>
-                    </td>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
                 </tr>
-            </div>
+            </thead>
+            <tbody id='cart-item'>
+<!--                <tr  th:each="item: ${cart}">-->
+<!--                    <td th:text="${item.product.name}"></td>-->
+<!--                    <td th:text="${item.product.price}"></td>-->
+<!--                    <td th:text="${item.quantity}"></td>-->
+<!--                    <td>-->
+<!--                        <a href="#" class='remove-item' th:data="${item.id}">Remove</a>-->
+<!--                    </td>-->
+<!--                </tr>-->
+            </tbody>
 
 
         </table>
-        <form th:object="${buyer}" action="#" th:action="@{/buyer/} + ${buyer.id} + @{/checkout}">
+        <form action="#" th:action="@{/buyer/checkout}">
             <input type="submit" value="Checkout"/>
         </form>
     </div>
-<!--</div>-->
+</div>
 </html>

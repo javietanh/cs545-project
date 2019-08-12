@@ -1,8 +1,8 @@
 <html lang="en"
-      xmlns:th=="http://www.thymeleaf.org">
-<!--      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"-->
-<!--      layout:decorate="~{layouts/buyer}">-->
-<!--<div class="container" layout:fragment="content">-->
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{layouts/user}">
+<div class="container" layout:fragment="content">
     <P>
         <h1>Buyer homepage!!!!</h1>
         <small>Implement your buyer function on this area</small>
@@ -21,7 +21,7 @@
         <form th:object="${order}" action="#" th:action="@{/orders/} + ${order.id} + @{/complete}" method="post">
             <input type="submit" value="Complete"/>
         </form>
-        <table>
+        <table class="table">
             <tr>
                 <th>Product</th>
                 <th>Price</th>
@@ -31,12 +31,12 @@
 
             <tr th:each="item: ${order.orderItems}">
                 <td th:text="${item.product.name}"></td>
-                <td th:text="${item.price}"></td>
+                <td th:text="${item.product.price}"></td>
                 <td th:text="${item.quantity}"></td>
                 <td th:text="${item.orderStatus}"></td>
             </tr>
 
         </table>
     </div>
-<!--</div>-->
+</div>
 </html>

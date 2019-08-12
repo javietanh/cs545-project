@@ -1,8 +1,8 @@
-INSERT INTO user (id, first_name, last_name, email, password, phone, address, role)
-VALUES (1, 'First', 'Buyer', 'buyer@shopping.com', '$2a$10$b.9CsDYMBdFIMB5ja.lg0.3/OHFiv5kMn7yR.FKCZY3JScMRPvE.G', '123-456-7890', '1000 N 4th St, Fairfield, IA', 'BUYER');
+INSERT INTO user (id, first_name, last_name, email, password, phone, address, role, register_date)
+    VALUES (1, 'First', 'Buyer', 'buyer@shopping.com', '$2a$10$b.9CsDYMBdFIMB5ja.lg0.3/OHFiv5kMn7yR.FKCZY3JScMRPvE.G', '123-456-7890', '1000 N 4th St, Fairfield, IA', 'BUYER', now());
 
-INSERT INTO user (id, first_name, last_name, email, password, phone, address, role)
-VALUES (2, 'First', 'Seller', 'seller@shopping.com', '$2a$10$13wR9hYkIwBP0WIT525/XO23UfTvtjUKjbHCLlwAzYNzF3IkBlZRy', '123-456-7890', '1000 N 4th St, Fairfield, IA', 'SELLER');
+INSERT INTO user (id, first_name, last_name, email, password, phone, address, role, register_date)
+VALUES (2, 'First', 'Seller', 'seller@shopping.com', '$2a$10$13wR9hYkIwBP0WIT525/XO23UfTvtjUKjbHCLlwAzYNzF3IkBlZRy', '123-456-7890', '1000 N 4th St, Fairfield, IA', 'SELLER', now());
 
 INSERT INTO buyer (id, points, user_id) VALUES (3, 0, 1);
 
@@ -28,8 +28,8 @@ INSERT INTO cart_item (id, product_id, quantity, buyer_id) VALUES (8, 5, 1, 3);
 
 INSERT INTO cart_item (id, product_id, quantity, buyer_id) VALUES (9, 7, 1, 3);
 
-INSERT INTO message (id, message_content, message_date, user_id)
-VALUES (10, 'From Phoenix shop: New product is added', LocalDateTime.now(), 1);
+INSERT INTO message (id, content, received_date, read, user_id)
+VALUES (10, 'From Phoenix shop: New product is added', LocalDateTime.now(), false, 1);
 
-INSERT INTO message (id, message_content, message_date, user_id)
-VALUES (11, 'From Phoenix shop: New product is added', LocalDateTime.now(), 1);
+INSERT INTO message (id, content, received_date, read, user_id)
+VALUES (11, 'From Phoenix shop: New product is added', LocalDateTime.now(), false, 1);

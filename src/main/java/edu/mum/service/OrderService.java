@@ -6,8 +6,8 @@ import edu.mum.domain.Orders;
 import java.util.List;
 
 public interface OrderService {
-    public Orders getOrderByOrderId(Long id);
-    public Orders saveOrder(Buyer buyer, Orders order);
-    public void completeOrder(Orders order);
-    public void cancelOrder(Orders order);
+    Orders getOrderByOrderId(Long id);
+    Orders saveOrder(Buyer buyer, Orders order);
+    void completeOrder(Orders order);
+    void cancelOrder(Orders order);
 }

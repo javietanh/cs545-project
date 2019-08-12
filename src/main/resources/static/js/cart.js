@@ -2,39 +2,40 @@ $(document).ready(function () {
    let loadCart = function () {
        $.ajax({
            method: 'GET',
-           url: '/buyer/cart',
+           url: '/buyer/shoppingCart',
            dataType: 'json',
            success: function (cart) {
                $('#cart-item').html("");
                $.each(cart, function (i, item) {
-                   $("#cart-item").append('<td>' + item.product.name + '</td>' +
-                   '<td>' + item.product.price + '</td>' +
+                   $("#cart-item").append('<tr><td>' + item.productName + '</td>' +
+                   '<td>' + item.productPrice + '</td>' +
                    '<td>' + item.quantity + '</td>' +
-                       '<td><a href="#" class=\'remove-item\' data-id="' + item.id + '">Remove</a></td>');
+                       '<td><a href="javascript:void(0)" class="remove-item" data-id="' + item.id + '">Remove</a></td></tr>');
                });
            },
            error: function () {
                alert('Error while request..');
            }
-      });
+       });
    };
-    $('.remove-item').click(function(event){
-        event.preventDefault();
-        var itemId = $(this).attr("data");
+   loadCart();
+   $(document).on('click', '.remove-item', function(){
+        console.log('call remove function');
+        var itemId = $(this).data("id");
+       console.log('call remove function' + itemId);
         $.ajax({
-            url: '/cart/remove/',
+            url: '/cart/remove/' + itemId,
             type: 'DELETE',
+            contentType: "application/json",
             dataType: "json",
-            data: { id: itemId },
             success: function (response) {
                 loadCart();
             },
-            error: function(){
-                alert('Error while request..');
-
+            error: function(error){
+                console.log(error);
             }
         });
-    });
+   });
 });
 
 

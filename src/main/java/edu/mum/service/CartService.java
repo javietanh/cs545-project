@@ -7,8 +7,8 @@ import java.math.BigDecimal;
 import java.util.List;
 
 public interface CartService {
-    public CartItem saveCartItem(Buyer buyer, CartItem item);
-    public void removeCartItem(Long id);
-    public List<CartItem> getCartByBuyerId(Long buyerId);
-    public BigDecimal getTotalAmount(Long buyerId);
+    CartItem saveCartItem(Buyer buyer, CartItem item);
+    void removeCartItem(Long id);
+    List<CartItem> getCartByBuyerId(Long buyerId);
+    BigDecimal getTotalAmount(Long buyerId);
 }

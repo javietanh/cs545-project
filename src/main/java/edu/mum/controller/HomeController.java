@@ -49,12 +49,6 @@ public class HomeController {
         return "/buyer/dashboard";
     }
 
-    // seller homepage
-    @GetMapping(value = {"/seller", "/seller/dashboard"})
-    public String sellerHomepage() {
-        return "/seller/dashboard";
-    }
-
     // admin homepage
     @GetMapping(value = {"/admin/dashboard", "/admin"})
     public String adminHomepage() {

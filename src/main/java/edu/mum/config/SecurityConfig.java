@@ -1,7 +1,5 @@
 package edu.mum.config;
 
-import edu.mum.domain.Role;
-import edu.mum.domain.User;
 import edu.mum.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,7 +12,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import javax.sql.DataSource;
-import java.util.ArrayList;
 
 @EnableWebSecurity
 public class    SecurityConfig extends WebSecurityConfigurerAdapter {

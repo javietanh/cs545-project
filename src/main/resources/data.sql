@@ -10,23 +10,23 @@ VALUES (3, 'Shopping', 'Admin', 'admin@shopping.com', '$2a$10$HM.MYd2XpX7VEsNoZM
 
 INSERT INTO buyer (id, points, user_id) VALUES (3, 0, 1);
 
-INSERT INTO seller (id, name, description, user_id, status)
-VALUES (4, 'Phoenix', 'Phoenix offers fashion and quality at the best price', 2, 'APPROVED');
+INSERT INTO seller (id, name, description, user_id, status, picture)
+VALUES (4, 'Phoenix', 'Phoenix offers fashion and quality at the best price', 2, 'APPROVED',  '/img/shop/4a8ed458-a506-4e36-87f0-67b1614a2eeb.jpg');
 
 INSERT INTO product (id, name, description, price, available, seller_id)
 VALUES (5, 'Dress with Tie Belt',
         'V-neck, knee-length dress in airy chiffon with details on shoulders. Cap sleeves, buttons at front, and elastication at back of waist. Attached tie belt. Satin lining',
-        '34.99', true, 4);
+        '34.99', 100, 4);
 
 INSERT INTO product (id, name, description, price, available, seller_id)
 VALUES (6, 'Bib Overall Dress',
         'Short, gently fitted bib overall dress in woven fabric. Buttons at front, wide, adjustable shoulder straps, and a seam at waist',
-        '34.99', true, 4);
+        '34.99', 100, 4);
 
 INSERT INTO product (id, name, description, price, available, seller_id)
 VALUES (7, 'Skinny Regular Ankle Jeans',
         'Ankle-length jeans in washed stretch denim with a regular waist. Mock front pockets, regular back pockets, and skinny legs',
-        '9.99', true, 4);
+        '9.99', 100, 4);
 
 INSERT INTO cart_item (id, product_id, quantity, buyer_id) VALUES (8, 5, 1, 3);
 

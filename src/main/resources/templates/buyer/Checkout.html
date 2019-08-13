@@ -30,17 +30,17 @@
             </tr>
 
         </table>
-<!--        <button onclick="usePoints();">Use my points</button>-->
         <form th:object="${order}" action="#" th:action="@{/buyer/order}" method="post">
+            <input type="checkbox" th:field="*{usingPoints}"/><label>Use my points</label><br/>
             <label>Shipping Address: </label>
             <input type="text" th:field="*{shippingAddress}"/><br/>
             <label>Billing Address: </label>
             <input type="text" th:field="*{billingAddress}"/><br/>
             <label>Payment Method: </label>
-<!--            <select th:field="*{paymentMethod}">-->
-<!--                <option th:value="CREDIT CARD">CREDIT CARD</option>-->
-<!--                <option th:value="DEBIT CARD">DEBIT CARD</option>-->
-<!--            </select><br/>-->
+            <select th:field="*{paymentMethod}">
+                <option th:value="'CREDIT CARD'">CREDIT CARD</option>
+                <option th:value="'DEBIT CARD'">DEBIT CARD</option>
+            </select><br/>
             <label>Card Number: </label>
             <input type="text" th:field="*{paymentInfo}"/><br/>
             <label>CVV: </label>

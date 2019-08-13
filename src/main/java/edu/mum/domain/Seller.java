@@ -1,6 +1,7 @@
 package edu.mum.domain;
 
 import lombok.Data;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
 import javax.validation.Valid;
@@ -21,6 +22,8 @@ public class Seller {
 
     @NotBlank
     private String description;
+
+    private String picture;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")

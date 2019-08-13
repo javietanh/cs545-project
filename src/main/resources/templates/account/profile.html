@@ -1,6 +1,7 @@
 <html lang="en"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorate="~{layouts/user}">
 <div class="container"
      layout:fragment="content">
@@ -8,13 +9,24 @@
 		<div class="col-lg-4">
 			<div class="card">
 				<div class="card-header">
-					User Avatar
+					<i class="fa fa-camera"></i> User Avatar
 				</div>
 				<div class="card-body text-center">
 					<img th:src="${userInfo.avatarUrl}"
-					     class="img-thumbnail p-4 border-0"/>
+					     class="img-thumbnail p-4 border-0 w-auto"/>
+					<ul class="list-group">
+						<li class="list-group-item d-flex justify-content-between align-items-center">
+							Roles: <span sec:authentication="principal.authorities"></span>
+							<span class="fa fas fa-user-shield"></span>
+						</li>
+						<li class="list-group-item d-flex justify-content-between align-items-center">
+							Joined: <span th:text="${userInfo.joinedDate}"></span>
+							<span class="fa fas fa-clock"></span>
+						</li>
+					</ul>
 				</div>
 			</div>
+			<div class="mb-3"></div>
 		</div>
 		
 		<div class="col-lg-8">
@@ -210,10 +222,9 @@
 				</form>
 			</div>
 			
-			<div class="mt-sm-3 mt-lg-0 mt-md-0 mt-xs-3"></div>
-			
+			<div class="mb-3"></div>
+		
 		</div>
 	</div>
-</div>
 </div>
 </html>

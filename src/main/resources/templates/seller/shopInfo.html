@@ -1,0 +1,107 @@
+<html lang="en"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{layouts/user}">
+<div class="container"
+     layout:fragment="content">
+	<div class="row">
+		<div class="col-12">
+			<form th:object="${seller}"
+			      method="post"
+			      th:action="@{/seller/shop}"
+			      enctype="multipart/form-data">
+				<div class="card">
+					<img class="card-img-top"
+					     alt=""
+					     data-src="holder.js/100px180/"
+					     data-holder-rendered="true"
+					     name="picture"
+					     style="height: 250px; width: 100%; display: block;min-width: 850px"
+					     th:src="*{picture}">
+					
+					<div class="card-body p-3 pt-4">
+						<div class="row">
+							<div class="col-3">
+								<ul class="list-group">
+									<li class="list-group-item d-flex justify-content-between align-items-center">
+										<span th:text="*{status}" th:classappend="${#status == 'APPROVED'} ? text-success : text_danger"></span>
+										<span class="fa fas fa-check"></span>
+									</li>
+									<li class="list-group-item d-flex justify-content-between align-items-center">
+										<span th:text="*{created}"></span>
+										<span class="fa fas fa-calendar"></span>
+									</li>
+								</ul>
+							</div>
+							<div class="col-9">
+								<div class="form-group">
+									<div class="form-row">
+										<div class="col-12">
+											<div class="form-label-group">
+												<input type="text"
+												       id="name"
+												       name="name"
+												       th:field="*{name}"
+												       class="form-control form-control-lg"
+												       autofocus="autofocus">
+												<label for="name">Shop Title</label>
+											</div>
+										</div>
+									</div>
+									<div class="form-row mt-3">
+										<div class="col-12">
+											<div class="form-label-group">
+										<textarea th:field="*{description}"
+										          id="description"
+										          name="description"
+										          placeholder="Shop Description"
+										          th:rows="5"
+										          class="form-control">
+										</textarea>
+											</div>
+										</div>
+									</div>
+									<div class="form-row mt-3">
+										<div class="col-12">
+											<div class="custom-file">
+												<input type="file"
+												       class="custom-file-input"
+												       name="upload"
+												       th:field="*{upload}"
+												       id="uploadPicture">
+												<label class="custom-file-label"
+												       for="uploadPicture">Change Shop Banner</label>
+											</div>
+										</div>
+									</div>
+									
+									<!-- validation error -->
+									<div th:if="${#fields.hasErrors()}">
+										<div class="alert alert-danger mt-3"
+										     role="alert">
+											<ul class="ml-0">
+												<li th:each="error : ${#fields.errors('*')}"
+												    th:text="${error}"></li>
+											</ul>
+										</div>
+									</div>
+									<!-- validation -->
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="card-footer">
+						<button class="btn btn-lg btn-primary"
+						        type="submit">
+							<i class="fa fas fa-save"></i> Update
+						</button>
+						<span th:if="${success != null}"
+						      class="ml-5 text-success"
+						      th:text="${success}"></span>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+</html>

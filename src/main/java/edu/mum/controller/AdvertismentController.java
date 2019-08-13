@@ -14,6 +14,7 @@ import org.springframework.util.ResourceUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -44,15 +45,32 @@ public class AdvertismentController {
         return "/admin/advertisment";
     }
 
-    @PostMapping("/admin/addAdvert")
+    @GetMapping("/admin/addAdvert")
+    String advertForm(@ModelAttribute("advert") Advert advert, Model model){
+        return "/admin/advertForm";
+    }
+
+    @GetMapping("/admin/delete/{advertId}")
+    String deleteAdvert(@PathVariable("advertId") Long advertId){
+        Advert advertToDelete = advertService.getAdvertById(advertId);
+        advertService.deleteAdvert(advertToDelete);
+        return "redirect:/admin/ads";
+    }
+
+    @GetMapping("/admin/update/{advertId}")
+    String updateAdvert(@PathVariable("advertId") Long advertId, Model model){
+        Advert advert = advertService.getAdvertById(advertId);
+        model.addAttribute("advert", advert);
+        return "/admin/advertForm";
+    }
+
+    @PostMapping("/admin/addAdvert/{advertId}")
     String addAdvert(@Valid Advert advert, BindingResult bindingResult, RedirectAttributes ra, 
-                     HttpServletRequest request) {
-        if (bindingResult.hasErrors()) {
-            return "/admin/advertisment";
-        }
+                     HttpServletRequest request, @PathVariable("advertId") String advertId) {
+
 
         MultipartFile uploadAdvert = advert.getImageUpload();
-        String homeUrl = new ApplicationHome(ShoppingApplication.class).getDir() + "\\static\\img\\adverts";
+        String homeUrl = new ApplicationHome(ShoppingApplication.class).getDir() + "/static/img/adverts";
         Path rootLocation = Paths.get(homeUrl);
 
         if (!Files.exists(rootLocation)) {
@@ -75,7 +93,22 @@ public class AdvertismentController {
                 bindingResult.rejectValue("uploadAdvert", "", "Problem on saving advert picture.");
             }
         }
-        advertService.saveAdvert(advert);
+
+        if (bindingResult.hasErrors()) {
+            return "/admin/advertisment";
+        }
+
+        if(!advertId.equals("null")){
+            Advert advertSaved = advertService.getAdvertById(Long.parseLong(advertId));
+            advertSaved.setTitle(advert.getTitle());
+            if(advert.getImage() != null) {advertSaved.setImage(advert.getImage());};
+            advertSaved.setDescription(advert.getDescription());
+            advertService.saveAdvert(advertSaved);
+        } else {
+            advertService.saveAdvert(advert);
+
+        }
+
 
         return "redirect:/admin/ads";
     }

@@ -13,4 +13,6 @@ public interface AdvertService {
 
     public Advert getAdvertById(Long id);
 
+    public void deleteAdvert(Advert advert);
+
 }

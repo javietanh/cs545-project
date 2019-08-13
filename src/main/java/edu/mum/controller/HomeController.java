@@ -1,6 +1,8 @@
 package edu.mum.controller;
 
+import edu.mum.domain.Advert;
 import edu.mum.domain.Product;
+import edu.mum.service.AdvertService;
 import edu.mum.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,12 +19,20 @@ public class HomeController {
     @Autowired
     ProductService productService;
 
+    @Autowired
+    AdvertService advertService;
+
     // get index page
     @GetMapping(value = {"/"})
     public String index(Model model) {
-
+        //brings products
         List<Product> products = productService.getProducts();
         model.addAttribute("products", products);
+        //brings the ads
+        List<Advert> adverts = advertService.getAdverts();
+        model.addAttribute("adverts", adverts);
+
+
         return "index";
     }
 

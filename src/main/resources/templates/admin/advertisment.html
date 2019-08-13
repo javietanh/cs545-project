@@ -9,6 +9,7 @@
             <i class="fas fa-table"></i>
             Data Table Example
         </div>
+        <a th:href="@{/admin/addAdvert}" class="btn btn-success">Add Advertisment</a>
         <div class="card-body">
             <div class="table-responsive">
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -17,10 +18,10 @@
                         <th>Title</th>
                         <th>Description</th>
                         <th>Image</th>
-                        <th>Url</th>
-                        <th>Count</th>
-                        <th>Creation Date</th>
-                        <th>Expiration Date</th>
+<!--                        <th>Url</th>-->
+<!--                        <th>Count</th>-->
+<!--                        <th>Creation Date</th>-->
+<!--                        <th>Expiration Date</th>-->
                         <th>Action</th>
                     </tr>
                     </thead>
@@ -29,10 +30,10 @@
                         <th>Title</th>
                         <th>Description</th>
                         <th>Image</th>
-                        <th>Url</th>
-                        <th>Count</th>
-                        <th>Creation Date</th>
-                        <th>Expiration Date</th>
+<!--                        <th>Url</th>-->
+<!--                        <th>Count</th>-->
+<!--                        <th>Creation Date</th>-->
+<!--                        <th>Expiration Date</th>-->
                         <th>Action</th>
                     </tr>
                     </tfoot>
@@ -40,26 +41,32 @@
                     <tr th:each="ad : ${adverts}">
                         <td th:text="${ad.title}"></td>
                         <td th:text="${ad.description}"></td>
-                        <td th:text="${ad.image}"></td>
-                        <td th:text="${ad.url}"></td>
-                        <td th:text="${ad.count}"></td>
-                        <td th:text="${ad.creationDateTime}"></td>
-                        <td th:text="${ad.expirationDateTime}"></td>
+                        <td>
+                            <img th:src="${ad.image}" th:alt="${ad.title}" class="img-thumbnail w-25">
+                        </td>
+<!--                        <td th:text="${ad.url}"></td>-->
+<!--                        <td th:text="${ad.count}"></td>-->
+<!--                        <td th:text="${ad.creationDateTime}"></td>-->
+<!--                        <td th:text="${ad.expirationDateTime}"></td>-->
+                        <td>
+                            <a th:href="@{'/admin/update/' + ${ad.id}}" class="btn btn-info">Update</a>
+                            <a th:href="@{'/admin/delete/' + ${ad.id}}" class="btn btn-danger">Delete</a>
+                        </td>
 
                     </tr>
-                    <tr>
-                        <form th:action="@{/admin/addAdvert}" th:object="${advert}" th:method="POST" enctype="multipart/form-data">
-                            <td><input id="title" name="title" th:field="*{title}"></td>
-                            <td><input id="description" name="description" th:field="*{description}"></td>
-<!--                            <td><input id="image" name="image"></td>-->
-                            <td><input type="file" th:field="*{imageUpload}"></td>
-                            <td><input id="url" name="url" th:field="*{url}"></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td><input type="submit" value="Add Advertisment"></td>
-                        </form>
-                    </tr>
+<!--                    <tr>-->
+<!--                        <form th:action="@{/admin/addAdvert}" th:object="${advert}" th:method="POST" enctype="multipart/form-data">-->
+<!--                            <td><input id="title" name="title" th:field="*{title}"></td>-->
+<!--                            <td><input id="description" name="description" th:field="*{description}"></td>-->
+<!--&lt;!&ndash;                            <td><input id="image" name="image"></td>&ndash;&gt;-->
+<!--                            <td><input type="file" th:field="*{imageUpload}"></td>-->
+<!--&lt;!&ndash;                            <td><input id="url" name="url" th:field="*{url}"></td>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <td></td>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <td></td>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <td></td>&ndash;&gt;-->
+<!--                            <td><input type="submit" value="Add Advertisment"></td>-->
+<!--                        </form>-->
+<!--                    </tr>-->
 
                     </tbody>
                 </table>

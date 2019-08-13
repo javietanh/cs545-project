@@ -27,4 +27,11 @@ public class AdvertServiceImpl implements AdvertService {
     public Advert getAdvertById(Long id) {
         return advertRepository.findById(id).get();
     }
+
+    @Override
+    public void deleteAdvert(Advert advert) {
+        advertRepository.delete(advert);
+    }
+
+
 }

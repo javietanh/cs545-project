@@ -1,7 +1,6 @@
 package edu.mum.domain;
 
 import lombok.Data;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
 import javax.validation.Valid;
@@ -34,7 +33,7 @@ public class Seller {
     private List<Product> products = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
-    private SellerStatus status;
+    private Status status;
 
     @ManyToMany(mappedBy = "sellers")
     private List<Buyer> buyers = new ArrayList<>();

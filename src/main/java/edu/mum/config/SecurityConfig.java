@@ -1,7 +1,5 @@
 package edu.mum.config;
 
-import edu.mum.domain.Role;
-import edu.mum.domain.User;
 import edu.mum.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,7 +12,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import javax.sql.DataSource;
-import java.util.ArrayList;
 
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
@@ -42,25 +39,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authoritiesByUsernameQuery(rolesQuery)
                 .dataSource(dataSource)
                 .passwordEncoder(bCryptPasswordEncoder);
-
-        // insert admin user.
-        User admin = new User();
-        admin.setEmail("admin@shopping.com");
-        admin.setPassword("admin");
-        admin.setConfirmPassword("admin");
-        admin.setFirstName("Shop");
-        admin.setLastName("Admin");
-        admin.setPhone("000-000-0000");
-        admin.setAddress("207B West stone Ave, FairField, IO 52556");
-        admin.setAvatar("/img/admin.png");
-        admin.setRole(Role.ADMIN);
-        admin.setMessages(new ArrayList<>());
-        userService.save(admin);
-
-        System.out.println("=== admin user created ===");
-        System.out.println(admin);
-        System.out.println("=== admin user created ===");
-
     }
 
     @Override

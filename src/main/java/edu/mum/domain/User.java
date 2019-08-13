@@ -14,7 +14,7 @@ import java.util.List;
 
 @Data
 @Entity
-@FieldMatch(first = "password", second = "confirmPassword", message = "Password and Confirm Password miss matched.")
+//@FieldMatch(first = "password", second = "confirmPassword", message = "Password and Confirm Password miss matched.")
 public class User {
 
     @Id
@@ -55,4 +55,7 @@ public class User {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Message> messages = new ArrayList<Message>();
+
+    @OneToOne(mappedBy = "user")
+    private Seller seller;
 }

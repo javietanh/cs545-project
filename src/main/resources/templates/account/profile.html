@@ -1,6 +1,7 @@
 <html lang="en"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorate="~{layouts/user}">
 <div class="container"
      layout:fragment="content">
@@ -8,13 +9,24 @@
 		<div class="col-lg-4">
 			<div class="card">
 				<div class="card-header">
-					User Avatar
+					<i class="fa fa-camera"></i> User Avatar
 				</div>
 				<div class="card-body text-center">
 					<img th:src="${userInfo.avatarUrl}"
-					     class="img-thumbnail p-4 border-0"/>
+					     class="img-thumbnail p-4 border-0 w-auto"/>
+					<ul class="list-group">
+						<li class="list-group-item d-flex justify-content-between align-items-center">
+							Roles: <span sec:authentication="principal.authorities"></span>
+							<span class="fa fas fa-user-shield"></span>
+						</li>
+						<li class="list-group-item d-flex justify-content-between align-items-center">
+							Joined: <span th:text="${userInfo.joinedDate}"></span>
+							<span class="fa fas fa-clock"></span>
+						</li>
+					</ul>
 				</div>
 			</div>
+			<div class="mb-3"></div>
 		</div>
 		
 		<div class="col-lg-8">
@@ -26,16 +38,24 @@
 				      th:object="${changePasswordDto}"
 				      th:action="@{/account/profile/security}">
 					<div class="card-header">
-						<i class="fa fa-key"></i> Account Security - Change Password
+						<i class="fa fa-user-secret"></i> Account Security - Change Password
 					</div>
 					<div class="card-body">
 						
-						<!-- validation -->
+						<!-- success -->
+						<div th:if="${changePasswordSuccess != null}"
+						     class="alert alert-success"
+						     role="alert">
+							<div class="text-success"
+							     th:text="${changePasswordSuccess}"></div>
+						</div>
+						<!-- success -->
+						
+						<!-- validation error -->
 						<div th:if="${#fields.hasErrors()}">
 							<div class="alert alert-danger pb-0"
 							     role="alert">
-								<h3>Error!</h3>
-								<ul class="">
+								<ul class="ml-0">
 									<li th:each="error : ${#fields.errors('*')}"
 									    th:text="${error}"></li>
 								</ul>
@@ -79,7 +99,7 @@
 					</div>
 					<div class="card-footer">
 						<button class="btn btn-primary">
-							<span class="fa fa-compact-disc"> <span th:text="#{button.save}"></span></span>
+							<span class="fa fa-floppy-o"> <span th:text="#{button.save}"></span></span>
 						</button>
 					</div>
 				</form>
@@ -88,15 +108,123 @@
 			<div class="mt-3"></div>
 			
 			<div class="card">
-				<div class="card-header">
-					Contact information
-				</div>
-				<div class="card-body">
-				
-				</div>
+				<form method="post"
+				      th:object="${profile}"
+				      enctype="multipart/form-data"
+				      th:action="@{/account/profile/info}">
+					<div class="card-header">
+						<i class="fa fa-user-edit"></i> Profile information
+					</div>
+					<div class="card-body">
+						
+						<!-- success -->
+						<div th:if="${updateProfileSuccess != null}"
+						     class="alert alert-success"
+						     role="alert">
+							<div class="text-success"
+							     th:text="${updateProfileSuccess}"></div>
+						</div>
+						<!-- success -->
+						
+						<!-- validation error -->
+						<div th:if="${#fields.hasErrors()}">
+							<div class="alert alert-danger pb-0"
+							     role="alert">
+								<ul class="ml-0">
+									<li th:each="error : ${#fields.errors('*')}"
+									    th:text="${error}"></li>
+								</ul>
+							</div>
+						</div>
+						<!-- validation -->
+						
+						<div class="form-group row">
+							<label for="firstName"
+							       class="col-sm-4 col-form-label">First Name</label>
+							<div class="col-sm-8">
+								<input type="text"
+								       name="firstName"
+								       th:field="*{firstName}"
+								       class="form-control"
+								       id="firstName"/>
+							</div>
+						</div>
+						
+						<div class="form-group row">
+							<label for="lastName"
+							       class="col-sm-4 col-form-label">Last Name</label>
+							<div class="col-sm-8">
+								<input type="text"
+								       name="lastName"
+								       th:field="*{lastName}"
+								       class="form-control"
+								       id="lastName"/>
+							</div>
+						</div>
+						
+						<div class="form-group row">
+							<label for="email"
+							       class="col-sm-4 col-form-label">Email</label>
+							<div class="col-sm-8">
+								<input type="email"
+								       name="email"
+								       th:field="*{email}"
+								       class="form-control"
+								       id="email"/>
+							</div>
+						</div>
+						
+						<div class="form-group row">
+							<label for="telephone"
+							       class="col-sm-4 col-form-label">Telephone</label>
+							<div class="col-sm-8">
+								<input type="text"
+								       name="telephone"
+								       th:field="*{phone}"
+								       class="form-control"
+								       id="telephone"/>
+							</div>
+						</div>
+						
+						<div class="form-group row">
+							<label for="address"
+							       class="col-sm-4 col-form-label">Address</label>
+							<div class="col-sm-8">
+								<input type="text"
+								       name="address"
+								       th:field="*{address}"
+								       class="form-control"
+								       id="address"/>
+							</div>
+						</div>
+						
+						<div class="form-group row">
+							<label for="uploadAvatar"
+							       class="col-sm-4 col-form-label">Avatar</label>
+							<div class="col-sm-8">
+								<div class="custom-file">
+									<input type="file"
+									       th:field="*{uploadAvatar}"
+									       class="custom-file-input"
+									       id="uploadAvatar">
+									<label class="custom-file-label"
+									       for="uploadAvatar">Choose file</label>
+								</div>
+							</div>
+						</div>
+					
+					</div>
+					<div class="card-footer">
+						<button class="btn btn-primary">
+							<span class="fa fa-floppy-o"> <span th:text="#{button.save}"></span></span>
+						</button>
+					</div>
+				</form>
 			</div>
+			
+			<div class="mb-3"></div>
+		
 		</div>
 	</div>
-</div>
 </div>
 </html>

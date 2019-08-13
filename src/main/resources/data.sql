@@ -4,6 +4,10 @@ INSERT INTO user (id, first_name, last_name, email, password, phone, address, ro
 INSERT INTO user (id, first_name, last_name, email, password, phone, address, role, register_date)
 VALUES (2, 'First', 'Seller', 'seller@shopping.com', '$2a$10$13wR9hYkIwBP0WIT525/XO23UfTvtjUKjbHCLlwAzYNzF3IkBlZRy', '123-456-7890', '1000 N 4th St, Fairfield, IA', 'SELLER', now());
 
+INSERT INTO user (id, first_name, last_name, email, password, phone, address, role, register_date, avatar)
+VALUES (3, 'Shopping', 'Admin', 'admin@shopping.com', '$2a$10$HM.MYd2XpX7VEsNoZMTUmer6X7MZ7/semLLQ/bDqdsrbhn5EeRO3y', '000-000-0000', '1000 N 4th St, Fairfield, IA', 'ADMIN', now(), '/img/avatar/admin.png');
+
+
 INSERT INTO buyer (id, points, user_id) VALUES (3, 0, 1);
 
 INSERT INTO seller (id, name, description, user_id, status)

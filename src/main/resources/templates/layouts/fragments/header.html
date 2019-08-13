@@ -4,12 +4,12 @@
      xmlns:th="http://www.thymeleaf.org/">
 	
 	<a class="navbar-brand mr-1"
-	   href="index.html">Start Bootstrap</a>
+	   th:href="@{/}">Online Shopping</a>
 	
 	<!-- only display on dashboard or back page -->
-<!--	<button class="btn btn-link btn-sm text-white order-1 order-sm-0 hide" id="sidebarToggle" href="#">-->
-<!--		<i class="fas fa-bars"></i>-->
-<!--	</button>-->
+	<!--	<button class="btn btn-link btn-sm text-white order-1 order-sm-0 hide" id="sidebarToggle" href="#">-->
+	<!--		<i class="fas fa-bars"></i>-->
+	<!--	</button>-->
 	<!-- only display on dashboard or back page -->
 	
 	<!-- Navbar Search -->
@@ -40,11 +40,14 @@
 			   aria-haspopup="true"
 			   aria-expanded="false">
 				<i class="fas fa-bell fa-2x text-light fa-fw"></i>
-				<span class="badge badge-danger m-0" id="user-message-count"></span>
+				<span class="badge badge-danger m-0"
+				      id="user-message-count"></span>
 			</a>
-			<div class="dropdown-menu dropdown-menu-right shadow" style="min-width: 300px"
+			<div class="dropdown-menu dropdown-menu-right shadow"
+			     style="min-width: 300px"
 			     aria-labelledby="alertsDropdown">
-				<ul id="user-messages" class="list-group list-group-flush">
+				<ul id="user-messages"
+				    class="list-group list-group-flush">
 				
 				</ul>
 			</div>
@@ -85,17 +88,37 @@
 				<div sec:authorize="isAuthenticated()">
 					
 					<div class="dropdown-item">
-						<div class="font-weight-bold" th:text="${userInfo.fullName}"></div>
-						<div class="text-muted" sec:authentication="name"></div>
+						<div class="font-weight-bold"
+						     th:text="${userInfo.fullName}"></div>
+						<div class="text-muted"
+						     sec:authentication="name"></div>
 					</div>
 					<div class="dropdown-divider"></div>
 					
-					<!-- profile link -->
+					
 					<a class="dropdown-item"
-					   th:href="@{/account/profile}">
-						<span class="fa fa-user-cog"></span>
-						<span th:text="#{button.profile}"></span></a>
-					<!-- profile link -->
+					   sec:authorize="hasAuthority('ADMIN')"
+					   th:href="@{/admin/dashboard}">
+						<span class="fa fas fa-fw fa-tachometer-alt"></span>
+						Dashboard
+						<!-- Admin dashboard link -->
+					</a>
+					
+					<a class="dropdown-item"
+					   sec:authorize="hasAuthority('SELLER')"
+					   th:href="@{/seller/dashboard}">
+						<span class="fa fas fa-fw fa-tachometer-alt"></span>
+						Dashboard
+						<!-- Seller dashboard link -->
+					</a>
+					
+					<a class="dropdown-item"
+					   sec:authorize="hasAuthority('BUYER')"
+					   th:href="@{/buyer/dashboard}">
+						<span class="fa fas fa-fw fa-tachometer-alt"></span>
+						Dashboard
+						<!-- Buyer dashboard link -->
+					</a>
 					
 					<!-- logout -->
 					<div class="dropdown-divider"></div>

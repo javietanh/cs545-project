@@ -21,17 +21,31 @@ public class UserServiceImpl implements UserService {
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
-    public Boolean validatePassword(String password, String hashedPassword) {
-        return bCryptPasswordEncoder.encode(password).equals(hashedPassword);
+    public Boolean validatePassword(String password, User user) {
+        return bCryptPasswordEncoder.matches(password, user.getPassword());
     }
 
     @Override
-    public User save(User user) {
+    public User addUser(User user) {
         String hashPassword = bCryptPasswordEncoder.encode(user.getPassword());
         // change to hashed password
         user.setPassword(hashPassword);
-        user.setConfirmPassword(hashPassword);
         user.setRegisterDate(LocalDate.now());
+        // persisted user to db.
+        return userRepository.save(user);
+    }
+
+    @Override
+    public User updateUser(User user) {
+        // does this user change the password.
+        User existsUser = userRepository.findById(user.getId()).get();
+        boolean isMatches  = bCryptPasswordEncoder.matches(user.getPassword(), existsUser.getPassword());
+        if(!isMatches){
+            // update the password.
+            String hashPassword = bCryptPasswordEncoder.encode(user.getPassword());
+            user.setPassword(hashPassword);
+        }
+
         // persisted user to db.
         return userRepository.save(user);
     }

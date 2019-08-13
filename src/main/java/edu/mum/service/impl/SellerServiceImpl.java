@@ -34,4 +34,12 @@ public class SellerServiceImpl implements SellerService {
     public List<Buyer> getFollowers(Long sellerId) {
         return sellerRepository.findById(sellerId).get().getBuyers();
     }
+
+    public Seller updateSeller(Seller seller) {
+        Seller selectSeller = sellerRepository.findById(seller.getId()).get();
+        selectSeller.setName(seller.getName());
+        selectSeller.setDescription(seller.getDescription());
+        selectSeller.setPicture(seller.getPicture());
+        return sellerRepository.save(selectSeller);
+    }
 }

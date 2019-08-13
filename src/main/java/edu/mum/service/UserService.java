@@ -7,9 +7,11 @@ import java.util.List;
 
 public interface UserService {
 
-    Boolean validatePassword(String password, String hashedPassword);
+    Boolean validatePassword(String password, User user);
 
-    User save(User user);
+    User addUser(User user);
+
+    User updateUser(User user);
 
     User changePassword(String newPassword, User user);
 

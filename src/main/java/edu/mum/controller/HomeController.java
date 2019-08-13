@@ -33,20 +33,20 @@ public class HomeController {
     }
 
     // buyer homepage
-    @GetMapping("/buyer")
+    @GetMapping(value = {"/buyer", "/buyer/dashboard"})
     public String buyerHomepage() {
-        return "/buyer/index";
+        return "/buyer/dashboard";
     }
 
     // seller homepage
-    @GetMapping("/seller")
+    @GetMapping(value = {"/seller", "/seller/dashboard"})
     public String sellerHomepage() {
-        return "/seller/index";
+        return "/seller/dashboard";
     }
 
     // admin homepage
-    @GetMapping("/admin")
+    @GetMapping(value = {"/admin/dashboard", "/admin"})
     public String adminHomepage() {
-        return "/admin/index";
+        return "/admin/dashboard.html";
     }
 }

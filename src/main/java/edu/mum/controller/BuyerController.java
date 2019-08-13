@@ -146,7 +146,7 @@ public class BuyerController {
     }
 
     @GetMapping("/buyer/checkout")
-    public String getCheckout(@ModelAttribute("order") Orders order, Model model) {
+    public String getCheckout(@ModelAttribute("order") Order order, Model model) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.findByEmail(auth.getName());
         Buyer buyer = buyerService.getBuyerByUser(user);
@@ -156,7 +156,7 @@ public class BuyerController {
     }
 
     @PostMapping("/buyer/order")
-    public String placeOrder(@Valid Orders order, Model model) {
+    public String placeOrder(@Valid Order order, Model model) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.findByEmail(auth.getName());
         Buyer buyer = buyerService.getBuyerByUser(user);

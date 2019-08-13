@@ -18,7 +18,7 @@ public class OrderItem {
     private int quantity;
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "order_id")
-    private Orders order;
+    private Order order;
     private String review;
     private Boolean reviewStatus;
     private int rating = 0;

@@ -59,7 +59,7 @@ public class BuyerServiceImpl implements BuyerService {
     }
 
     @Override
-    public List<Orders> getOrdersByBuyerId(Long buyerId) {
+    public List<Order> getOrdersByBuyerId(Long buyerId) {
         return buyerRepository.findById(buyerId).get().getOrders();
     }
 

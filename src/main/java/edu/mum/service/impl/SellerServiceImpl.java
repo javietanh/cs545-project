@@ -1,11 +1,14 @@
 package edu.mum.service.impl;
 
+import edu.mum.domain.Buyer;
 import edu.mum.domain.Seller;
 import edu.mum.domain.User;
 import edu.mum.repository.SellerRepository;
 import edu.mum.service.SellerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class SellerServiceImpl implements SellerService {
@@ -23,6 +26,15 @@ public class SellerServiceImpl implements SellerService {
     }
 
     @Override
+    public Seller getSellerByUser(User user) {
+        return sellerRepository.findSellerByUser(user);
+    }
+
+    @Override
+    public List<Buyer> getFollowers(Long sellerId) {
+        return sellerRepository.findById(sellerId).get().getBuyers();
+    }
+
     public Seller updateSeller(Seller seller) {
         Seller selectSeller = sellerRepository.findById(seller.getId()).get();
         selectSeller.setName(seller.getName());

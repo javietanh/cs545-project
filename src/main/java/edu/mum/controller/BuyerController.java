@@ -1,8 +1,11 @@
 package edu.mum.controller;
 
 import edu.mum.domain.*;
+import edu.mum.domain.view.CartInfo;
+import edu.mum.domain.view.SellerInfo;
 import edu.mum.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -12,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 public class BuyerController {
@@ -70,6 +75,43 @@ public class BuyerController {
         }
         buyerService.updateBuyer(buyer);
         return "redirect:/buyer/profile";
+    }
+
+    @GetMapping("/buyer/following")
+    public String getFollowing(){
+        return "/buyer/Following";
+    }
+
+    @GetMapping("/buyer/followings")
+    @ResponseBody
+    public List<SellerInfo> getFollowings(Model model) {
+        Authentication auth  = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.findByEmail(auth.getName());
+        Buyer buyer = buyerService.getBuyerByUser(user);
+        List<Seller> sellers = buyerService.getFollowings(buyer.getId());
+        List<SellerInfo> followings = new ArrayList<SellerInfo>();
+        for (Seller s : sellers){
+            SellerInfo f = new SellerInfo();
+            f.setId(s.getId());
+            f.setName(s.getName());
+            f.setDescription(s.getDescription());
+            f.setPhone(s.getUser().getPhone());
+            f.setEmail(s.getUser().getEmail());
+            f.setAddress(s.getUser().getAddress());
+            followings.add(f);
+        }
+        return followings;
+    }
+
+    @DeleteMapping("/buyer/following/unfollow/{sellerId}")
+    @ResponseBody
+    public Boolean removeCartItem(@PathVariable Long sellerId) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.findByEmail(auth.getName());
+        Buyer buyer = buyerService.getBuyerByUser(user);
+        Seller seller = sellerService.getSellerById(sellerId);
+        buyerService.unfollowSeller(buyer, seller);
+        return true;
     }
 
     @PostMapping("/buyer/seller/{sellerId}/follow")

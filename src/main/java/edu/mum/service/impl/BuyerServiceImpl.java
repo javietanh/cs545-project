@@ -69,4 +69,9 @@ public class BuyerServiceImpl implements BuyerService {
         orderItemRepository.save(item);
     }
 
+    @Override
+    public List<Seller> getFollowings(Long buyerId) {
+        return buyerRepository.findById(buyerId).get().getSellers();
+    }
+
 }

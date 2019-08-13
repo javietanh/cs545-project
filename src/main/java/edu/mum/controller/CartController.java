@@ -52,7 +52,6 @@ public class CartController {
             c.setQuantity(ci.getQuantity());
             cart.add(c);
         }
-        System.out.println(cart);
         return cart;
     }
 
@@ -68,7 +67,6 @@ public class CartController {
     @DeleteMapping(value = "/cart/remove/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public Boolean removeCartItem(@PathVariable Long id) {
-        System.out.println("cart item id " + id);
         cartService.removeCartItem(id);
         return true;
     }

@@ -14,4 +14,5 @@ public interface BuyerService {
     void unfollowSeller(Buyer buyer, Seller seller);
     List<Orders> getOrdersByBuyerId(Long buyerId);
     void addReview(OrderItem item, String review);
+    List<Seller> getFollowings(Long buyerId);
 }

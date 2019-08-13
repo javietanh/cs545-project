@@ -68,4 +68,8 @@ $(document).ready(function () {
     // setup automatic get user messages every 3s.
     setInterval(queryUserMessages, 10000);
 
+    // support database.
+    $('#dataTable').DataTable({
+    });
+
 });

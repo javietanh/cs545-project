@@ -65,7 +65,10 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void completeOrder(Order order) {
-        
+        order.setStatus(OrderStatus.COMPLETED);
+        Integer points = order.getTotalAmount().divide(new BigDecimal(100)).intValue();
+        order.getBuyer().setPoints(order.getBuyer().getPoints() + points);
+        orderRepository.save(order);
     }
 
     @Override

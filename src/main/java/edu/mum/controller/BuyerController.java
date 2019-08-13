@@ -1,10 +1,6 @@
 package edu.mum.controller;
 
-import edu.mum.domain.Buyer;
-import edu.mum.domain.Order;
-import edu.mum.domain.Order;
-import edu.mum.domain.Seller;
-import edu.mum.domain.User;
+import edu.mum.domain.*;
 import edu.mum.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -123,6 +119,20 @@ public class BuyerController {
         Buyer buyer = buyerService.getBuyerByUser(user);
         orderService.saveOrder(buyer, order);
         Long orderId = order.getId();
+        return "redirect:/orders/" + orderId;
+    }
+
+    @GetMapping("/item/{itemId}/review")
+    public String getReview(@PathVariable("itemId") Long itemId, @ModelAttribute("review") String review, Model model) {
+        model.addAttribute("item", orderService.getOrderItemById(itemId));
+        return "/buyer/ReviewProduct";
+    }
+
+    @PostMapping("/item/{itemId}/review")
+    public String saveReview(@PathVariable("itemId") Long itemId, @Valid String review) {
+        OrderItem item = orderService.getOrderItemById(itemId);
+        buyerService.addReview(item, review);
+        Long orderId = item.getOrder().getId();
         return "redirect:/orders/" + orderId;
     }
 

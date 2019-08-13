@@ -14,7 +14,7 @@ import java.util.List;
 
 @Data
 @Entity
-@FieldMatch(first = "password", second = "confirmPassword", message = "Password and Confirm Password miss matched.")
+//@FieldMatch(first = "password", second = "confirmPassword", message = "Password and Confirm Password miss matched.")
 public class User {
 
     @Id

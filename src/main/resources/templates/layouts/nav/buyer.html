@@ -2,12 +2,20 @@
      th:remove="tag"
      xmlns:th="http://www.thymeleaf.org/"
      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+	
 	<li class="nav-item">
 		<a class="nav-link"
-		   href="index.html">
+		   th:href="@{/buyer/dashboard}">
 			<i class="fas fa-fw fa-tachometer-alt"></i>
 			<span>Dashboard</span>
 		</a>
+	</li>
+	
+	<li class="nav-item">
+		<a class="nav-link"
+		   th:href="@{/account/profile}">
+			<i class="fas fa-fw fa-user-cog"></i>
+			<span>Profile</span></a>
 	</li>
 	
 	<li class="nav-item dropdown">

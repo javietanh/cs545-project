@@ -6,13 +6,16 @@ import edu.mum.domain.User;
 import java.util.List;
 
 public interface UserService {
-    public User save(User user);
 
-    public List<User> getUsers();
+    Boolean validatePassword(String password, User user);
 
-    public User getUserById(Long id);
+    User addUser(User user);
 
-    public User findByEmail(String email);
+    User updateUser(User user);
 
-    public List<Message> getLast5UnreadNotifyMessageByUserEmail(String email);
+    User changePassword(String newPassword, User user);
+
+    User findByEmail(String email);
+
+    List<Message> getLast5UnreadNotifyMessageByUserEmail(String email);
 }

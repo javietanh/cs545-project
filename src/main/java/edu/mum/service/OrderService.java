@@ -2,12 +2,16 @@ package edu.mum.service;
 
 import edu.mum.domain.Buyer;
 import edu.mum.domain.Order;
+import edu.mum.domain.OrderItem;
 
+import java.io.File;
 import java.util.List;
 
 public interface OrderService {
-    Order getOrderByOrderId(Long id);
+    Order getOrderById(Long id);
     Order saveOrder(Buyer buyer, Order order);
     void completeOrder(Order order);
     void cancelOrder(Order order);
+    File downloadReceipt(Order order) throws Exception;
+    OrderItem getOrderItemById(Long itemId);
 }

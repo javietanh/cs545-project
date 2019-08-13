@@ -1,0 +1,29 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+    <div>
+        Shipping Address: <span th:text="${order.shippingAddress}"></span><br/>
+        Billing Address: <span th:text="${order.billingAddress}"></span><br/>
+        Total Amount: <span th:text="${order.totalAmount}"></span><br/>
+        Payment Info: <span th:text="${order.paymentInfo}"></span><br/>
+        Ordered Date: <span th:text="${order.orderedDate}"></span><br/>
+        End Date: <span th:text="${order.endDate}"></span><br/>
+        <table class="table">
+            <tr>
+                <th>Product</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Status</th>
+            </tr>
+
+            <tr th:each="item: ${order.orderItems}">
+                <td th:text="${item.product.name}"></td>
+                <td th:text="${item.product.price}"></td>
+                <td th:text="${item.quantity}"></td>
+                <td th:text="${item.orderStatus}"></td>
+            </tr>
+
+        </table>
+    </div>
+</body>
+</html>

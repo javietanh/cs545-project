@@ -21,7 +21,12 @@ public class UserServiceImpl implements UserService {
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
-    public User save(User user) {
+    public Boolean validatePassword(String password, User user) {
+        return bCryptPasswordEncoder.matches(password, user.getPassword());
+    }
+
+    @Override
+    public User addUser(User user) {
         String hashPassword = bCryptPasswordEncoder.encode(user.getPassword());
         // change to hashed password
         user.setPassword(hashPassword);
@@ -32,14 +37,36 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> getUsers() {
-        return (List<User>)userRepository.findAll();
+    public User updateUser(User user) {
+        // does this user change the password.
+        User existsUser = userRepository.findById(user.getId()).get();
+        boolean isMatches  = bCryptPasswordEncoder.matches(user.getPassword(), existsUser.getPassword());
+        if(!isMatches){
+            // update the password.
+            String hashPassword = bCryptPasswordEncoder.encode(user.getPassword());
+            user.setPassword(hashPassword);
+        }
+
+        // persisted user to db.
+        return userRepository.save(user);
     }
 
     @Override
-    public User getUserById(Long id) {
-        return userRepository.findById(id).get();
+    public User changePassword(String newRawPassword, User user) {
+        String hashedPassword = bCryptPasswordEncoder.encode(newRawPassword);
+        user.setPassword(hashedPassword);
+        return userRepository.save(user);
     }
+
+//    @Override
+//    public List<User> getUsers() {
+//        return (List<User>)userRepository.findAll();
+//    }
+//
+//    @Override
+//    public User getUserById(Long id) {
+//        return userRepository.findById(id).get();
+//    }
 
     @Override
     public User findByEmail(String email) {

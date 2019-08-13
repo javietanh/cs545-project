@@ -21,7 +21,7 @@ $(document).ready(function () {
 
                         // display message items.
                         $.each(messages, function (index, item) {
-                            let msgItem = `<li class="list-group-item d-flex justify-content-between align-items-center">${item.content} <a class="close message-read" href="javascript:void(0)" data-id="${item.id}">&times;</a></li>`;
+                            let msgItem = `<li class="list-group-item d-flex justify-content-between align-items-center">${item.content} <a class="message-read" href="javascript:void(0)" data-id="${item.id}">&times;</a></li>`;
                             $('#user-messages').append(msgItem);
                         });
                     }
@@ -58,6 +58,11 @@ $(document).ready(function () {
                 }
             });
         }
+    });
+
+    $(".custom-file-input").on("change", function() {
+        let fileName = $(this).val().split("\\").pop();
+        $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
     });
 
     // setup automatic get user messages every 3s.

@@ -1,17 +1,38 @@
 package edu.mum.controller;
 
+import edu.mum.domain.Advert;
+import edu.mum.domain.Product;
+import edu.mum.service.AdvertService;
+import edu.mum.service.ProductService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import java.math.BigDecimal;
 import java.security.Principal;
+import java.util.List;
 
 @Controller
 public class HomeController {
 
+    @Autowired
+    ProductService productService;
+
+    @Autowired
+    AdvertService advertService;
+
     // get index page
     @GetMapping(value = {"/"})
-    public String index() {
+    public String index(Model model) {
+        //brings products
+        List<Product> products = productService.getAll();
+        model.addAttribute("products", products);
+        //brings the ads
+        List<Advert> adverts = advertService.getAdverts();
+        model.addAttribute("adverts", adverts);
+
+
         return "index";
     }
 

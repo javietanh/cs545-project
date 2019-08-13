@@ -30,6 +30,7 @@ public class UserServiceImpl implements UserService {
         String hashPassword = bCryptPasswordEncoder.encode(user.getPassword());
         // change to hashed password
         user.setPassword(hashPassword);
+        user.setConfirmPassword(hashPassword);
         user.setRegisterDate(LocalDate.now());
         // persisted user to db.
         return userRepository.save(user);
@@ -56,6 +57,16 @@ public class UserServiceImpl implements UserService {
         user.setPassword(hashedPassword);
         return userRepository.save(user);
     }
+
+//    @Override
+//    public List<User> getUsers() {
+//        return (List<User>)userRepository.findAll();
+//    }
+//
+//    @Override
+//    public User getUserById(Long id) {
+//        return userRepository.findById(id).get();
+//    }
 
     @Override
     public User findByEmail(String email) {

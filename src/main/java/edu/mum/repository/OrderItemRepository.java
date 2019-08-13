@@ -1,7 +1,6 @@
 package edu.mum.repository;
 
 import edu.mum.domain.OrderItem;
-import edu.mum.domain.view.OrderItemInfo;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;

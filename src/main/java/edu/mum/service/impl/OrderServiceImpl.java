@@ -64,29 +64,16 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public OrderItem saveOrderItem(OrderItem orderItem) {
-        return orderItemRepository.save(orderItem);
-    }
-
-    @Override
-    public OrderItem updateOrderItem(OrderItem orderItem) {
-        OrderItem persistedOrderItem = getOrderItemById(orderItem.getId());
-        persistedOrderItem.setProduct(orderItem.getProduct());
-        persistedOrderItem.setQuantity(orderItem.getQuantity());
-        persistedOrderItem.setOrder(orderItem.getOrder());
-        persistedOrderItem.setReview(orderItem.getReview());
-        persistedOrderItem.setReviewStatus(orderItem.getReviewStatus());
-        persistedOrderItem.setRating(orderItem.getRating());
-        persistedOrderItem.setOrderStatus(orderItem.getOrderStatus());
-        return orderItemRepository.save(persistedOrderItem);
-    }
-
-    @Override
     public void completeOrder(Order order) {
         order.setStatus(OrderStatus.COMPLETED);
         Integer points = order.getTotalAmount().divide(new BigDecimal(100)).intValue();
         order.getBuyer().setPoints(order.getBuyer().getPoints() + points);
         orderRepository.save(order);
+    }
+
+    @Override
+    public OrderItem saveOrderItem(OrderItem orderItem) {
+        return orderItemRepository.save(orderItem);
     }
 
     @Override
@@ -112,6 +99,7 @@ public class OrderServiceImpl implements OrderService {
     public List<OrderItem> getOrderItemsBySeller(Long sellerId) {
         return orderItemRepository.getOrderItemsBySeller(sellerId);
     }
+
 
 
 }

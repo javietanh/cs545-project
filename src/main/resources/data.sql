@@ -1,5 +1,5 @@
 INSERT INTO user (id, first_name, last_name, email, password, phone, address, role, register_date)
-    VALUES (1, 'First', 'Buyer', 'buyer@shopping.com', '$2a$10$b.9CsDYMBdFIMB5ja.lg0.3/OHFiv5kMn7yR.FKCZY3JScMRPvE.G', '123-456-7890', '1000 N 4th St, Fairfield, IA', 'BUYER', now());
+VALUES (1, 'First', 'Buyer', 'buyer@shopping.com', '$2a$10$b.9CsDYMBdFIMB5ja.lg0.3/OHFiv5kMn7yR.FKCZY3JScMRPvE.G', '123-456-7890', '1000 N 4th St, Fairfield, IA', 'BUYER', now());
 
 INSERT INTO user (id, first_name, last_name, email, password, phone, address, role, register_date)
 VALUES (2, 'First', 'Seller', 'seller@shopping.com', '$2a$10$13wR9hYkIwBP0WIT525/XO23UfTvtjUKjbHCLlwAzYNzF3IkBlZRy', '123-456-7890', '1000 N 4th St, Fairfield, IA', 'SELLER', now());
@@ -7,33 +7,92 @@ VALUES (2, 'First', 'Seller', 'seller@shopping.com', '$2a$10$13wR9hYkIwBP0WIT525
 INSERT INTO user (id, first_name, last_name, email, password, phone, address, role, register_date, avatar)
 VALUES (3, 'Shopping', 'Admin', 'admin@shopping.com', '$2a$10$HM.MYd2XpX7VEsNoZMTUmer6X7MZ7/semLLQ/bDqdsrbhn5EeRO3y', '000-000-0000', '1000 N 4th St, Fairfield, IA', 'ADMIN', now(), '/img/avatar/admin.png');
 
+INSERT INTO user (id, first_name, last_name, email, password, phone, address, role, register_date)
+VALUES (4, 'Second', 'Buyer', 'buyer2@shopping.com', '$2a$10$b.9CsDYMBdFIMB5ja.lg0.3/OHFiv5kMn7yR.FKCZY3JScMRPvE.G', '123-456-7890', '1000 N 4th St, Fairfield, IA', 'BUYER', now());
 
-INSERT INTO buyer (id, points, user_id) VALUES (3, 0, 1);
+INSERT INTO user (id, first_name, last_name, email, password, phone, address, role, register_date)
+VALUES (5, 'Third', 'Buyer', 'buyer3@shopping.com', '$2a$10$b.9CsDYMBdFIMB5ja.lg0.3/OHFiv5kMn7yR.FKCZY3JScMRPvE.G', '123-456-7890', '1000 N 4th St, Fairfield, IA', 'BUYER', now());
+
+INSERT INTO buyer (id, points, user_id) VALUES (1, 0, 1);
+
+INSERT INTO buyer (id, points, user_id) VALUES (2, 0, 4);
+
+INSERT INTO buyer (id, points, user_id) VALUES (3, 0, 5);
 
 INSERT INTO seller (id, name, description, user_id, status, picture)
-VALUES (4, 'Phoenix', 'Phoenix offers fashion and quality at the best price', 2, 'APPROVED',  '/img/shop/4a8ed458-a506-4e36-87f0-67b1614a2eeb.jpg');
+VALUES (4, 'Phoenix', 'Phoenix offers fashion and quality at the best price', 2, 'APPROVED', '/img/shop/4a8ed458-a506-4e36-87f0-67b1614a2eeb.jpg');
 
-INSERT INTO product (id, name, description, price, available, seller_id)
-VALUES (5, 'Dress with Tie Belt',
+INSERT INTO following (buyer_id, seller_id)
+VALUES (1, 1);
+
+INSERT INTO following (buyer_id, seller_id)
+VALUES (2, 1);
+
+INSERT INTO following (buyer_id, seller_id)
+VALUES (3, 1);
+
+INSERT INTO product (id, name, description, price, available, image, seller_id)
+VALUES (1, 'Dress with Tie Belt',
         'V-neck, knee-length dress in airy chiffon with details on shoulders. Cap sleeves, buttons at front, and elastication at back of waist. Attached tie belt. Satin lining',
-        '34.99', 100, 4);
+        '34.99', 100, '/img/product/beltdress.jpg', 1);
 
-INSERT INTO product (id, name, description, price, available, seller_id)
-VALUES (6, 'Bib Overall Dress',
+INSERT INTO product (id, name, description, price, available, image, seller_id)
+VALUES (2, 'Bib Overall Dress',
         'Short, gently fitted bib overall dress in woven fabric. Buttons at front, wide, adjustable shoulder straps, and a seam at waist',
-        '34.99', 100, 4);
+        '34.99', 100, '/img/product/overalldress.jpg', 1);
 
-INSERT INTO product (id, name, description, price, available, seller_id)
-VALUES (7, 'Skinny Regular Ankle Jeans',
+INSERT INTO product (id, name, description, price, available, image, seller_id)
+VALUES (3, 'Skinny Regular Ankle Jeans',
         'Ankle-length jeans in washed stretch denim with a regular waist. Mock front pockets, regular back pockets, and skinny legs',
-        '9.99', 100, 4);
+        '9.99', 100, '/img/product/skinnyjeans.jpg', 1);
 
-INSERT INTO cart_item (id, product_id, quantity, buyer_id) VALUES (8, 5, 1, 3);
+INSERT INTO product (id, name, description, price, available, image, seller_id)
+VALUES (4, 'Slim Jeans',
+        '5-pocket jeans in washed denim with a regular waist, zip fly, and slim legs',
+        '19.99', 100, '/img/product/slimjeans.jpg', 1);
 
-INSERT INTO cart_item (id, product_id, quantity, buyer_id) VALUES (9, 7, 1, 3);
+INSERT INTO product (id, name, description, price, available, image, seller_id)
+VALUES (5, 'Regular Fit Henley Shirt',
+        'Shirt in woven cotton-blend fabric. Regular Fit – classic fit with good room for movement and gently shaped waist for a comfortable, tailored silhouette',
+        '24.99', 100, '/img/product/fitshirt.jpg', 1);
+
+INSERT INTO product (id, name, description, price, available, image, seller_id)
+VALUES (6, 'Super Skinny Fit Blazer',
+        'Single-breasted blazer in woven stretch fabric with narrow, notched lapels. Super skinny fit – slightly shorter style, shaped at chest, tapered sharply at waist, combined with narrow shoulders and sleeves for a completely tailored silhouette',
+        '19.99', 100, '/img/product/fitblazer.jpg', 1);
+
+INSERT INTO cart_item (id, product_id, quantity, buyer_id) VALUES (1, 1, 1, 1);
+
+INSERT INTO cart_item (id, product_id, quantity, buyer_id) VALUES (2, 2, 1, 1);
+
+INSERT INTO cart_item (id, product_id, quantity, buyer_id) VALUES (3, 3, 1, 1);
+
+INSERT INTO orders (id, total_amount, buyer_id, shipping_address, billing_address, payment_method, payment_info, status, ordered_date, using_points)
+VALUES (1, '64.97', 1, '1000 N 4th St, Fairfield, IA', '1000 N 4th St, Fairfield, IA', 'DEBIT CARD', 'Paid by the card number XXXX XXXX XXXX 1234', 'NEW', now(), false);
+
+INSERT INTO orders (id, total_amount, buyer_id, shipping_address, billing_address, payment_method, payment_info, status, ordered_date, using_points)
+VALUES (2, '19.99', 2, '1000 N 4th St, Fairfield, IA', '1000 N 4th St, Fairfield, IA', 'CREDIT CARD', 'Paid by the card number XXXX XXXX XXXX 2345', 'COMPLETED', now(), false);
+
+INSERT INTO orders (id, total_amount, buyer_id, shipping_address, billing_address, payment_method, payment_info, status, ordered_date, using_points)
+VALUES (3, '19.99', 3, '1000 N 4th St, Fairfield, IA', '1000 N 4th St, Fairfield, IA', 'CREDIT CARD', 'Paid by the card number XXXX XXXX XXXX 3456', 'COMPLETED', now(), false);
+
+INSERT INTO order_item (id, product_id, order_id, quantity, review, review_status, rating, order_status)
+VALUES (1, 4, 1, 1, 'Nice jeans', true, 4, 'ORDERED');
+
+INSERT INTO order_item (id, product_id, order_id, quantity, review, review_status, rating, order_status)
+VALUES (2, 5, 1, 1, 'Nice shirt', true, 4, 'ORDERED');
+
+INSERT INTO order_item (id, product_id, order_id, quantity, review, review_status, rating, order_status)
+VALUES (3, 6, 1, 1, 'Nice blazer', true, 4, 'ORDERED');
+
+INSERT INTO order_item (id, product_id, order_id, quantity, review, review_status, rating, order_status)
+VALUES (4, 4, 2, 1, 'Too tight!!!', true, 1, 'DELIVERED');
+
+INSERT INTO order_item (id, product_id, order_id, quantity, review, review_status, rating, order_status)
+VALUES (5, 4, 3, 1, 'It does not look like the photo', true, 3, 'DELIVERED');
 
 INSERT INTO message (id, content, received_date, read, user_id)
-VALUES (10, 'From Phoenix shop: New product is added', LocalDateTime.now(), false, 1);
+VALUES (1, 'From Phoenix shop: New product is added', now(), false, 1);
 
 INSERT INTO message (id, content, received_date, read, user_id)
 VALUES (11, 'From Phoenix shop: New product is added', LocalDateTime.now(), false, 1);
@@ -43,3 +102,4 @@ VALUES (1 ,'pirula', 'pirulita pechi', '/img/adverts/8423f0d6-e901-4ded-90aa-a91
 
 INSERT INTO advert (id, title, description , image, url)
 VALUES (2, 'pirula2', 'pirulita pechi2', '/img/adverts/84ce436c-854a-4440-9d35-0df93a8e05b0.jpg', 'pirula2.com');
+VALUES (2, 'From Phoenix shop: New product is added', now(), false, 1);

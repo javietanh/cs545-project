@@ -1,23 +1,19 @@
 package edu.mum.controller;
 
-import edu.mum.domain.Buyer;
-import edu.mum.domain.Orders;
+import edu.mum.domain.Order;
 import edu.mum.service.BuyerService;
 import edu.mum.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
 import java.io.*;
-import java.nio.file.Files;
 
 @Controller
 public class OrderController {
@@ -35,21 +31,21 @@ public class OrderController {
 
     @PostMapping("/orders/{orderId}/complete")
     public String completeOrder(@PathVariable("orderId") Long orderId, Model model) {
-        Orders order = orderService.getOrderById(orderId);
+        Order order = orderService.getOrderById(orderId);
         orderService.completeOrder(order);
         return "redirect:/buyer/orders/";
     }
 
     @PostMapping("/orders/{orderId}/cancel")
     public String cancelOrder(@PathVariable("orderId") Long orderId, Model model) {
-        Orders order = orderService.getOrderById(orderId);
+        Order order = orderService.getOrderById(orderId);
         orderService.cancelOrder(order);
         return "redirect:/buyer/orders";
     }
 
     @PostMapping("/orders/{orderId}/download")
     public String downloadReceipt(@PathVariable("orderId") Long orderId, Model model, HttpServletResponse response) throws Exception {
-        Orders order = orderService.getOrderById(orderId);
+        Order order = orderService.getOrderById(orderId);
         File file = orderService.downloadReceipt(order);
         if (file.exists()) {
             response.setContentType("application/pdf");

@@ -1,7 +1,6 @@
 package edu.mum.service.impl;
 
 import edu.mum.domain.*;
-import edu.mum.domain.view.OrderItemInfo;
 import edu.mum.repository.CartRepository;
 import edu.mum.repository.OrderItemRepository;
 import edu.mum.repository.OrderRepository;
@@ -32,12 +31,12 @@ public class OrderServiceImpl implements OrderService {
     private PdfGenerator pdfGenerator;
 
     @Override
-    public Orders getOrderById(Long id) {
+    public Order getOrderById(Long id) {
         return orderRepository.findById(id).get();
     }
 
     @Override
-    public Orders saveOrder(Buyer buyer, Orders order) {
+    public Order saveOrder(Buyer buyer, Order order) {
         List<CartItem> cartItems = (List) cartRepository.getCartItemByBuyerId(buyer.getId());
         BigDecimal totalAmount = new BigDecimal(0.00);
         for (CartItem ci : cartItems) {
@@ -83,7 +82,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public void completeOrder(Orders order) {
+    public void completeOrder(Order order) {
         order.setStatus(OrderStatus.COMPLETED);
         Integer points = order.getTotalAmount().divide(new BigDecimal(100)).intValue();
         order.getBuyer().setPoints(order.getBuyer().getPoints() + points);
@@ -91,14 +90,14 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public void cancelOrder(Orders order) {
+    public void cancelOrder(Order order) {
         order.setStatus(OrderStatus.CANCELED);
         orderRepository.save(order);
     }
 
     @Override
-    public File downloadReceipt(Orders order) throws Exception {
-        Map<String, Orders> data = new HashMap<String, Orders>();
+    public File downloadReceipt(Order order) throws Exception {
+        Map<String, Order> data = new HashMap<String, Order>();
         data.put("order", order);
         return pdfGenerator.createPdf("buyer/PDF", data);
 

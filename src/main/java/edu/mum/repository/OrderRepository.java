@@ -1,7 +1,7 @@
 package edu.mum.repository;
 
-import edu.mum.domain.Orders;
+import edu.mum.domain.Order;
 import org.springframework.data.repository.CrudRepository;
 
-public interface OrderRepository extends CrudRepository<Orders, Long> {
+public interface OrderRepository extends CrudRepository<Order, Long> {
 }

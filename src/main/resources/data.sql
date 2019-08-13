@@ -20,7 +20,7 @@ INSERT INTO buyer (id, points, user_id) VALUES (2, 0, 4);
 INSERT INTO buyer (id, points, user_id) VALUES (3, 0, 5);
 
 INSERT INTO seller (id, name, description, user_id, status, picture)
-VALUES (4, 'Phoenix', 'Phoenix offers fashion and quality at the best price', 2, 'APPROVED', '/img/shop/4a8ed458-a506-4e36-87f0-67b1614a2eeb.jpg');
+VALUES (1, 'Phoenix', 'Phoenix offers fashion and quality at the best price', 2, 'APPROVED', '/img/shop/4a8ed458-a506-4e36-87f0-67b1614a2eeb.jpg');
 
 INSERT INTO following (buyer_id, seller_id)
 VALUES (1, 1);

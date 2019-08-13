@@ -17,7 +17,7 @@ public class Buyer {
     @JoinColumn(name = "user_id")
     private User user;
     @OneToMany(mappedBy = "buyer", cascade = CascadeType.ALL)
-    private List<Orders> orders = new ArrayList<Orders>();
+    private List<Order> orders = new ArrayList<Order>();
     @OneToMany(mappedBy = "buyer", cascade = CascadeType.ALL)
     private List<CartItem> cartItems = new ArrayList<CartItem>();
     @ManyToMany
@@ -40,7 +40,7 @@ public class Buyer {
         cartItems.remove(item);
     }
 
-    public void addOrder(Orders order) {
+    public void addOrder(Order order) {
         orders.add(order);
     }
 }

@@ -1,15 +1,12 @@
 package edu.mum.service.impl;
 
-import ch.qos.logback.core.net.SyslogOutputStream;
 import edu.mum.domain.*;
 import edu.mum.repository.BuyerRepository;
 import edu.mum.repository.OrderItemRepository;
-import edu.mum.repository.UserRepository;
 import edu.mum.service.BuyerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -59,7 +56,7 @@ public class BuyerServiceImpl implements BuyerService {
     }
 
     @Override
-    public List<Orders> getOrdersByBuyerId(Long buyerId) {
+    public List<Order> getOrdersByBuyerId(Long buyerId) {
         return buyerRepository.findById(buyerId).get().getOrders();
     }
 

@@ -10,7 +10,8 @@ import java.util.List;
 
 @Data
 @Entity
-public class Orders {
+@Table(name = "orders")
+public class Order {
     @Id
     @GeneratedValue
     private Long id;

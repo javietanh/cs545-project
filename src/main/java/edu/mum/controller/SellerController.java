@@ -52,7 +52,7 @@ public class SellerController {
         Seller seller = sellerService.getSellerByUser(user);
         List<OrderItem> orderItems = orderService.getOrderItemsBySeller(seller.getId());
         model.addAttribute("orderItems", orderItems);
-        return "/seller/Orders";
+        return "/seller/Order";
     }
 
     @GetMapping("/orders/{itemId}")

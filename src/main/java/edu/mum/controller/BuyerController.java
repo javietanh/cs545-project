@@ -1,11 +1,9 @@
 package edu.mum.controller;
 
 import edu.mum.domain.*;
-import edu.mum.domain.view.CartInfo;
 import edu.mum.domain.view.SellerInfo;
 import edu.mum.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -14,7 +12,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -146,7 +143,7 @@ public class BuyerController {
     }
 
     @GetMapping("/buyer/checkout")
-    public String getCheckout(@ModelAttribute("order") Orders order, Model model) {
+    public String getCheckout(@ModelAttribute("order") Order order, Model model) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.findByEmail(auth.getName());
         Buyer buyer = buyerService.getBuyerByUser(user);
@@ -156,7 +153,7 @@ public class BuyerController {
     }
 
     @PostMapping("/buyer/order")
-    public String placeOrder(@Valid Orders order, Model model) {
+    public String placeOrder(@Valid Order order, Model model) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.findByEmail(auth.getName());
         Buyer buyer = buyerService.getBuyerByUser(user);

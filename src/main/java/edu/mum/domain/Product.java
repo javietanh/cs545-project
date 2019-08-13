@@ -10,13 +10,12 @@ import java.math.BigDecimal;
 public class Product {
     @Id
     @GeneratedValue
-    @Column(name ="product_id")
     private Long id;
     @Column(nullable = false)
     private String name;
     private String description;
     @Column(nullable = false)
-    private Double price;
+    private BigDecimal price;
     private String image;
     private Boolean available;
     @ManyToOne(cascade = CascadeType.MERGE)

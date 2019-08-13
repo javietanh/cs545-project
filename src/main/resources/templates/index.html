@@ -56,7 +56,7 @@
                             <h4 class="card-title">
                                 <a th:href="@{'/product/' + ${product.id}}" th:text="${product.name}">Item One</a>
                             </h4>
-                            <h5 th:text= "'$' + ${#numbers.formatDecimal(product.price, 0, 'COMMA', 2, 'POINT')}" ></h5>
+                            <h5 th:text= "'$' + ${product.price}" ></h5>
                             <p class="card-text" th:text="${product.description}" >Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam
                                 aspernatur!</p>
                         </div>

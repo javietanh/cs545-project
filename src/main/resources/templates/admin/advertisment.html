@@ -1,21 +1,71 @@
 <html lang="en"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org/"
       layout:decorate="~{layouts/user}">
 <div class="container" layout:fragment="content">
-    <table>
-        <tr>
-            <th>ID</th>
-            <th>Title</th>
-            <th>Description</th>
-            <th>Image</th>
-            <th>Url</th>
-            <th>Count</th>
-            <th>Creation Date</th>
-            <th>Expiration Date</th>
-            <th></th>
-            <th></th>
-        </tr>
 
-    </table>
+    <div class="card mb-3">
+        <div class="card-header">
+            <i class="fas fa-table"></i>
+            Data Table Example
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Description</th>
+                        <th>Image</th>
+                        <th>Url</th>
+                        <th>Count</th>
+                        <th>Creation Date</th>
+                        <th>Expiration Date</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tfoot>
+                    <tr>
+                        <th>Title</th>
+                        <th>Description</th>
+                        <th>Image</th>
+                        <th>Url</th>
+                        <th>Count</th>
+                        <th>Creation Date</th>
+                        <th>Expiration Date</th>
+                        <th>Action</th>
+                    </tr>
+                    </tfoot>
+                    <tbody>
+                    <tr th:each="ad : ${adverts}">
+                        <td th:text="${ad.title}"></td>
+                        <td th:text="${ad.description}"></td>
+                        <td th:text="${ad.image}"></td>
+                        <td th:text="${ad.url}"></td>
+                        <td th:text="${ad.count}"></td>
+                        <td th:text="${ad.creationDateTime}"></td>
+                        <td th:text="${ad.expirationDateTime}"></td>
+
+                    </tr>
+                    <tr>
+                        <form th:action="@{/admin/addAdvert}" th:object="${advert}" th:method="POST" enctype="multipart/form-data">
+                            <td><input id="title" name="title" th:field="*{title}"></td>
+                            <td><input id="description" name="description" th:field="*{description}"></td>
+<!--                            <td><input id="image" name="image"></td>-->
+                            <td><input type="file" th:field="*{imageUpload}"></td>
+                            <td><input id="url" name="url" th:field="*{url}"></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td><input type="submit" value="Add Advertisment"></td>
+                        </form>
+                    </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+    </div>
 </div>
 </html>

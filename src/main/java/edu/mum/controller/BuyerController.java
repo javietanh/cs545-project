@@ -1,18 +1,18 @@
 package edu.mum.controller;
 
 import edu.mum.domain.Buyer;
+import edu.mum.domain.Order;
+import edu.mum.domain.Order;
 import edu.mum.domain.Seller;
-import edu.mum.service.BuyerService;
-import edu.mum.service.SellerService;
+import edu.mum.domain.User;
+import edu.mum.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -24,47 +24,106 @@ public class BuyerController {
     @Autowired
     private SellerService sellerService;
 
+    @Autowired
+    private OrderService orderService;
+
+    @Autowired
+    private CartService cartService;
+
+    @Autowired
+    private UserService userService;
+
     @GetMapping("/register/buyer")
     public String inputBuyer(@ModelAttribute("buyer") Buyer buyer) {
-        return "BuyerForm";
+        return "/buyer/BuyerForm";
     }
 
     @PostMapping("/register/buyer")
-    public String saveBuyer(@Valid Buyer buyer, BindingResult result, RedirectAttributes attributes) {
+    public String saveNewBuyer(@Valid Buyer buyer, BindingResult result) {
         if (result.hasErrors()) {
-            return "BuyerForm";
+            return "/buyer/BuyerForm";
         }
         buyerService.saveBuyer(buyer);
         Long buyerId = buyer.getId();
-        return "redirect:/buyer/profile/{buyerId}";
+        return "redirect:/buyer/" + buyerId + "/profile";
     }
 
-    @GetMapping("/buyer/profile/{buyerId}")
-    public String getBuyerProfile(@PathVariable("buyerId") Long buyerId, Model model) {
-        model.addAttribute("buyer", buyerService.getBuyerById(buyerId));
-        return "BuyerPage";
+    @GetMapping("/buyer/profile")
+    public String getBuyerProfile(Model model) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.findByEmail(auth.getName());
+        model.addAttribute("buyer", buyerService.getBuyerByUser(user));
+        return "/buyer/BuyerProfile";
     }
 
-    @GetMapping("/buyer/profile/{buyerId}/update")
+    @GetMapping("/buyer/profile/update")
     public String updateBuyer(@PathVariable Long buyerId, Model model) {
-        model.addAttribute("buyer", buyerService.getBuyerById(buyerId));
-        return "BuyerForm";
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.findByEmail(auth.getName());
+        Buyer buyer = buyerService.getBuyerByUser(user);
+        buyer.getUser().setConfirmPassword(buyer.getUser().getPassword());
+        model.addAttribute("buyer", buyer);
+        return "/buyer/UpdateBuyer";
     }
 
-    @GetMapping("/buyer/home/{buyerId}")
-    public String getBuyerHome(@PathVariable Long buyerId, Model model) {
-        model.addAttribute("buyer", buyerService.getBuyerById(buyerId));
-        return "index";
+    @PostMapping("/buyer/profile/update")
+    public String saveBuyer(@Valid Buyer buyer, BindingResult result) {
+        if (result.hasErrors()) {
+            return "/buyer/UpdateBuyer";
+        }
+        buyerService.updateBuyer(buyer);
+        return "redirect:/buyer/profile";
     }
 
-    @PostMapping("/buyer/{buyerId}/seller/{sellerId}/follow")
-    public String followSeller(@PathVariable("buyerId") Long buyerId, @PathVariable("sellerId") Long sellerId, Model model) {
-        Buyer buyer = buyerService.getBuyerById(buyerId);
+    @PostMapping("/buyer/seller/{sellerId}/follow")
+    public String followSeller(@PathVariable("sellerId") Long sellerId, Model model) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.findByEmail(auth.getName());
+        Buyer buyer = buyerService.getBuyerByUser(user);
         Seller seller = sellerService.getSellerById(sellerId);
         buyerService.followSeller(buyer, seller);
-        model.addAttribute("buyer", buyer);
         model.addAttribute("seller", seller);
         return "SellerPage";
+    }
+
+    @PostMapping("/buyer/seller/{sellerId}/unfollow")
+    public String unfollowSeller(@PathVariable("sellerId") Long sellerId, Model model) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.findByEmail(auth.getName());
+        Buyer buyer = buyerService.getBuyerByUser(user);
+        Seller seller = sellerService.getSellerById(sellerId);
+        buyerService.unfollowSeller(buyer, seller);
+        model.addAttribute("seller", seller);
+        return "SellerPage";
+    }
+
+    @GetMapping("/buyer/orders")
+    public String getOrderHistory(Model model) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.findByEmail(auth.getName());
+        Buyer buyer = buyerService.getBuyerByUser(user);
+        model.addAttribute("orders", buyerService.getOrdersByBuyerId(buyer.getId()));
+        return "/buyer/OrderHistory";
+    }
+
+    @GetMapping("/buyer/checkout")
+    public String getCheckout(@ModelAttribute("order") Order order, Model model) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.findByEmail(auth.getName());
+        Buyer buyer = buyerService.getBuyerByUser(user);
+        model.addAttribute("cart", cartService.getCartByBuyerId(buyer.getId()));
+        model.addAttribute("totalAmount", cartService.getTotalAmount(buyer.getId()));
+        return "/buyer/Checkout";
+    }
+
+    @PostMapping("/buyer/order")
+    public String placeOrder(@Valid Order order, Model model) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.findByEmail(auth.getName());
+        Buyer buyer = buyerService.getBuyerByUser(user);
+        orderService.saveOrder(buyer, order);
+        Long orderId = order.getId();
+        return "redirect:/orders/" + orderId;
     }
 
 }

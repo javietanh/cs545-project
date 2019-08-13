@@ -24,27 +24,7 @@ public class ProductController {
     @GetMapping("product/{productId}")
     public String loadProduct(@PathVariable("productId") Long id, Model model){
         Product product = productService.getProductById(id);
-        //hardcoded reviews
-        OrderItem orderItem1 = new OrderItem();
-        OrderItem orderItem2 = new OrderItem();
-        OrderItem orderItem3 = new OrderItem();
 
-        orderItem1.setProduct(product);
-        orderItem2.setProduct(product);
-        orderItem3.setProduct(product);
-
-        orderItem1.setRating(4);
-        orderItem2.setRating(5);
-        orderItem3.setRating(3);
-
-        orderItem1.setReview("nice");
-        orderItem2.setReview("wonderful");
-        orderItem3.setReview("horrible");
-
-        orderItemService.saveOrderItem(orderItem1);
-        orderItemService.saveOrderItem(orderItem2);
-        orderItemService.saveOrderItem(orderItem3);
-        //
         model.addAttribute("product", product);
         List<OrderItem> orderItems = orderItemService.getOrderItems().stream().filter(x -> x.getProduct().equals(product)).collect(Collectors.toList());
         model.addAttribute("orderItems", orderItems);

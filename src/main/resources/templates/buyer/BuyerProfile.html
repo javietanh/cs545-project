@@ -1,0 +1,23 @@
+<html lang="en"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{layouts/user}">
+<div class="container" layout:fragment="content">
+    <P>
+        <h1>Buyer homepage!!!!</h1>
+        <small>Implement your buyer function on this area</small>
+    </p>
+
+    <div >
+        First Name: <span th:text="${buyer.user.firstName}"></span></br>
+        Last Name: <span th:text="${buyer.user.lastName}"></span></br>
+        Email: <span th:text="${buyer.user.email}"></span></br>
+        Phone: <span th:text="${buyer.user.phone}"></span></br>
+        Address: <span th:text="${buyer.user.address}"></span></br>
+        Points: <span th:text="${buyer.points}"></span></br>
+        <form th:object="${buyer}" action="#" th:action="@{/buyer/profile/update}">
+            <input type="submit" value="Update"/>
+        </form>
+    </div>
+</div>
+</html>

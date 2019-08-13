@@ -1,0 +1,100 @@
+<html lang="en"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{layouts/user}">
+<div class="container" layout:fragment="content">
+    <P>
+        <h1>Buyer homepage!!!!</h1>
+        <small>Implement your buyer function on this area</small>
+    </p>
+
+<!--    <div >-->
+<!--        <table class="table">-->
+<!--            <tr>-->
+<!--                <th>Status</th>-->
+<!--                <th>Shipping Address</th>-->
+<!--                <th>Billing Address</th>-->
+<!--                <th>Total Amount</th>-->
+<!--                <th>Payment Info</th>-->
+<!--                <th>Ordered Date</th>-->
+<!--                <th>End Date</th>-->
+<!--            </tr>-->
+
+<!--            <tr th:each="order: ${orders}">-->
+<!--                <td th:text="${order.status}"></td>-->
+<!--                <td th:text="${order.shippingAddress}"></td>-->
+<!--                <td th:text="${order.billingAddress}"></td>-->
+<!--                <td th:text="${order.totalAmount}"></td>-->
+<!--                <td th:text="${order.paymentInfo}"></td>-->
+<!--                <td th:text="${order.orderedDate}"></td>-->
+<!--                <td th:text="${order.endDate}"></td>-->
+<!--                <td>-->
+<!--                    <form th:object="${order}" action="#" th:action="@{/orders/} + ${order.id}">-->
+<!--                        <input type="submit" value="Details"/>-->
+<!--                    </form>-->
+<!--                </td>-->
+<!--            </tr>-->
+
+<!--        </table>-->
+<!--    </div>-->
+    <div class="card mb-3">
+        <div class="card-header">
+            <i class="fas fa-table"></i>
+            Data Table Example
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                    <tr>
+                        <th>Status</th>
+                        <th>Shipping Address</th>
+                        <th>Billing Address</th>
+                        <th>Total Amount</th>
+                        <th>Payment Info</th>
+                        <th>Ordered Date</th>
+                        <th>End Date</th>
+                    </tr>
+                    </thead>
+                    <tfoot>
+                    <tr>
+                        <th>Status</th>
+                        <th>Shipping Address</th>
+                        <th>Billing Address</th>
+                        <th>Total Amount</th>
+                        <th>Payment Info</th>
+                        <th>Ordered Date</th>
+                        <th>End Date</th>
+                    </tr>
+                    </tfoot>
+                    <tbody>
+                    <tr th:each="order: ${orders}">
+                        <td th:text="${order.status}"></td>
+                        <td th:text="${order.shippingAddress}"></td>
+                        <td th:text="${order.billingAddress}"></td>
+                        <td th:text="${order.totalAmount}"></td>
+                        <td th:text="${order.paymentInfo}"></td>
+                        <td th:text="${order.orderedDate}"></td>
+                        <td th:text="${order.endDate}"></td>
+                        <td>
+                            <form th:object="${order}" action="#" th:action="@{/orders/} + ${order.id}">
+                                <input type="submit" value="Details"/>
+                            </form>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td><input id="title" name="title"></td>
+                        <td><input id="description" name="description"></td>
+                        <td><input id="image" name="image"></td>
+                        <td><input id="url" name="url"></td>
+                    </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+    </div>
+</div>
+</html>

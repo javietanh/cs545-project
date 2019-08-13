@@ -9,6 +9,9 @@ INSERT INTO buyer (id, points, user_id) VALUES (3, 0, 1);
 INSERT INTO seller (id, name, description, user_id, status)
 VALUES (4, 'Phoenix', 'Phoenix offers fashion and quality at the best price', 2, 'APPROVED');
 
+INSERT INTO following (buyer_id, seller_id)
+VALUES (3, 4);
+
 INSERT INTO product (id, name, description, price, available, seller_id)
 VALUES (5, 'Dress with Tie Belt',
         'V-neck, knee-length dress in airy chiffon with details on shoulders. Cap sleeves, buttons at front, and elastication at back of waist. Attached tie belt. Satin lining',

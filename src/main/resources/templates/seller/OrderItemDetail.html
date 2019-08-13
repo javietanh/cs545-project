@@ -1,0 +1,36 @@
+<html lang="en"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{layouts/user}">
+<div class="container" layout:fragment="content">
+    <P>
+        <h1>Seller homepage!!!!</h1>
+        <small>Implement your seller function on this area</small>
+    </p>
+
+    <div >
+        Buyer: <span th:text="${item.order.buyer.user.firstName} + ' ' + ${item.order.buyer.user.lastName}"></span></br>
+        Buyer's phone: <span th:text="${item.order.buyer.user.phone}"></span></br>
+        Buyer's email: <span th:text="${item.order.buyer.user.email}"></span></br>
+        Product: <span th:text="${item.product.name}"></span></br>
+        Price: <span th:text="${item.product.price}"></span></br>
+        Quantity: <span th:text="${item.quantity}"></span></br>
+        Total Price: <span th:text="${totalPrice}"></span></br>
+        Shipping Address: <span th:text="${item.order.shippingAddress}"></span></br>
+        Billing Address: <span th:text="${item.order.billingAddress}"></span></br>
+<!--        Status: <span th:text="${item.orderStatus}"></span></br>-->
+        <form th:object="${item}" action="#" th:action="@{/seller/orders/} + ${item.id} + @{/status}" method="post">
+            <label>Status: </label>
+            <select th:field="*{orderStatus}">
+                <option th:value="'ORDERED'">ORDERED</option>
+                <option th:value="'SHIPPED'">SHIPPED</option>
+                <option th:value="'DELIVERED'">DELIVERED</option>
+                <option th:value="'RETURNED'">RETURNED</option>
+                <option th:value="'CANCELED'">CANCELED</option>
+            </select><br/>
+            <input type="submit" value="Change status"/>
+        </form>
+
+    </div>
+</div>
+</html>

@@ -1,6 +1,7 @@
 package edu.mum.service.impl;
 
 import edu.mum.domain.*;
+import edu.mum.domain.view.OrderItemInfo;
 import edu.mum.repository.CartRepository;
 import edu.mum.repository.OrderItemRepository;
 import edu.mum.repository.OrderRepository;
@@ -64,6 +65,24 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public OrderItem saveOrderItem(OrderItem orderItem) {
+        return orderItemRepository.save(orderItem);
+    }
+
+    @Override
+    public OrderItem updateOrderItem(OrderItem orderItem) {
+        OrderItem persistedOrderItem = getOrderItemById(orderItem.getId());
+        persistedOrderItem.setProduct(orderItem.getProduct());
+        persistedOrderItem.setQuantity(orderItem.getQuantity());
+        persistedOrderItem.setOrder(orderItem.getOrder());
+        persistedOrderItem.setReview(orderItem.getReview());
+        persistedOrderItem.setReviewStatus(orderItem.getReviewStatus());
+        persistedOrderItem.setRating(orderItem.getRating());
+        persistedOrderItem.setOrderStatus(orderItem.getOrderStatus());
+        return orderItemRepository.save(persistedOrderItem);
+    }
+
+    @Override
     public void completeOrder(Orders order) {
         order.setStatus(OrderStatus.COMPLETED);
         Integer points = order.getTotalAmount().divide(new BigDecimal(100)).intValue();
@@ -88,6 +107,11 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public OrderItem getOrderItemById(Long itemId) {
         return orderItemRepository.findById(itemId).get();
+    }
+
+    @Override
+    public List<OrderItem> getOrderItemsBySeller(Long sellerId) {
+        return orderItemRepository.getOrderItemsBySeller(sellerId);
     }
 
 

@@ -1,3 +1,21 @@
+(function ($) {
+    $.fn.serializeFormJSON = function () {
+        var o = {};
+        var a = this.serializeArray();
+        $.each(a, function () {
+            if (o[this.name]) {
+                if (!o[this.name].push) {
+                    o[this.name] = [o[this.name]];
+                }
+                o[this.name].push(this.value || '');
+            } else {
+                o[this.name] = this.value || '';
+            }
+        });
+        return o;
+    };
+})(jQuery);
+
 $(document).ready(function () {
    let loadCart = function () {
        $.ajax({
@@ -18,7 +36,9 @@ $(document).ready(function () {
            }
        });
    };
+
    loadCart();
+
    $(document).on('click', '.remove-item', function(){
         console.log('call remove function');
         var itemId = $(this).data("id");
@@ -36,6 +56,13 @@ $(document).ready(function () {
             }
         });
    });
+
+   function usePoints () {
+       let data = JSON.stringify($("#employeeForm").serializeFormJSON());
+       $.ajax({
+
+       });
+   }
 });
 
 

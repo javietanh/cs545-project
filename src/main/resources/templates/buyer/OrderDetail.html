@@ -21,6 +21,9 @@
         <form th:object="${order}" action="#" th:action="@{/orders/} + ${order.id} + @{/complete}" method="post">
             <input type="submit" value="Complete"/>
         </form>
+        <form th:object="${order}" action="#" th:action="@{/orders/} + ${order.id} + @{/download}" method="post">
+            <input type="submit" value="Download Receipt"/>
+        </form>
         <table class="table">
             <tr>
                 <th>Product</th>
@@ -34,6 +37,11 @@
                 <td th:text="${item.product.price}"></td>
                 <td th:text="${item.quantity}"></td>
                 <td th:text="${item.orderStatus}"></td>
+                <td>
+                    <form action="#" th:action="@{/item/} + ${item.id} + @{/review}">
+                        <input type="submit" value="Review"/>
+                    </form>
+                </td>
             </tr>
 
         </table>

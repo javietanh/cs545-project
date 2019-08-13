@@ -28,6 +28,7 @@ public class Orders {
     private OrderStatus status = OrderStatus.NEW;
     private LocalDateTime orderedDate;
     private LocalDateTime endDate;
+    private Boolean usingPoints = false;
 
     public void addOrderItem(OrderItem item) {
         orderItems.add(item);

@@ -2,7 +2,6 @@ package edu.mum.service;
 
 import edu.mum.domain.*;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 public interface BuyerService {

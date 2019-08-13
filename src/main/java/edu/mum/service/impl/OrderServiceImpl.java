@@ -77,19 +77,6 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public OrderItem updateOrderItem(OrderItem orderItem) {
-        OrderItem persistedOrderItem = getOrderItemById(orderItem.getId());
-        persistedOrderItem.setProduct(orderItem.getProduct());
-        persistedOrderItem.setQuantity(orderItem.getQuantity());
-        persistedOrderItem.setOrder(orderItem.getOrder());
-        persistedOrderItem.setReview(orderItem.getReview());
-        persistedOrderItem.setReviewStatus(orderItem.getReviewStatus());
-        persistedOrderItem.setRating(orderItem.getRating());
-        persistedOrderItem.setOrderStatus(orderItem.getOrderStatus());
-        return orderItemRepository.save(persistedOrderItem);
-    }
-
-    @Override
     public void cancelOrder(Order order) {
         order.setStatus(OrderStatus.CANCELED);
         orderRepository.save(order);

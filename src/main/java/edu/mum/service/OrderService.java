@@ -10,11 +10,10 @@ import java.util.List;
 public interface OrderService {
     Order getOrderById(Long id);
     Order saveOrder(Buyer buyer, Order order);
+    OrderItem saveOrderItem(OrderItem orderItem);
     void completeOrder(Order order);
     void cancelOrder(Order order);
     File downloadReceipt(Order order) throws Exception;
-    OrderItem saveOrderItem(OrderItem orderItem);
-    OrderItem updateOrderItem(OrderItem orderItem);
     OrderItem getOrderItemById(Long itemId);
     List<OrderItem> getOrderItemsBySeller(Long sellerId);
 }

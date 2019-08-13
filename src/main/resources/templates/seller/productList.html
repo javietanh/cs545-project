@@ -1,0 +1,71 @@
+<html lang="en"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{layouts/user}">
+
+<div class="container"
+     layout:fragment="content">
+	
+	<div class="row">
+		<div class="col-12">
+			<div class="row">
+				<div class="col-12 text-right mb-3">
+					<a th:href="@{/seller/product/add}"
+					   class="btn btn-primary">Add New Product</a>
+				</div>
+			</div>
+			<div class="table-responsive">
+				<table class="table table-bordered"
+				       id="dataTable"
+				       width="100%"
+				       cellspacing="0">
+					<thead>
+					<tr>
+						<th>Picture</th>
+						<th>Name</th>
+						<th>Description</th>
+						<th>Price</th>
+						<th></th>
+					</tr>
+					</thead>
+					<tfoot>
+					<tr>
+						<th>Picture</th>
+						<th>Name</th>
+						<th>Description</th>
+						<th>Price</th>
+						<th></th>
+					</tr>
+					</tfoot>
+					<tbody>
+					<tr th:each="prod : ${products}">
+						<td>
+							<img class="img-thumbnail w-25"
+							     th:src="${prod.image}"/>
+						</td>
+						<td>
+							<span th:text="${prod.name}"></span>
+						</td>
+						<td>
+							<span th:text="${prod.description}"></span>
+						</td>
+						<td>
+							$<span th:text="${#numbers.formatDecimal(prod.price, 0, 'COMMA', 2, 'POINT')}"></span>
+						</td>
+						<td>
+							<div class="">
+								<a title="Edit"
+								   th:href="@{/seller/product/{id}(id=${prod.id})}"><i class="fa fas fa-pen-square text-primary"></i></a>
+								<a title="Delete"
+								   class="btn btn-block pl-3"
+								   th:href="@{/seller/product/delete/{id}(id=${prod.id})}"><i class="fa fas fa-trash text-danger"></i></a>
+							</div>
+						</td>
+					</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+</html>

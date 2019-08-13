@@ -1,6 +1,8 @@
 package edu.mum.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -17,7 +19,10 @@ public class Product {
     @Column(nullable = false)
     private BigDecimal price;
     private String image;
-    private Boolean available;
+    @Transient
+    @JsonIgnore
+    private MultipartFile upload;
+    private Double available;
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "seller_id")
     private Seller seller;

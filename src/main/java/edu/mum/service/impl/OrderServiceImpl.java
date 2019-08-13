@@ -2,14 +2,19 @@ package edu.mum.service.impl;
 
 import edu.mum.domain.*;
 import edu.mum.repository.CartRepository;
+import edu.mum.repository.OrderItemRepository;
 import edu.mum.repository.OrderRepository;
 import edu.mum.service.OrderService;
+import edu.mum.util.PdfGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -17,10 +22,16 @@ public class OrderServiceImpl implements OrderService {
     private OrderRepository orderRepository;
 
     @Autowired
+    private OrderItemRepository orderItemRepository;
+
+    @Autowired
     private CartRepository cartRepository;
 
+    @Autowired
+    private PdfGenerator pdfGenerator;
+
     @Override
-    public Order getOrderByOrderId(Long id) {
+    public Order getOrderById(Long id) {
         return orderRepository.findById(id).get();
     }
 
@@ -36,6 +47,14 @@ public class OrderServiceImpl implements OrderService {
             oi.setOrder(order);
             totalAmount = totalAmount.add(ci.getProduct().getPrice().multiply(new BigDecimal(ci.getQuantity())));
             cartRepository.delete(ci);
+        }
+        if (order.getUsingPoints() == true) {
+            totalAmount = totalAmount.subtract(new BigDecimal(buyer.getPoints()));
+            if (totalAmount.compareTo(BigDecimal.ZERO) > 0) {
+                buyer.setPoints(0);
+            } else {
+                buyer.setPoints(totalAmount.abs().intValue());
+            }
         }
         order.setTotalAmount(totalAmount);
         order.setBuyer(buyer);
@@ -57,6 +76,20 @@ public class OrderServiceImpl implements OrderService {
         order.setStatus(OrderStatus.CANCELED);
         orderRepository.save(order);
     }
+
+    @Override
+    public File downloadReceipt(Order order) throws Exception {
+        Map<String, Order> data = new HashMap<String, Order>();
+        data.put("order", order);
+        return pdfGenerator.createPdf("buyer/PDF", data);
+
+    }
+
+    @Override
+    public OrderItem getOrderItemById(Long itemId) {
+        return orderItemRepository.findById(itemId).get();
+    }
+
 
 
 }

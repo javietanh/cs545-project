@@ -1,8 +1,11 @@
 package edu.mum.controller;
 
+import edu.mum.ShoppingApplication;
 import edu.mum.domain.Advert;
 import edu.mum.service.AdvertService;
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.system.ApplicationHome;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Controller;
@@ -18,7 +21,12 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 public class AdvertismentController {
@@ -41,6 +49,31 @@ public class AdvertismentController {
                      HttpServletRequest request) {
         if (bindingResult.hasErrors()) {
             return "/admin/advertisment";
+        }
+
+        MultipartFile uploadAdvert = advert.getImageUpload();
+        String homeUrl = new ApplicationHome(ShoppingApplication.class).getDir() + "\\static\\img\\adverts";
+        Path rootLocation = Paths.get(homeUrl);
+
+        if (!Files.exists(rootLocation)) {
+            try {
+                Files.createDirectory(rootLocation);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+//
+//        String avatarName = UUID.randomUUID().toString() + "." + FilenameUtils.getExtension(uploadAvatar.getOriginalFilename());
+
+        String advertName = UUID.randomUUID().toString() + "." + FilenameUtils.getExtension(uploadAdvert.getOriginalFilename());
+
+        if (uploadAdvert != null && !uploadAdvert.isEmpty()) {
+            try {
+                Files.copy(uploadAdvert.getInputStream(), rootLocation.resolve(advertName));
+                advert.setImage("/img/adverts/" + advertName);
+            } catch (Exception ex) {
+                bindingResult.rejectValue("uploadAdvert", "", "Problem on saving advert picture.");
+            }
         }
         advertService.saveAdvert(advert);
 

@@ -45,6 +45,8 @@ public class ProductController {
     @Autowired
     private CartItemService cartItemService;
 
+    //hey mr David
+
 
     @GetMapping(value = {"", "/", "/list"})
     public String getProductList(Model model) {

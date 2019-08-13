@@ -1,6 +1,8 @@
 package edu.mum.service.impl;
 
+import edu.mum.domain.Category;
 import edu.mum.domain.Product;
+import edu.mum.domain.Seller;
 import edu.mum.repository.ProductRepository;
 import edu.mum.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,5 +34,15 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public void delete(Product product) {
         productRepository.delete(product);
+    }
+
+    @Override
+    public List<Product> getProductsByCategory(Category category) {
+        return productRepository.findProductsByCategory(category);
+    }
+
+    @Override
+    public List<Product> getProductsBySeller(Seller seller) {
+        return productRepository.findProductsBySeller(seller);
     }
 }

@@ -19,7 +19,8 @@ public class OrderItem {
     @JoinColumn(name = "order_id")
     private Order order;
     private String review;
-    private Boolean reviewStatus;
+    @Enumerated(EnumType.STRING)
+    private Status reviewStatus;
     private int rating = 0;
     @Enumerated(EnumType.STRING)
     private OrderItemStatus orderStatus = OrderItemStatus.ORDERED;

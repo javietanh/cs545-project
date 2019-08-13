@@ -1,0 +1,42 @@
+<html lang="en"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{layouts/user}">
+<div class="container" layout:fragment="content">
+    <P>
+        <h1>Admin homepage!!!!</h1>
+        <small>Implement your admin function on this area</small>
+    </p>
+
+    <div >
+        <table class="table">
+            <tr>
+                <th>Shop</th>
+                <th>Description</th>
+                <th>Phone</th>
+                <th>Email</th>
+                <th>Address</th>
+                <th>Status</th>
+            </tr>
+
+            <tr th:each="seller: ${sellers}">
+                <td th:text="${seller.name}"></td>
+                <td th:text="${seller.description}"></td>
+                <td th:text="${seller.user.phone}"></td>
+                <td th:text="${seller.user.email}"></td>
+                <td th:text="${seller.user.address}"></td>
+                <td th:text="${seller.status}"></td>
+                <td>
+                    <form action="#" th:action="@{/admin/sellers/} + ${seller.id} + @{/approve}" method="post">
+                        <input type="submit" value="Approve" th:if="${seller.status.toString() != 'APPROVED'}"/>
+                    </form>
+                    <form action="#" th:action="@{/admin/sellers/} + ${seller.id} + @{/reject}" method="post">
+                        <input type="submit" value="Reject" th:if="${seller.status.toString() != 'REJECTED'}"/>
+                    </form>
+                </td>
+            </tr>
+
+        </table>
+    </div>
+</div>
+</html>

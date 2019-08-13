@@ -5,9 +5,11 @@ import edu.mum.domain.Product;
 import java.util.List;
 
 public interface ProductService {
-    public Product saveProduct(Product product);
+    List<Product> getAll();
 
-    public List<Product> getProducts();
+    Product findById(Long id);
 
-    public Product getProductById(Long id);
+    Product save(Product product);
+
+    void delete(Product product);
 }

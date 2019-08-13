@@ -10,21 +10,27 @@ import java.util.List;
 
 @Service
 public class ProductServiceImpl implements ProductService {
+
     @Autowired
-    ProductRepository productRepository;
+    private ProductRepository productRepository;
 
     @Override
-    public Product saveProduct(Product product) {
-        return productRepository.save(product);
-    }
-
-    @Override
-    public List<Product> getProducts() {
+    public List<Product> getAll() {
         return (List<Product>) productRepository.findAll();
     }
 
     @Override
-    public Product getProductById(Long id) {
+    public Product findById(Long id) {
         return productRepository.findById(id).get();
+    }
+
+    @Override
+    public Product save(Product product) {
+        return productRepository.save(product);
+    }
+
+    @Override
+    public void delete(Product product) {
+        productRepository.delete(product);
     }
 }

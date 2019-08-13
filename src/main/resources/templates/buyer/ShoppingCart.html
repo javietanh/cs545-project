@@ -22,18 +22,50 @@
                 </tr>
             </thead>
             <tbody id='cart-item'>
-<!--                <tr  th:each="item: ${cart}">-->
-<!--                    <td th:text="${item.product.name}"></td>-->
-<!--                    <td th:text="${item.product.price}"></td>-->
-<!--                    <td th:text="${item.quantity}"></td>-->
-<!--                    <td>-->
-<!--                        <a href="#" class='remove-item' th:data="${item.id}">Remove</a>-->
-<!--                    </td>-->
-<!--                </tr>-->
+                <tr  th:each="item: ${cart}">
+                    <td th:text="${item.product.name}"></td>
+                    <td th:text="${item.product.price}"></td>
+                    <td th:text="${item.quantity}"></td>
+                    <td>
+                        <a href="#" class='remove-item' th:data="${item.id}">Remove</a>
+                    </td>
+                </tr>
             </tbody>
 
 
         </table>
+
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                    </tr>
+                    </thead>
+                    <tfoot>
+                    <tr>
+                        <th>Product</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                    </tr>
+                    </tfoot>
+                    <tbody id='cart-item'>
+                    <tr  th:each="item: ${cart}">
+                        <td th:text="${item.product.name}"></td>
+                        <td th:text="${item.product.price}"></td>
+                        <td th:text="${item.quantity}"></td>
+                        <td>
+                            <a href="#" class='remove-item' th:data="${item.id}">Remove</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
         <form action="#" th:action="@{/buyer/checkout}">
             <input type="submit" value="Checkout"/>
         </form>

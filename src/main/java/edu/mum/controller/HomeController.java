@@ -26,7 +26,7 @@ public class HomeController {
     @GetMapping(value = {"/"})
     public String index(Model model) {
         //brings products
-        List<Product> products = productService.getProducts();
+        List<Product> products = productService.getAll();
         model.addAttribute("products", products);
         //brings the ads
         List<Advert> adverts = advertService.getAdverts();

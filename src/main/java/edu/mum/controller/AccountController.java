@@ -1,12 +1,16 @@
 package edu.mum.controller;
 
+import edu.mum.ShoppingApplication;
 import edu.mum.domain.*;
 import edu.mum.domain.view.ChangePasswordDto;
+import edu.mum.domain.view.UpdateProfileDto;
 import edu.mum.service.BuyerService;
 import edu.mum.service.MessageService;
 import edu.mum.service.SellerService;
 import edu.mum.service.UserService;
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.system.ApplicationHome;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -15,11 +19,18 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 @RequestMapping("/account")
@@ -50,7 +61,7 @@ public class AccountController {
     List<Message> getUserMessages() {
         // get current user principal
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if(auth != null && auth.isAuthenticated()){
+        if (auth != null && auth.isAuthenticated()) {
             List<Message> messages = userService.getLast5UnreadNotifyMessageByUserEmail(auth.getName());
             return messages;
         }
@@ -60,16 +71,27 @@ public class AccountController {
 
     @GetMapping(value = {"/profile"})
     public String getProfileForm(Model model) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if(authentication != null){
-            User tempUser = userService.findByEmail(authentication.getName());
-            model.addAttribute("user", tempUser);
+
+        if (!model.containsAttribute("profile")) {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            if (authentication != null) {
+                User user = userService.findByEmail(authentication.getName());
+                UpdateProfileDto profileDto = new UpdateProfileDto();
+                profileDto.setFirstName(user.getFirstName());
+                profileDto.setLastName(user.getLastName());
+                profileDto.setEmail(user.getEmail());
+                profileDto.setPhone(user.getPhone());
+                profileDto.setAddress(user.getAddress());
+                model.addAttribute("profile", profileDto);
+            }
         }
-        // add change password model
-        model.addAttribute("changePasswordDto", new ChangePasswordDto());
+
+        if (!model.containsAttribute("changePasswordDto")) {
+            model.addAttribute("changePasswordDto", new ChangePasswordDto());
+        }
+
         return "/account/profile";
     }
-
 
     @GetMapping(value = {"/login"})
     public String getLoginForm() {
@@ -109,41 +131,120 @@ public class AccountController {
     /*
         Post Request
      */
+    @PostMapping(value = {"/profile/info"})
+    public String updateProfile(@Valid @ModelAttribute("profile") UpdateProfileDto profile,
+                                BindingResult result,
+                                RedirectAttributes rd,
+                                HttpServletRequest request) {
+
+        // validate user email unique if user change the email.
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User currentUser = null;
+
+        if (authentication != null) {
+            currentUser = userService.findByEmail(authentication.getName());
+            if (currentUser != null && !currentUser.getEmail().equals(profile.getEmail())) {
+                User existsUser = userService.findByEmail(profile.getEmail());
+                if (existsUser != null) {
+                    // reject with error when email is not unique
+                    result.rejectValue("email", "email.exists", "There is already a user registered with the email provided.");
+                }
+            }
+        }
+
+        // update user data.
+        currentUser.setFirstName(profile.getFirstName());
+        currentUser.setLastName(profile.getLastName());
+        currentUser.setEmail(profile.getEmail());
+        currentUser.setPhone(profile.getPhone());
+        currentUser.setAddress(profile.getAddress());
+
+        // process update user avatar.
+        MultipartFile uploadAvatar = profile.getUploadAvatar();
+        String homeUrl = new ApplicationHome(ShoppingApplication.class).getDir() + "\\static\\img\\avatar";
+        Path rootLocation = Paths.get(homeUrl);
+
+        if (!Files.exists(rootLocation)) {
+            try {
+                Files.createDirectory(rootLocation);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        String avatarName = UUID.randomUUID().toString() + "." + FilenameUtils.getExtension(uploadAvatar.getOriginalFilename());
+
+        if (uploadAvatar != null && !uploadAvatar.isEmpty()) {
+            try {
+                Files.copy(uploadAvatar.getInputStream(), rootLocation.resolve(avatarName));
+                currentUser.setAvatar("/img/avatar/" + avatarName);
+            } catch (Exception ex) {
+                result.rejectValue("uploadAvatar", "", "Problem on saving user picture.");
+            }
+        }
+
+        // errors, show the errors
+        if (result.hasErrors()) {
+            rd.addFlashAttribute("org.springframework.validation.BindingResult.profile", result);
+            rd.addFlashAttribute("profile", profile);
+            return "redirect:/account/profile";
+        }
+
+        // update user info.
+        userService.updateUser(currentUser);
+
+        // add success message
+        rd.addFlashAttribute("updateProfileSuccess", "Profile Updated.");
+
+        return "redirect:/account/profile";
+    }
+
+
     @PostMapping(value = {"/profile/security"})
-    public String changePassword(@Valid ChangePasswordDto changePasswordDto, BindingResult result){
+    public String changePassword(@Valid @ModelAttribute("changePasswordDto") ChangePasswordDto changePasswordDto, BindingResult result, RedirectAttributes rd) {
 
         // get current user.
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        if(authentication != null) {
+        if (authentication != null) {
 
             User user = userService.findByEmail(authentication.getName());
 
-            // validate the fields if data exists.
-            if (changePasswordDto.getNewPassword() != "" && user != null) {
-                if (!changePasswordDto.getNewPassword().equals(changePasswordDto.getConfirmNewPassword())) {
-                    result.rejectValue("confirmNewPassword", "", "New Password and Confirm New Password fields miss matched.");
+            if (user != null) {
+
+                if (changePasswordDto.getNewPassword() != "" || changePasswordDto.getCurrentPassword() != "" || changePasswordDto.getConfirmNewPassword() != "") {
+                    if (changePasswordDto.getNewPassword() != "") {
+                        if (!changePasswordDto.getNewPassword().equals(changePasswordDto.getConfirmNewPassword())) {
+                            result.rejectValue("confirmNewPassword", "", "New Password and Confirm New Password fields miss matched.");
+                        }
+
+                        if (changePasswordDto.getCurrentPassword() == "") {
+                            result.rejectValue("currentPassword", "", "Please provide your current password.");
+                        }
+                    }
+
+                    if (changePasswordDto.getCurrentPassword() != "") {
+                        // check the current password is correct.
+                        boolean valid = userService.validatePassword(changePasswordDto.getCurrentPassword(), user);
+
+                        if (!valid) {
+                            result.rejectValue("currentPassword", "", "Current Password is incorrect.");
+                        }
+
+                        // errors, show the errors
+                        if (result.hasErrors()) {
+                            rd.addFlashAttribute("org.springframework.validation.BindingResult.changePasswordDto", result);
+                            rd.addFlashAttribute("changePasswordDto", changePasswordDto);
+                            return "redirect:/account/profile";
+                        }
+
+                        // everything good, change user password.
+                        userService.changePassword(changePasswordDto.getNewPassword(), user);
+
+                        // add success message
+                        rd.addFlashAttribute("changePasswordSuccess", "Password Changed.");
+                    }
                 }
-
-                if (changePasswordDto.getCurrentPassword() == "") {
-                    result.rejectValue("currentPassword", "", "Please provide your current password.");
-                }
-
-                // check the current password is correct.
-                Boolean validateCurrentPassword = userService.validatePassword(changePasswordDto.getCurrentPassword(), user.getPassword());
-
-                if(validateCurrentPassword == false){
-                    result.rejectValue("currentPassword", "", "Current Password is incorrect.");
-                }
-
-                // errors, show the errors
-                if (result.hasErrors()) {
-                    return "/account/profile";
-                }
-
-                // everything good, change user password.
-                userService.changePassword(changePasswordDto.getNewPassword(), user);
-
             }
         }
 
@@ -170,7 +271,7 @@ public class AccountController {
         user.setRole(Role.BUYER);
 
         // create new user.
-        User saveUser = userService.save(user);
+        User saveUser = userService.addUser(user);
 
         // create new buyer
         Buyer buyer = new Buyer();
@@ -207,7 +308,7 @@ public class AccountController {
         newUser.setRole(Role.SELLER);
 
         // persisted user to database.
-        User saveUser = userService.save(newUser);
+        User saveUser = userService.addUser(newUser);
 
         // set seller association to the new user.
         seller.setUser(saveUser);
@@ -226,9 +327,11 @@ public class AccountController {
         DELETE
      */
     @DeleteMapping(value = {"/messages"}, produces = MediaType.APPLICATION_JSON_VALUE,
-                                          consumes = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody void setMessageRead(@RequestBody Long id){
+            consumes = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody
+    boolean setMessageRead(@RequestBody Long id) {
         messageService.setMessageRead(id);
+        return true;
     }
 
 }

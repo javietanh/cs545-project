@@ -3,14 +3,17 @@ package edu.mum.controller;
 import edu.mum.domain.*;
 import edu.mum.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.PathVariable;
 
-import java.math.BigDecimal;
 import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -25,7 +28,13 @@ public class HomeController {
     AdvertService advertService;
 
     @Autowired
-    UserService userService;
+    private UserService userService;
+
+    @Autowired
+    private BuyerService buyerService;
+
+    @Autowired
+    private CartService cartService;
 
     @Autowired
     BuyerService buyerService;
@@ -56,6 +65,37 @@ public class HomeController {
         return "index";
     }
 
+    // add product to shopping cart.
+    @PostMapping(value = {"/product/addToCart"},
+            produces = MediaType.APPLICATION_JSON_VALUE,
+            consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public boolean addProductToCart(@RequestBody String id) {
+        // get current user.
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if(authentication != null){
+            User user = userService.findByEmail(authentication.getName());
+            if(user == null)
+                return false;
+
+            // get product.
+            Product product = productService.findById(Long.parseLong(id));
+            Buyer buyer = buyerService.getBuyerByUser(user);
+
+            // make new cart item with the product id.
+            CartItem cartItem = new CartItem();
+            cartItem.setProduct(product);
+            cartItem.setBuyer(buyer);
+            cartItem.setQuantity(1);
+
+            cartService.saveCartItem(buyer, cartItem);
+
+        }else{
+            return false;
+        }
+        return true;
+    }
+
     // 404 page
     @GetMapping("/404")
     public String get404() {
@@ -71,12 +111,6 @@ public class HomeController {
             model.addAttribute("msg", "You do not have permission to access this page!");
         }
         return "403";
-    }
-
-    // buyer homepage
-    @GetMapping(value = {"/buyer", "/buyer/dashboard"})
-    public String buyerHomepage() {
-        return "/buyer/dashboard";
     }
 
     // admin homepage

@@ -14,7 +14,7 @@
                     <th>Shop</th>
                     <th>Review</th>
                     <th>Status</th>
-                    <th></th>
+                    <th colspan="2">Action</th>
                 </tr>
                 </thead>
                 <tfoot>
@@ -24,7 +24,7 @@
                     <th>Shop</th>
                     <th>Review</th>
                     <th>Status</th>
-                    <th></th>
+                    <th colspan="2">Action</th>
                 </tr>
                 </tfoot>
                 <tbody>
@@ -36,10 +36,12 @@
                     <td th:text="${item.reviewStatus}"></td>
                     <td>
                         <form action="#" th:action="@{/admin/reviews/} + ${item.id} + @{/approve}" method="post">
-                            <input type="submit" value="Approve" th:if="${item.reviewStatus.toString() != 'APPROVED'}" class="btn btn-success"/>
+                            <input type="submit" value="Approve" th:if="${item.reviewStatus.toString() != 'APPROVED'}" class="btn btn-success btn-sm"/>
                         </form>
+                    </td>
+                    <td>
                         <form action="#" th:action="@{/admin/reviews/} + ${item.id} + @{/reject}" method="post">
-                            <input type="submit" value="Reject" th:if="${item.reviewStatus.toString() != 'REJECTED'}" class="btn btn-danger mt-3"/>
+                            <input type="submit" value="Reject" th:if="${item.reviewStatus.toString() != 'REJECTED'}" class="btn btn-danger btn-sm"/>
                         </form>
                     </td>
                 </tr>

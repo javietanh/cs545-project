@@ -3,7 +3,7 @@
       xmlns:th="http://www.thymeleaf.org"
       layout:decorate="~{layouts/user}">
 <div class="container" layout:fragment="content">
-
+    <h1>Review Product</h1>
     <div >
 
         <div>
@@ -19,11 +19,8 @@
 
                 <dt class="col-sm-3">Seller</dt>
                 <dd class="col-sm-9" th:text="${item.product.seller.name}"></dd>
-
             </dl>
-
         </div>
-
         <div>
             <form th:object="${item}" action="#" th:action="@{/item/} + ${item.id} + @{/review}" method="post">
                 <textarea th:field="*{review}" class="form-control"></textarea><br/>

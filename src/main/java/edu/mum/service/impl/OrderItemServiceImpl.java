@@ -24,6 +24,11 @@ public class OrderItemServiceImpl implements OrderItemService {
     }
 
     @Override
+    public List<OrderItem> getOrderItemsWithNotNullReviews() {
+        return orderItemRepository.getOrderItemWithNotNullReviews();
+    }
+
+    @Override
     public OrderItem getOrderItemById(Long id) {
         return orderItemRepository.findById(id).get();
     }

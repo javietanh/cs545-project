@@ -15,6 +15,9 @@ public interface OrderItemRepository extends CrudRepository<OrderItem, Long> {
             "where s.id = :sellerId")
     List<OrderItem> getOrderItemsBySeller(Long sellerId);
 
-    @Query("select i.review from OrderItem i where i.reviewStatus = 'APPROVED' and i.id = :itemId")
+    @Query(value = "select i.review from order_item i where i.review_status = 'APPROVED' and i.id = ?", nativeQuery = true)
     List<String> getApprovedReviews(Long itemId);
+
+    @Query(value = "select * from order_item i where i.review is not null", nativeQuery = true)
+    List<OrderItem> getOrderItemWithNotNullReviews();
 }

@@ -6,9 +6,6 @@
 
     <div class="card mb-3">
         <div class="card-header">
-
-            <span class="fa fas fa-barcode fa-2x text-primary"> Orders History</span>
-
             <i class="fas fa-table"></i>
             Order History
 
@@ -46,11 +43,7 @@
                         <td th:text="${#temporals.format(order.orderedDate, 'dd-MM-yyyy HH:mm')}"></td>
                         <td>
                             <form th:object="${order}" action="#" th:action="@{/orders/} + ${order.id}">
-
-                                <input type="submit" value="Details" class="btn btn-primary"/>
-
                                 <input type="submit" value="Details" class="btn btn-info btn-sm"/>
-
                             </form>
                         </td>
                     </tr>

@@ -1,5 +1,6 @@
 package edu.mum.controller;
 
+import com.mashape.unirest.http.exceptions.UnirestException;
 import edu.mum.domain.*;
 import edu.mum.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,9 @@ public class AdminController {
 
     @Autowired
     private ProductService productService;
+
+    @Autowired
+    private MessageService messageService;
 
     // admin homepage
     @GetMapping(value = {"/dashboard", "/", ""})
@@ -115,27 +119,33 @@ public class AdminController {
 
     @GetMapping("/reviews")
     public String getReviews(Model model) {
-        model.addAttribute("orderItems", orderItemService.getOrderItems());
+        model.addAttribute("orderItems", orderItemService.getOrderItemsWithNotNullReviews());
         return "/admin/Reviews";
     }
 
     @PostMapping("/reviews/{itemId}/approve")
-    public String approveReview(@PathVariable("itemId") Long itemId, Model model) {
+    public String approveReview(@PathVariable("itemId") Long itemId, Model model) throws UnirestException {
         OrderItem orderItem = orderItemService.getOrderItemById(itemId);
         if (orderItem != null) {
             orderItem.setReviewStatus(Status.APPROVED);
             orderItemService.saveOrderItem(orderItem);
+            String subject = "JPA Market: Approve Review";
+            String content = "Your review for the product " + orderItem.getProduct().getName() + " has been approved.";
+            messageService.sendEmail("ja.vietanh@gmail.com", orderItem.getOrder().getBuyer().getUser().getEmail(), subject, content);
         }
         model.addAttribute("item", orderItem);
         return "redirect:/admin/reviews";
     }
 
     @PostMapping("/reviews/{itemId}/reject")
-    public String rejectReview(@PathVariable("itemId") Long itemId, Model model) {
+    public String rejectReview(@PathVariable("itemId") Long itemId, Model model) throws UnirestException {
         OrderItem orderItem = orderItemService.getOrderItemById(itemId);
         if (orderItem != null) {
             orderItem.setReviewStatus(Status.REJECTED);
             orderItemService.saveOrderItem(orderItem);
+            String subject = "JPA Market: Reject Review";
+            String content = "Your review for the product " + orderItem.getProduct().getName() + " has been rejected.";
+            messageService.sendEmail("noreply@shopping.com", orderItem.getOrder().getBuyer().getUser().getEmail(), subject, content);
         }
         model.addAttribute("item", orderItem);
         return "redirect:/admin/reviews";

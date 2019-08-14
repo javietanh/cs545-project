@@ -1,29 +1,166 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Receipt</title>
+
+  <style>
+    .invoice-box {
+      max-width: 800px;
+      margin: auto;
+      padding: 30px;
+      border: 1px solid #eee;
+      box-shadow: 0 0 10px rgba(0, 0, 0, .15);
+      font-size: 16px;
+      line-height: 24px;
+      font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
+      color: #555;
+    }
+
+    .invoice-box table {
+      width: 100%;
+      line-height: inherit;
+      text-align: left;
+    }
+
+    .invoice-box table td {
+      padding: 5px;
+      vertical-align: top;
+    }
+
+    .invoice-box table tr td:nth-child(3) {
+      text-align: right;
+    }
+
+    .invoice-box table tr.top table td {
+      padding-bottom: 20px;
+    }
+
+    .invoice-box table tr.top table td.title {
+      font-size: 45px;
+      line-height: 45px;
+      color: #333;
+    }
+
+    .invoice-box table tr.information table td {
+      padding-bottom: 40px;
+    }
+
+    .invoice-box table tr.heading td {
+      background: #eee;
+      border-bottom: 1px solid #ddd;
+      font-weight: bold;
+    }
+
+    .invoice-box table tr.details td {
+      padding-bottom: 20px;
+    }
+
+    .invoice-box table tr.item td{
+      border-bottom: 1px solid #eee;
+    }
+
+    .invoice-box table tr.item.last td {
+      border-bottom: none;
+    }
+
+    .invoice-box table tr.total td:nth-child(3) {
+      border-top: 2px solid #eee;
+      font-weight: bold;
+    }
+
+    @media only screen and (max-width: 600px) {
+      .invoice-box table tr.top table td {
+        width: 100%;
+        display: block;
+        text-align: center;
+      }
+
+      .invoice-box table tr.information table td {
+        width: 100%;
+        display: block;
+        text-align: center;
+      }
+    }
+
+    /** RTL **/
+    .rtl {
+      direction: rtl;
+      font-family: Tahoma, 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
+    }
+
+    .rtl table {
+      text-align: right;
+    }
+
+    .rtl table tr td:nth-child(2) {
+      text-align: left;
+    }
+  </style>
+</head>
+
 <body>
-    <div>
-        Shipping Address: <span th:text="${order.shippingAddress}"></span><br/>
-        Billing Address: <span th:text="${order.billingAddress}"></span><br/>
-        Total Amount: <span th:text="${order.totalAmount}"></span><br/>
-        Payment Info: <span th:text="${order.paymentInfo}"></span><br/>
-        Ordered Date: <span th:text="${order.orderedDate}"></span><br/>
-        End Date: <span th:text="${order.endDate}"></span><br/>
-        <table class="table">
-            <tr>
-                <th>Product</th>
-                <th>Price</th>
-                <th>Quantity</th>
-                <th>Status</th>
-            </tr>
-
-            <tr th:each="item: ${order.orderItems}">
-                <td th:text="${item.product.name}"></td>
-                <td th:text="${item.product.price}"></td>
-                <td th:text="${item.quantity}"></td>
-                <td th:text="${item.orderStatus}"></td>
-            </tr>
-
+<div class="invoice-box">
+  <table cellpadding="0" cellspacing="0">
+    <tr class="top">
+      <td colspan="3">
+        <table>
+          <tr>
+            <td class="title">JPA Market</td>
+            <td></td>
+            <td th:text="'Invoice #: ' + ${order.id}"> </td>
+          </tr>
         </table>
-    </div>
+      </td>
+    </tr>
+
+    <tr class="information">
+      <td colspan="3">
+        <table>
+          <tr>
+            <td>
+              JPA Market<br/>
+              1000 N 4th St<br/>
+              Fairfield, IA 52557
+            </td>
+            <td></td>
+            <td>
+              <span th:text="${order.buyer.user.firstName} + ' ' + ${order.buyer.user.lastName}"></span><br/>
+              <span th:text="${order.buyer.user.email}"></span><br/>
+              <span th:text="${order.billingAddress}"></span>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr class="heading">
+      <td>Payment Method</td>
+      <td></td>
+      <td th:text="${order.paymentMethod} + '#'"></td>
+    </tr>
+    <tr class="details">
+      <td col="3" th:text="${order.paymentInfo}"></td>
+    </tr>
+
+    <tr class="heading">
+      <td>Item</td>
+      <td>Quantity</td>
+      <td>Price</td>
+    </tr>
+
+    <tr class="item" th:each="item: ${order.orderItems}">
+      <td th:text="${item.product.name}"></td>
+      <td th:text="'$' + ${item.product.price}"></td>
+      <td th:text="${item.quantity}"></td>
+    </tr>
+
+    <tr class="total">
+      <td></td>
+      <td></td>
+      <td th:text="'Total: $' + ${order.totalAmount}">
+      </td>
+    </tr>
+  </table>
+</div>
 </body>
 </html>

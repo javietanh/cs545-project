@@ -14,6 +14,11 @@ public class AdvertServiceImpl implements AdvertService {
     AdvertRepository advertRepository;
 
     @Override
+    public List<Advert> getAll() {
+        return (List<Advert>)advertRepository.findAll();
+    }
+
+    @Override
     public Advert saveAdvert(Advert advert) {
         return advertRepository.save(advert);
     }

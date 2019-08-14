@@ -8,7 +8,7 @@
     <div class="row">
         <div class="col-12">
             <div class="row">
-                <div class="col-12 text-right mb-3">
+                <div class="col-12 text-right mb-3" th:if="${allowUpdateProduct == true}">
                     <a th:href="@{/seller/product/add}"
                        class="btn btn-primary"><i class="fa fa-plus"></i>  Add New Product</a>
                 </div>
@@ -53,9 +53,11 @@
                         </td>
                         <td class="align-middle">
                             <a title="Edit" class="btn btn-primary"
+                               th:if="${allowUpdateProduct == true}"
                                th:href="@{/seller/product/{id}(id=${prod.id})}">
                                 <i class="fa fas fa-pen"></i></a>
                             <a title="Delete" class="btn btn-warning"
+                               th:if="${allowUpdateProduct == true}"
                                th:href="@{/seller/product/delete/{id}(id=${prod.id})}"><i
                                     class="fa fas fa-trash text-danger"></i></a>
                         </td>

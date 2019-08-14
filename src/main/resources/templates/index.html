@@ -10,9 +10,7 @@
 
             <h1 class="my-4">Shop Name</h1>
             <div class="list-group">
-                <a href="#" class="list-group-item">Category 1</a>
-                <a href="#" class="list-group-item">Category 2</a>
-                <a href="#" class="list-group-item">Category 3</a>
+                <a href="#" class="list-group-item" th:each="category : ${categories}" th:text="${category.name}"></a>
             </div>
 
         </div>
@@ -57,14 +55,13 @@
 
                 <div class="col-lg-4 col-md-6 mb-4" th:each="product : ${products}" >
                     <div class="card h-100">
-                        <a href="product.html"><img class="card-img-top"  th:src="${product.image}" th:alt="${product.name}"></a>
+                        <a th:href="@{'/product/' + ${product.id}}"><img class="card-img-top"  th:src="${product.image}" th:alt="${product.name}"></a>
                         <div class="card-body">
                             <h4 class="card-title">
                                 <a th:href="@{'/product/' + ${product.id}}" th:text="${product.name}">Item One</a>
                             </h4>
                             <h5 th:text= "'$' + ${product.price}" ></h5>
-                            <p class="card-text" th:text="${product.description}" >Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam
-                                aspernatur!</p>
+                            <p class="card-text" th:text="${product.description}" ></p>
                         </div>
                         <div class="card-footer">
                             <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>

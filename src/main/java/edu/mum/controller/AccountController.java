@@ -314,7 +314,7 @@ public class AccountController {
         seller.setUser(saveUser);
 
         // default set seller status to unapproved.
-        seller.setStatus(SellerStatus.PENDING);
+        seller.setStatus(Status.PENDING);
 
         // create new seller
         sellerService.save(seller);

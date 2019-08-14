@@ -13,6 +13,12 @@ VALUES (4, 'Second', 'Buyer', 'buyer2@shopping.com', '$2a$10$b.9CsDYMBdFIMB5ja.l
 INSERT INTO user (id, first_name, last_name, email, password, phone, address, role, register_date)
 VALUES (5, 'Third', 'Buyer', 'buyer3@shopping.com', '$2a$10$b.9CsDYMBdFIMB5ja.lg0.3/OHFiv5kMn7yR.FKCZY3JScMRPvE.G', '123-456-7890', '1000 N 4th St, Fairfield, IA', 'BUYER', now());
 
+INSERT INTO user (id, first_name, last_name, email, password, phone, address, role, register_date)
+VALUES (6, 'Second', 'Seller', 'seller2@shopping.com', '$2a$10$13wR9hYkIwBP0WIT525/XO23UfTvtjUKjbHCLlwAzYNzF3IkBlZRy', '123-456-7890', '1000 N 4th St, Fairfield, IA', 'SELLER', now());
+
+INSERT INTO user (id, first_name, last_name, email, password, phone, address, role, register_date)
+VALUES (7, 'Second', 'Seller', 'seller3@shopping.com', '$2a$10$13wR9hYkIwBP0WIT525/XO23UfTvtjUKjbHCLlwAzYNzF3IkBlZRy', '123-456-7890', '1000 N 4th St, Fairfield, IA', 'SELLER', now());
+
 INSERT INTO buyer (id, points, user_id) VALUES (1, 0, 1);
 
 INSERT INTO buyer (id, points, user_id) VALUES (2, 0, 4);
@@ -21,6 +27,12 @@ INSERT INTO buyer (id, points, user_id) VALUES (3, 0, 5);
 
 INSERT INTO seller (id, name, description, user_id, status, picture)
 VALUES (1, 'Phoenix', 'Phoenix offers fashion and quality at the best price', 2, 'APPROVED', '/img/shop/4a8ed458-a506-4e36-87f0-67b1614a2eeb.jpg');
+
+INSERT INTO seller (id, name, description, user_id, status, picture)
+VALUES (2, 'Blue Sand', 'Blue Sand offers fashion and quality at the best price', 6, 'PENDING', '/img/shop/bluesand-fashion-shop.jpg');
+
+INSERT INTO seller (id, name, description, user_id, status, picture)
+VALUES (3, 'Fashion Shop', 'Fashion Shop offers fashion and quality at the best price', 7, 'PENDING', '/img/shop/3D-Fashion-Shop-11-Model-Free-Download-3.jpg');
 
 INSERT INTO following (buyer_id, seller_id)
 VALUES (1, 1);
@@ -77,19 +89,19 @@ INSERT INTO orders (id, total_amount, buyer_id, shipping_address, billing_addres
 VALUES (3, '19.99', 3, '1000 N 4th St, Fairfield, IA', '1000 N 4th St, Fairfield, IA', 'CREDIT CARD', 'Paid by the card number XXXX XXXX XXXX 3456', 'COMPLETED', now(), false);
 
 INSERT INTO order_item (id, product_id, order_id, quantity, review, review_status, rating, order_status)
-VALUES (1, 4, 1, 1, 'Nice jeans', true, 4, 'ORDERED');
+VALUES (1, 4, 1, 1, 'Nice jeans', 'APPROVED', 4, 'ORDERED');
 
 INSERT INTO order_item (id, product_id, order_id, quantity, review, review_status, rating, order_status)
-VALUES (2, 5, 1, 1, 'Nice shirt', true, 4, 'ORDERED');
+VALUES (2, 5, 1, 1, 'Nice shirt', 'PENDING', 4, 'ORDERED');
 
 INSERT INTO order_item (id, product_id, order_id, quantity, review, review_status, rating, order_status)
-VALUES (3, 6, 1, 1, 'Nice blazer', true, 4, 'ORDERED');
+VALUES (3, 6, 1, 1, 'Nice blazer', 'PENDING', 4, 'ORDERED');
 
 INSERT INTO order_item (id, product_id, order_id, quantity, review, review_status, rating, order_status)
-VALUES (4, 4, 2, 1, 'Too tight!!!', true, 1, 'DELIVERED');
+VALUES (4, 4, 2, 1, 'Too tight!!!', 'APPROVED', 1, 'DELIVERED');
 
 INSERT INTO order_item (id, product_id, order_id, quantity, review, review_status, rating, order_status)
-VALUES (5, 4, 3, 1, 'It does not look like the photo', true, 3, 'DELIVERED');
+VALUES (5, 4, 3, 1, 'It does not look like the photo', 'APPROVED', 3, 'DELIVERED');
 
 INSERT INTO message (id, content, received_date, read, user_id)
 VALUES (1, 'From Phoenix shop: New product is added', now(), false, 1);
@@ -103,3 +115,10 @@ VALUES (1 ,'banner1', 'long sleeves', '/img/adverts/5be8da29-cd51-4b56-8ef2-5e16
 INSERT INTO advert (id, title, description , image, url)
 VALUES (2, 'banner2', 'women clothing', '/img/adverts/5daab05d-dd51-43f8-9f36-b84fef1a3377.jpg', 'banner2.com');
 VALUES (2, 'From Phoenix shop: New product is added', now(), false, 1);
+
+INSERT INTO category (id, name, description)
+VALUES (1, 'pants', 'pants');
+INSERT INTO category (id, name, description)
+VALUES (2, 'jackets', 'jackets');
+INSERT INTO category (id, name, description)
+VALUES (3, 'shirts', 'shirts');

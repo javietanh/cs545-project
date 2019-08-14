@@ -12,4 +12,5 @@ public interface SellerService {
     Seller getSellerByUser(User user);
     List<Buyer> getFollowers(Long sellerId);
     Seller updateSeller(Seller seller);
+    List<Seller> getAllSellers();
 }

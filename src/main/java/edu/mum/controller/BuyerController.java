@@ -32,6 +32,12 @@ public class BuyerController {
     @Autowired
     private UserService userService;
 
+    // buyer homepage
+    @GetMapping(value = {"/buyer", "/buyer/dashboard"})
+    public String buyerHomepage() {
+        return "/buyer/dashboard";
+    }
+
     @GetMapping("/register/buyer")
     public String inputBuyer(@ModelAttribute("buyer") Buyer buyer) {
         return "/buyer/BuyerForm";

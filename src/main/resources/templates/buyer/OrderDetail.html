@@ -8,43 +8,116 @@
         <small>Implement your buyer function on this area</small>
     </p>
 
-    <div >
-        Shipping Address: <span th:text="${order.shippingAddress}"></span></br>
-        Billing Address: <span th:text="${order.billingAddress}"></span></br>
-        Total Amount: <span th:text="${order.totalAmount}"></span></br>
-        Payment Info: <span th:text="${order.paymentInfo}"></span></br>
-        Ordered Date: <span th:text="${order.orderedDate}"></span></br>
-        End Date: <span th:text="${order.endDate}"></span></br>
-        <form th:object="${order}" action="#" th:action="@{/orders/} + ${order.id} + @{/cancel}" method="post">
-            <input type="submit" value="Cancel" th:if="${order.status.toString() == 'NEW'}"/>
-        </form>
-        <form th:object="${order}" action="#" th:action="@{/orders/} + ${order.id} + @{/download}" method="post">
-            <input type="submit" value="Download Receipt"/>
-        </form>
-        <table class="table">
-            <tr>
-                <th>Product</th>
-                <th>Price</th>
-                <th>Quantity</th>
-                <th>Status</th>
-            </tr>
+    <div>
+        <div>
+            <dl class="row">
+                <dt class="col-sm-3">Status:</dt>
+                <dd class="col-sm-9" th:text="${order.status}"></dd>
 
-            <tr th:each="item: ${order.orderItems}">
-                <td th:text="${item.product.name}"></td>
-                <td th:text="${item.product.price}"></td>
-                <td th:text="${item.quantity}"></td>
-                <td th:text="${item.orderStatus}"></td>
-                <td>
-                    <form action="#" th:action="@{/item/} + ${item.id} + @{/review}">
-                        <input type="submit" value="Review"/>
-                    </form>
-                    <form action="#" th:action="@{/item/} + ${item.id} + @{/cancel}">
-                        <input type="submit" value="Cancel" th:if="${item.orderStatus.toString() == 'ORDERED'}/>
-                    </form>
-                </td>
-            </tr>
+                <dt class="col-sm-3">Shipping Address:</dt>
+                <dd class="col-sm-9" th:text="${order.shippingAddress}"></dd>
 
-        </table>
+                <dt class="col-sm-3">Billing Address:</dt>
+                <dd class="col-sm-9" th:text="${order.billingAddress}"></dd>
+
+                <dt class="col-sm-3">Total Amount:</dt>
+                <dd class="col-sm-9" th:text="${order.totalAmount}"></dd>
+
+                <dt class="col-sm-3">Payment Info:</dt>
+                <dd class="col-sm-9" th:text="${order.paymentInfo}"></dd>
+
+                <dt class="col-sm-3">Ordered Date:</dt>
+                <dd class="col-sm-9" th:text="${order.orderedDate}"></dd>
+
+                <dt class="col-sm-3">End Date:</dt>
+                <dd class="col-sm-9" th:text="${order.endDate}"></dd>
+
+            </dl>
+
+        </div>
+        <div class="row">
+            <div class="col-xs-6 pl-3">
+                <form th:object="${order}" action="#" th:action="@{/orders/} + ${order.id} + @{/cancel}" method="post">
+                    <input type="submit" value="Cancel" th:if="${order.status.toString() == 'NEW'}" class="btn btn-info btn-sm"/>
+                </form>
+            </div>
+<!--            <div class="col-xs-6 pl-3">-->
+<!--                <form th:object="${order}" action="#" th:action="@{/orders/} + ${order.id} + @{/complete}"-->
+<!--                      method="post">-->
+<!--                    <input type="submit" value="Complete" class="bth btn-success btn-sm" />-->
+<!--                </form>-->
+<!--            </div>-->
+            <div class="col-xs-6 pl-3">
+                <form th:object="${order}" action="#" th:action="@{/orders/} + ${order.id} + @{/download}" method="post">
+                    <input type="submit" value="Download Receipt" class="btn btn-danger btn-sm"/>
+                </form>
+            </div>
+        </div>
+        <!--        <table class="table">-->
+        <!--            <tr>-->
+        <!--                <th>Product</th>-->
+        <!--                <th>Price</th>-->
+        <!--                <th>Quantity</th>-->
+        <!--                <th>Status</th>-->
+        <!--            </tr>-->
+
+        <!--            <tr th:each="item: ${order.orderItems}">-->
+        <!--                <td th:text="${item.product.name}"></td>-->
+        <!--                <td th:text="${item.product.price}"></td>-->
+        <!--                <td th:text="${item.quantity}"></td>-->
+        <!--                <td th:text="${item.orderStatus}"></td>-->
+        <!--                <td>-->
+        <!--                    <form action="#" th:action="@{/item/} + ${item.id} + @{/review}">-->
+        <!--                        <input type="submit" value="Review"/>-->
+        <!--                    </form>-->
+        <!--                </td>-->
+        <!--            </tr>-->
+
+        <!--        </table>-->
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Status</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tfoot>
+                    <tr>
+                        <th>Product</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Status</th>
+                        <th></th>
+                    </tr>
+                    </tfoot>
+                    <tbody>
+                    <tr th:each="item: ${order.orderItems}">
+                        <td th:text="${item.product.name}"></td>
+                        <td th:text="${item.product.price}"></td>
+                        <td th:text="${item.quantity}"></td>
+                        <td th:text="${item.orderStatus}"></td>
+                        <td>
+                            <form action="#" th:action="@{/item/} + ${item.id} + @{/review}">
+                                <input type="submit" value="Review" class="btn btn-info"/>
+                            </form>
+                        </td>
+                        <td>
+                            <form action="#" th:action="@{/item/} + ${item.id} + @{/cancel}">
+                                <input type="submit" value="Cancel" th:if="${item.orderStatus.toString() == 'ORDERED'}" class="btn btn-info"/>
+                            </form>
+                        </td>
+
+                    </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 </div>
 </html>

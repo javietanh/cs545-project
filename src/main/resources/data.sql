@@ -157,7 +157,15 @@ INSERT INTO message (id, content, received_date, read, user_id)
 VALUES (11, 'From Phoenix shop: New product is added', LocalDateTime.now(), false, 1);
 
 INSERT INTO advert (id, title, description , image, url)
-VALUES (1 ,'pirula', 'pirulita pechi', '/img/adverts/8423f0d6-e901-4ded-90aa-a91538ff4af4.jpeg', 'pirula.com');
+VALUES (1 ,'banner1', 'long sleeves', '/img/adverts/5be8da29-cd51-4b56-8ef2-5e16a927027a.jpg', 'banner.com');
 
 INSERT INTO advert (id, title, description , image, url)
-VALUES (2, 'pirula2', 'pirulita pechi2', '/img/adverts/84ce436c-854a-4440-9d35-0df93a8e05b0.jpg', 'pirula2.com');
+VALUES (2, 'banner2', 'women clothing', '/img/adverts/5daab05d-dd51-43f8-9f36-b84fef1a3377.jpg', 'banner2.com');
+VALUES (2, 'From Phoenix shop: New product is added', now(), false, 1);
+
+INSERT INTO category (id, name, description)
+VALUES (1, 'pants', 'pants');
+INSERT INTO category (id, name, description)
+VALUES (2, 'jackets', 'jackets');
+INSERT INTO category (id, name, description)
+VALUES (3, 'shirts', 'shirts');

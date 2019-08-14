@@ -4,75 +4,48 @@
       layout:decorate="~{layouts/user}">
 <div class="container" layout:fragment="content">
 
-    <div class="card mb-3">
-        <div class="card-header">
-            <i class="fas fa-table"></i>
-            Data Table Example
+    <div class="row mb-3">
+        <div class="col-12 text-right">
+            <a th:href="@{/admin/addAdvert}" class="btn btn-success"><i class="fa fa-plus"></i> Add Advertisement</a>
         </div>
-        <a th:href="@{/admin/addAdvert}" class="btn btn-success">Add Advertisment</a>
-        <div class="card-body">
-            <div class="table-responsive">
-                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                    <thead>
-                    <tr>
-                        <th>Title</th>
-                        <th>Description</th>
-                        <th>Image</th>
-<!--                        <th>Url</th>-->
-<!--                        <th>Count</th>-->
-<!--                        <th>Creation Date</th>-->
-<!--                        <th>Expiration Date</th>-->
-                        <th>Action</th>
-                    </tr>
-                    </thead>
-                    <tfoot>
-                    <tr>
-                        <th>Title</th>
-                        <th>Description</th>
-                        <th>Image</th>
-<!--                        <th>Url</th>-->
-<!--                        <th>Count</th>-->
-<!--                        <th>Creation Date</th>-->
-<!--                        <th>Expiration Date</th>-->
-                        <th>Action</th>
-                    </tr>
-                    </tfoot>
-                    <tbody>
-                    <tr th:each="ad : ${adverts}">
-                        <td th:text="${ad.title}"></td>
-                        <td th:text="${ad.description}"></td>
-                        <td>
-                            <img th:src="${ad.image}" th:alt="${ad.title}" class="img-thumbnail w-25">
-                        </td>
-<!--                        <td th:text="${ad.url}"></td>-->
-<!--                        <td th:text="${ad.count}"></td>-->
-<!--                        <td th:text="${ad.creationDateTime}"></td>-->
-<!--                        <td th:text="${ad.expirationDateTime}"></td>-->
-                        <td>
-                            <a th:href="@{'/admin/update/' + ${ad.id}}" class="btn btn-info">Update</a>
-                            <a th:href="@{'/admin/delete/' + ${ad.id}}" class="btn btn-danger">Delete</a>
-                        </td>
-
-                    </tr>
-<!--                    <tr>-->
-<!--                        <form th:action="@{/admin/addAdvert}" th:object="${advert}" th:method="POST" enctype="multipart/form-data">-->
-<!--                            <td><input id="title" name="title" th:field="*{title}"></td>-->
-<!--                            <td><input id="description" name="description" th:field="*{description}"></td>-->
-<!--&lt;!&ndash;                            <td><input id="image" name="image"></td>&ndash;&gt;-->
-<!--                            <td><input type="file" th:field="*{imageUpload}"></td>-->
-<!--&lt;!&ndash;                            <td><input id="url" name="url" th:field="*{url}"></td>&ndash;&gt;-->
-<!--&lt;!&ndash;                            <td></td>&ndash;&gt;-->
-<!--&lt;!&ndash;                            <td></td>&ndash;&gt;-->
-<!--&lt;!&ndash;                            <td></td>&ndash;&gt;-->
-<!--                            <td><input type="submit" value="Add Advertisment"></td>-->
-<!--                        </form>-->
-<!--                    </tr>-->
-
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
     </div>
+
+    <div class="row">
+        <div class="col-12">
+            <table class="table table-bordered" id="grid" width="100%" cellspacing="0">
+                <thead>
+                <tr>
+                    <th style="width: 200px">Image</th>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th style="width: 75px"></th>
+                </tr>
+                </thead>
+                <tfoot>
+                <tr>
+                    <th>Image</th>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th></th>
+                </tr>
+                </tfoot>
+                <tbody>
+                <tr th:each="ad : ${adverts}">
+                    <td>
+                        <img th:src="${ad.image}" th:alt="${ad.title}" class="img-thumbnail w-100">
+                    </td>
+                    <td th:text="${ad.title}"></td>
+                    <td th:text="${ad.description}"></td>
+                    <td class="align-middle text-center">
+                        <a th:href="@{/admin/update/{id}(id=${ad.id})}" class="btn btn-info" title="Update"><i class="fa fas fa-pen"></i></a>
+                        <a th:href="@{/admin/delete/{id}(id=${ad.id})}" class="btn btn-danger" title="Delete"><i class="fa fas fa-trash"></i></a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="m-5"></div>
 </div>
 </html>

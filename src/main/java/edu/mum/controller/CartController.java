@@ -2,6 +2,7 @@ package edu.mum.controller;
 
 import edu.mum.domain.Buyer;
 import edu.mum.domain.CartItem;
+import edu.mum.domain.Product;
 import edu.mum.domain.User;
 import edu.mum.domain.view.CartInfo;
 import edu.mum.service.BuyerService;
@@ -12,8 +13,6 @@ import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -32,27 +31,38 @@ public class CartController {
     private UserService userService;
 
     @GetMapping(value = {"/buyer/cart"})
-    public String getShoppingCartForm(){
+    public String getShoppingCartForm() {
         return "/buyer/ShoppingCart";
     }
 
     @GetMapping("/buyer/shoppingCart")
     @ResponseBody
-    public List<CartInfo> getCart(Model model) {
-        Authentication auth  = SecurityContextHolder.getContext().getAuthentication();
-        User user = userService.findByEmail(auth.getName());
-        Buyer buyer = buyerService.getBuyerByUser(user);
-        List<CartItem> cartItems = cartService.getCartByBuyerId(buyer.getId());
-        List<CartInfo> cart = new ArrayList<CartInfo>();
-        for (CartItem ci : cartItems){
-            CartInfo c = new CartInfo();
-            c.setId(ci.getId());
-            c.setProductName(ci.getProduct().getName());
-            c.setProductPrice(ci.getProduct().getPrice());
-            c.setQuantity(ci.getQuantity());
-            cart.add(c);
+    public List<CartInfo> getCart() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null) {
+            User user = userService.findByEmail(auth.getName());
+            if (user != null) {
+                Buyer buyer = buyerService.getBuyerByUser(user);
+                if (buyer != null) {
+                    List<CartItem> cartItems = cartService.getCartByBuyerId(buyer.getId());
+                    List<CartInfo> items = new ArrayList<>();
+
+                    for (CartItem ci : cartItems) {
+                        Product product = ci.getProduct();
+                        items.add(new CartInfo(ci.getId(),
+                                product.getName(),
+                                product.getPrice(),
+                                product.getImage(),
+                                ci.getQuantity()
+                        ));
+                    }
+
+                    return items;
+                }
+            }
         }
-        return cart;
+
+        return null;
     }
 
     @PostMapping("/buyer/cart/add")

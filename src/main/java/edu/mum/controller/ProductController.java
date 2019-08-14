@@ -1,10 +1,7 @@
 package edu.mum.controller;
 
 import edu.mum.ShoppingApplication;
-import edu.mum.domain.CartItem;
-import edu.mum.domain.OrderItem;
-import edu.mum.domain.Product;
-import edu.mum.domain.User;
+import edu.mum.domain.*;
 import edu.mum.service.*;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +14,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
@@ -30,10 +26,11 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Controller
-@RequestMapping(value = {"/seller/product"})
 public class ProductController {
+
     @Autowired
     private ProductService productService;
+
     @Autowired
     private OrderItemService orderItemService;
 
@@ -42,42 +39,92 @@ public class ProductController {
 
     @Autowired
     private BuyerService buyerService;
+
     @Autowired
     private CartItemService cartItemService;
 
-    //hey mr David
+    // home page
+    @GetMapping("/product/{productId}")
+    public String loadProduct(@PathVariable("productId") Long id, Model model) {
+        Product product = productService.findById(id);
 
+        model.addAttribute("product", product);
+        List<OrderItem> orderItems = orderItemService.getOrderItems().stream().filter(x -> x.getProduct().equals(product)).collect(Collectors.toList());
+        model.addAttribute("orderItems", orderItems);
+        Double rating = 0.0;
+        if (orderItems.size() != 0) {
+            rating = orderItems.stream().mapToDouble(x -> x.getRating()).average().getAsDouble();
+        }
+        model.addAttribute("rating", rating);
+        Seller seller = product.getSeller();
+        model.addAttribute("seller", seller);
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.findByEmail(auth.getName());
+        Buyer buyer = buyerService.getBuyerByUser(user);
+        if(buyer != null){
+            if(buyerService.getFollowings(buyer.getId()).contains(seller)){
+                model.addAttribute("follow",1);
+            } else {
+                model.addAttribute("follow", 2);
+            }
+        } else {
+            model.addAttribute("follow", 0);
+        }
 
-    @GetMapping(value = {"", "/", "/list"})
+        return "product";
+    }
+
+    @GetMapping("/product/addToCart/{productId}")
+    public String addToCart(@PathVariable("productId") Long productId) {
+        Product newProduct = productService.findById(productId);
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = new User();
+        if (!auth.getPrincipal().equals("anonymousUser")) {
+            String email = auth.getName();
+            user = userService.findByEmail(email);
+
+        } else {
+            return "redirect:/account/login";
+        }
+        CartItem newCartItem = new CartItem();
+        newCartItem.setProduct(newProduct);
+        newCartItem.setBuyer(buyerService.getBuyerByUser(user));
+        newCartItem.setQuantity(1);
+        cartItemService.saveCartItem(newCartItem);
+        return "redirect:/";
+    }
+
+    // seller
+    @GetMapping(value = {"/seller/product"})
     public String getProductList(Model model) {
         model.addAttribute("products", productService.getAll());
         return "/seller/productList";
     }
 
-    @GetMapping(value = {"/delete/{id}"})
-    public String deleteProduct(@PathVariable(value = "id") Long id){
+    @GetMapping(value = {"/seller/product/delete/{id}"})
+    public String deleteProduct(@PathVariable(value = "id") Long id) {
         Product product = productService.findById(id);
-        if(product != null)
+        if (product != null)
             productService.delete(product);
-        return "redirect:/";
+        return "redirect:/seller/product";
     }
 
-    @GetMapping(value = {"/add"})
-    public String addProductForm(Model model){
+    @GetMapping(value = {"/seller/product/add"})
+    public String addProductForm(Model model) {
         model.addAttribute("product", new Product());
         return "/seller/productEdit";
     }
 
-    @GetMapping(value = {"/{id}"})
-    public String editProduct(@PathVariable(value = "id", required = false) Long id, Model model){
-        if(id != null){
+    @GetMapping(value = {"/seller/product/{id}"})
+    public String editProduct(@PathVariable(value = "id", required = false) Long id, Model model) {
+        if (id != null) {
             model.addAttribute("product", productService.findById(id));
         }
         return "/seller/productEdit";
     }
 
-    @PostMapping(value = {"/{id}"})
-    public String saveProduct(@Valid Product product, BindingResult result, @PathVariable(value = "id", required = false) Long id){
+    @PostMapping(value = {"/seller/product/{id}"})
+    public String saveProduct(@Valid Product product, BindingResult result, @PathVariable(value = "id", required = false) Long id) {
 
         // upload file.
         MultipartFile upload = product.getUpload();
@@ -102,12 +149,12 @@ public class ProductController {
             }
         }
 
-        if(result.hasErrors()) {
+        if (result.hasErrors()) {
             return "/seller/productEdit";
         }
 
         // get the product.
-        if(id != null){
+        if (id != null) {
             Product updateProduct = productService.findById(id);
             updateProduct.setName(product.getName());
             updateProduct.setDescription(product.getDescription());
@@ -115,47 +162,10 @@ public class ProductController {
             updateProduct.setImage(product.getImage());
             updateProduct.setAvailable(product.getAvailable());
             productService.save(updateProduct);
-        }else{
+        } else {
             productService.save(product);
         }
 
         return "redirect:/seller/product";
     }
-
-    @GetMapping("/product/{productId}")
-    public String loadProduct(@PathVariable("productId") Long id, Model model){
-        Product product = productService.findById(id);
-
-        model.addAttribute("product", product);
-        List<OrderItem> orderItems = orderItemService.getOrderItems().stream().filter(x -> x.getProduct().equals(product)).collect(Collectors.toList());
-        model.addAttribute("orderItems", orderItems);
-        Double rating = 0.0;
-        if(orderItems.size() != 0) {
-            rating = orderItems.stream().mapToDouble(x -> x.getRating()).average().getAsDouble();
-        }
-        model.addAttribute("rating", rating);
-
-        return "product";
-    }
-
-    @GetMapping("/product/addToCart/{productId}")
-    public String addToCart(@PathVariable("productId") Long productId){
-        Product newProduct = productService.findById(productId);
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User user = new User();
-        if(!auth.getPrincipal().equals("anonymousUser")){
-            String email = auth.getName();
-            user = userService.findByEmail(email);
-
-        } else {
-            return "redirect:/account/login";
-        }
-        CartItem newCartItem = new CartItem();
-        newCartItem.setProduct(newProduct);
-        newCartItem.setBuyer(buyerService.getBuyerByUser(user));
-        newCartItem.setQuantity(1);
-        cartItemService.saveCartItem(newCartItem);
-        return "redirect:/";
-    }
-
 }

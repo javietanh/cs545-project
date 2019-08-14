@@ -1,45 +1,29 @@
 <html lang="en"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       xmlns:th="http://www.thymeleaf.org/"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorate="~{layouts/home}">
 <div class="container" layout:fragment="content">
 
     <div class="row">
 
         <div class="col-lg-3">
-
             <h1 class="my-4">Shop Name</h1>
             <div class="list-group">
-                <a href="#" class="list-group-item">Category 1</a>
-                <a href="#" class="list-group-item">Category 2</a>
-                <a href="#" class="list-group-item">Category 3</a>
+                <a href="#" class="list-group-item" th:each="category : ${categories}" th:text="${category.name}"></a>
             </div>
-
         </div>
-        <!-- /.col-lg-3 -->
-
         <div class="col-lg-9">
 
             <div id="carouselExampleIndicators" class="carousel slide my-4" data-ride="carousel">
-<!--                <ol class="carousel-indicators">-->
-<!--                    <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>-->
-<!--                    <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>-->
-<!--                    <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>-->
-<!--                </ol>-->
-
-                <div class="carousel-inner" role="listbox" >
-                    <div class="carousel-item" th:each="ad : ${adverts}" th:classappend="${adStat.index == 0} ? 'active' : '' ">
-                        <img class="d-block img-fluid" th:src="${ad.image}" alt="First slide">
+                <div class="carousel-inner" role="listbox">
+                    <div class="carousel-item" th:each="ad : ${adverts}"
+                         th:classappend="${adStat.index == 0} ? 'active' : '' ">
+                        <a th:href="'https://' + ${ad.url}">
+                            <img class="d-block img-fluid" th:src="${ad.image}" alt="First slide"
+                                 style="height: 250px; width: 100%; ">
+                        </a>
                     </div>
-<!--                    <div class="carousel-item" th:unless="${adStat.index > 0}">-->
-<!--                        <img class="d-block img-fluid" th:src="${ad.image}" alt="First slide">-->
-<!--                    </div>-->
-<!--                    <div class="carousel-item">-->
-<!--                        <img class="d-block img-fluid" src="http://placehold.it/900x350" alt="Second slide">-->
-<!--                    </div>-->
-<!--                    <div class="carousel-item">-->
-<!--                        <img class="d-block img-fluid" src="http://placehold.it/900x350" alt="Third slide">-->
-<!--                    </div>-->
                 </div>
                 <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -51,36 +35,34 @@
                 </a>
             </div>
 
-            <div class="row" >
-
-                <div class="col-lg-4 col-md-6 mb-4" th:each="product : ${products}" >
+            <div class="row">
+                <div class="col-lg-4 col-md-6 mb-4" th:each="product : ${products}">
                     <div class="card h-100">
-                        <a href="product.html"><img class="card-img-top"  th:src="${product.image}" th:alt="${product.name}"></a>
+                        <a th:href="@{'/product/' + ${product.id}}">
+                            <img class="card-img-top" th:src="${product.image}" th:alt="${product.name}">
+                        </a>
                         <div class="card-body">
                             <h4 class="card-title">
                                 <a th:href="@{'/product/' + ${product.id}}" th:text="${product.name}">Item One</a>
                             </h4>
-                            <h5 th:text= "'$' + ${product.price}" ></h5>
-                            <p class="card-text" th:text="${product.description}" >Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam
-                                aspernatur!</p>
+                            <h5 th:text="'$' + ${product.price}"></h5>
+                            <p class="card-text" th:text="${product.description}"></p>
                         </div>
                         <div class="card-footer">
+                            <form sec:authorize="isAnonymous() || hasAuthority('BUYER')"
+                                  th:action="@{/product/{id}/cart(id=${product.id})}" method="post" class="m-0 p-0">
+                                <button title="Add to Cart" class="float-right btn btn-outline-light m-0 p-0"
+                                        type="submit">
+                                    <i class="fa fas fa-cart-plus fa-2x text-success"></i>
+                                </button>
+                            </form>
                             <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
                         </div>
                     </div>
                 </div>
-
-
-
             </div>
-            <!-- /.row -->
-
         </div>
-        <!-- /.col-lg-9 -->
-
     </div>
-    <!-- /.row -->
-
 
 </div>
 </html>

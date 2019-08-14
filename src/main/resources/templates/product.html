@@ -9,11 +9,29 @@
     <div class="row">
 
         <div class="col-lg-3">
-            <h1 class="my-4">Shop Name</h1>
+
+            <h1 class="my-4" th:text="${seller.name}">Shop Name</h1>
             <div class="list-group">
-                <a href="#" class="list-group-item active">Category 1</a>
-                <a href="#" class="list-group-item">Category 2</a>
-                <a href="#" class="list-group-item">Category 3</a>
+                <img th:src="${seller.picture}" th:alt="seller.picture" style="width: 100%;">
+                <span th:text="${seller.description}"></span>
+                <form th:action="(${follow} == 1) ? @{'/buyer/seller/' + ${seller.id} + '/follow'} :
+                @{'/buyer/seller/' + ${seller.id} + '/unfollow'}" th:method="POST">
+
+                    <input type="submit" class="btn btn-success" th:hidden="(${follow} > 0) ? 'false' : 'true' "
+                           th:value="(${follow} == 1) ? 'Unfollow' : 'Follow' "/>
+
+                </form>
+            </div>
+            <div class="list-group">
+                <h2 class="my-3">Related Products</h2>
+
+                <div class="card h-100 p-3" th:each="product,iterStat : ${seller.products}" th:if="${iterStat.index}<3">
+                    <a th:href="@{'/product/' + ${product.id}}">
+                        <img th:src="${product.image}" class="img-thumbnail">
+                    </a>
+                    <a th:href="${product.image}" th:text="${product.name}"></a>
+                </div>
+
             </div>
         </div>
         <!-- /.col-lg-3 -->
@@ -25,10 +43,17 @@
                 <div class="card-body">
                     <h3 class="card-title" th:text="${product.name}"></h3>
                     <h4>$24.99</h4>
-                    <a th:href="@{'/product/addToCart/'+${product.id}}" class="btn btn-success">Add to Cart</a>
+                    <form sec:authorize="hasAuthority('BUYER') || isAnonymous()"
+                          th:action="@{/product/{id}/cart(id=${product.id})}"
+                          method="post" class="m-0 p-0">
+                        <button title="Add to Cart" class="btn btn-success"
+                                type="submit">
+                            <i class="fa fas fa-cart-plus"></i> Add to Cart
+                        </button>
+                    </form>
                     <p class="card-text" th:text="${product.description}"></p>
                     <span class="text-warning">&#9733; &#9733; &#9733; &#9733; &#9734;</span>
-                    <span th:if="${rating == 0}" >No rating</span>
+                    <span th:if="${rating == 0}">No rating</span>
                     <span th:unless="${rating == 0}" th:text="${rating} + ' Stars'"></span>
                 </div>
             </div>
@@ -42,24 +67,11 @@
                     <p th:text="${orderItem.review}"></p>
                     <small class="text-muted">Posted by Anonymous on 3/1/17</small>
                     <hr>
-<!--                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis et enim aperiam inventore,-->
-<!--                        similique necessitatibus neque non! Doloribus, modi sapiente laboriosam aperiam fugiat laborum.-->
-<!--                        Sequi mollitia, necessitatibus quae sint natus.</p>-->
-<!--                    <small class="text-muted">Posted by Anonymous on 3/1/17</small>-->
-<!--                    <hr>-->
-<!--                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis et enim aperiam inventore,-->
-<!--                        similique necessitatibus neque non! Doloribus, modi sapiente laboriosam aperiam fugiat laborum.-->
-<!--                        Sequi mollitia, necessitatibus quae sint natus.</p>-->
-<!--                    <small class="text-muted">Posted by Anonymous on 3/1/17</small>-->
-<!--                    <hr>-->
                     <a href="#" class="btn btn-success">Leave a Review</a>
                 </div>
             </div>
-            <!-- /.card -->
 
         </div>
-        <!-- /.col-lg-9 -->
-
     </div>
 </div>
 

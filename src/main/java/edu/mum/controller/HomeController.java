@@ -1,26 +1,45 @@
 package edu.mum.controller;
 
-import edu.mum.domain.Advert;
-import edu.mum.domain.Product;
-import edu.mum.service.AdvertService;
-import edu.mum.service.ProductService;
+import edu.mum.domain.*;
+import edu.mum.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.*;
 
-import java.math.BigDecimal;
 import java.security.Principal;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 public class HomeController {
 
     @Autowired
-    ProductService productService;
+    private ProductService productService;
 
     @Autowired
-    AdvertService advertService;
+    private AdvertService advertService;
+
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private BuyerService buyerService;
+
+    @Autowired
+    private CartService cartService;
+
+    @Autowired
+    private CartItemService cartItemService;
+
+    @Autowired
+    private OrderItemService orderItemService;
+
+    @Autowired
+    private CategoryService categoryService;
 
     // get index page
     @GetMapping(value = {"/"})
@@ -31,9 +50,43 @@ public class HomeController {
         //brings the ads
         List<Advert> adverts = advertService.getAdverts();
         model.addAttribute("adverts", adverts);
+        //brings categories
+        List<Category> categories = categoryService.getCategories();
+        model.addAttribute("categories", categories);
 
 
         return "index";
+    }
+
+    // add product to shopping cart.
+    @PostMapping(value = {"/product/addToCart"},
+            produces = MediaType.APPLICATION_JSON_VALUE,
+            consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public boolean addProductToCart(@RequestBody String id) {
+        // get current user.
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if(authentication != null){
+            User user = userService.findByEmail(authentication.getName());
+            if(user == null)
+                return false;
+
+            // get product.
+            Product product = productService.findById(Long.parseLong(id));
+            Buyer buyer = buyerService.getBuyerByUser(user);
+
+            // make new cart item with the product id.
+            CartItem cartItem = new CartItem();
+            cartItem.setProduct(product);
+            cartItem.setBuyer(buyer);
+            cartItem.setQuantity(1);
+
+            cartService.saveCartItem(buyer, cartItem);
+
+        }else{
+            return false;
+        }
+        return true;
     }
 
     // 404 page
@@ -53,15 +106,38 @@ public class HomeController {
         return "403";
     }
 
-    // buyer homepage
-    @GetMapping(value = {"/buyer", "/buyer/dashboard"})
-    public String buyerHomepage() {
-        return "/buyer/dashboard";
-    }
-
     // admin homepage
     @GetMapping(value = {"/admin/dashboard", "/admin"})
     public String adminHomepage() {
         return "/admin/dashboard.html";
     }
+
+
+    @RequestMapping(value = {"/product/{id}/cart"})
+    public String addProductToCart(@PathVariable(value = "id") Long id){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if(authentication == null || !authentication.isAuthenticated()){
+            return "redirect:/account/login";
+        }
+
+        User user = userService.findByEmail(authentication.getName());
+        if(user == null){
+            return "redirect:/account/login";
+        }
+
+        // query product to add to cart
+        Product product = productService.findById(id);
+        Buyer buyer = buyerService.getBuyerByUser(user);
+
+        // create new cart item and add to shopping cart.
+        CartItem cartItem = new CartItem();
+        cartItem.setProduct(product);
+        cartItem.setBuyer(buyer);
+        cartItem.setQuantity(1);
+
+        cartService.addCartItem(cartItem);
+
+        return "redirect:/buyer/cart";
+    }
+
 }

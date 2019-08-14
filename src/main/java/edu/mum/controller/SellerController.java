@@ -1,9 +1,7 @@
 package edu.mum.controller;
 
-import edu.mum.domain.Buyer;
-import edu.mum.domain.OrderItem;
-import edu.mum.domain.Seller;
-import edu.mum.domain.User;
+import edu.mum.domain.*;
+import edu.mum.service.MessageService;
 import edu.mum.service.OrderService;
 import edu.mum.service.SellerService;
 import edu.mum.service.UserService;
@@ -45,6 +43,9 @@ public class SellerController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private MessageService messageService;
+
     @GetMapping("/orders")
     public String getOrdersBySeller(Model model) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -69,6 +70,15 @@ public class SellerController {
         OrderItem orderItem = orderService.getOrderItemById(itemId);
         if(orderItem != null){
             orderItem.setOrderStatus(item.getOrderStatus());
+            if (orderItem.getOrderStatus() == OrderItemStatus.CANCELED) {
+                String message = "The order for " + orderItem.getProduct().getName() + " is canceled";
+                messageService.sendMessageToUser(orderItem.getOrder().getBuyer().getUser(), message);
+            }
+            if (orderItem.getOrder().getStatus() == OrderStatus.NEW) {
+                if (orderItem.getOrderStatus() != OrderItemStatus.ORDERED && orderItem.getOrderStatus() != OrderItemStatus.CANCELED) {
+                    orderItem.getOrder().setStatus(OrderStatus.PROCESSING);
+                }
+            }
             orderService.saveOrderItem(orderItem);
         }
         BigDecimal totalPrice = orderItem.getProduct().getPrice().multiply(new BigDecimal(orderItem.getQuantity()));

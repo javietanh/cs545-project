@@ -28,4 +28,9 @@ public class OrderItemServiceImpl implements OrderItemService {
         return orderItemRepository.findById(id).get();
     }
 
+    @Override
+    public List<String> getApprovedReviews(Long itemId) {
+        return orderItemRepository.getApprovedReviews(itemId);
+    }
+
 }

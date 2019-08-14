@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 @Entity
 public class OrderItem {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @OneToOne
     @JoinColumn(name = "product_id")

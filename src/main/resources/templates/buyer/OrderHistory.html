@@ -14,34 +14,34 @@
                 <table class="table table-bordered" id="grid" width="100%" cellspacing="0">
                     <thead>
                     <tr>
-                        <th>Shipping Address</th>
-                        <th>Billing Address</th>
+                        <th>Status</th>
+                        <th>Buyer</th>
+                        <th>Total Amount</th>
                         <th>Payment Info</th>
                         <th>Ordered Date</th>
-                        <th>End Date</th>
-                        <th></th>
+                        <th>Action</th>
                     </tr>
                     </thead>
                     <tfoot>
                     <tr>
-                        <th>Shipping Address</th>
+                        <th>Status</th>
+                        <th>Buyer</th>
+                        <th>Total Amount</th>
                         <th>Billing Address</th>
-                        <th>Payment Info</th>
                         <th>Ordered Date</th>
-                        <th>End Date</th>
-                        <th></th>
+                        <th>Action</th>
                     </tr>
                     </tfoot>
                     <tbody>
                     <tr th:each="order: ${orders}">
-                        <td th:text="${order.shippingAddress}"></td>
+                        <td th:text="${order.status}"></td>
+                        <td th:text="${order.buyer.user.firstName} + ' ' + ${order.buyer.user.lastName}"></td>
+                        <td th:text="'$' + ${order.totalAmount}"></td>
                         <td th:text="${order.billingAddress}"></td>
-                        <td th:text="${order.paymentInfo}"></td>
-                        <td th:text="${order.orderedDate}"></td>
-                        <td th:text="${order.endDate}"></td>
+                        <td th:text="${#temporals.format(order.orderedDate, 'dd-MM-yyyy HH:mm')}"></td>
                         <td>
                             <form th:object="${order}" action="#" th:action="@{/orders/} + ${order.id}">
-                                <input type="submit" value="Details" class="btn btn-info"/>
+                                <input type="submit" value="Details" class="btn btn-info btn-sm"/>
                             </form>
                         </td>
                     </tr>

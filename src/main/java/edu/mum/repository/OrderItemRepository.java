@@ -13,6 +13,8 @@ public interface OrderItemRepository extends CrudRepository<OrderItem, Long> {
             "inner join Seller s on p.seller.id = s.id " +
             "inner join Order o on i.order.id = o.id " +
             "where s.id = :sellerId")
-    public List<OrderItem> getOrderItemsBySeller(Long sellerId);
+    List<OrderItem> getOrderItemsBySeller(Long sellerId);
 
+    @Query("select i.review from OrderItem i where i.reviewStatus = 'APPROVED' and i.id = :itemId")
+    List<String> getApprovedReviews(Long itemId);
 }

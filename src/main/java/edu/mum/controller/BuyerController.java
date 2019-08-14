@@ -200,4 +200,16 @@ public class BuyerController {
         return "redirect:/orders/" + orderId;
     }
 
+    @PostMapping("/item/{itemId}/cancel")
+    public String cancelOrderItem(@PathVariable("itemId") Long itemId, Model model) {
+        OrderItem orderItem = orderService.getOrderItemById(itemId);
+        if(orderItem != null){
+            orderItem.setOrderStatus(OrderItemStatus.CANCELED);
+            orderService.saveOrderItem(orderItem);
+        }
+        model.addAttribute("item", orderItem);
+        Long orderId = orderItem.getOrder().getId();
+        return "redirect:/orders/" + orderId;
+    }
+
 }

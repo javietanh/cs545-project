@@ -76,7 +76,7 @@
                         <th>Price</th>
                         <th>Quantity</th>
                         <th>Status</th>
-                        <th></th>
+                        <th colspan="2">Action</th>
                     </tr>
                     </thead>
                     <tfoot>
@@ -85,7 +85,7 @@
                         <th>Price</th>
                         <th>Quantity</th>
                         <th>Status</th>
-                        <th>Action</th>
+                        <th colspan="2">Action</th>
                     </tr>
                     </tfoot>
                     <tbody>
@@ -94,10 +94,12 @@
                         <td th:text="'$' + ${item.product.price}"></td>
                         <td th:text="${item.quantity}"></td>
                         <td th:text="${item.orderStatus}"></td>
-                        <td class="align-items-center">
+                        <td class="align-middle">
                             <form action="#" th:action="@{/item/} + ${item.id} + @{/review}">
                                 <input type="submit" value="Review" class="btn btn-primary btn-sm"/>
                             </form>
+                        </td>
+                        <td>
                             <form action="#" th:action="@{/item/} + ${item.id} + @{/cancel}">
                                 <input type="submit" value="Cancel" th:if="${item.orderStatus.toString() == 'ORDERED'}" class="btn btn-primary btn-sm"/>
                             </form>

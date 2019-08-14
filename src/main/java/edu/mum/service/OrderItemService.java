@@ -9,6 +9,8 @@ public interface OrderItemService {
 
     List<OrderItem> getOrderItems();
 
+    List<OrderItem> getOrderItemsWithNotNullReviews();
+
     OrderItem getOrderItemById(Long id);
 
     List<String> getApprovedReviews(Long itemId);

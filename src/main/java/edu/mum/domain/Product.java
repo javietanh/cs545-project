@@ -26,6 +26,7 @@ public class Product {
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "seller_id")
     private Seller seller;
+
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "category_id")
     private Category category;

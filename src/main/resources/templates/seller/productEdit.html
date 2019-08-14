@@ -109,8 +109,8 @@
 									<label for="category"
 										   class="col-sm-4 col-form-label">Product Category</label>
 									<div class="col-sm-8">
-										<select class="custom-select" th:field="*{category}" name="category" id="category">
-											<option th:each="cat : ${categories}" th:value="${cat.id}"><span th:text="${cat.name}" th:remove="tag"></span></option>
+										<select class="custom-select" th:field="*{category.id}" name="category" id="category">
+											<option th:each="cat : ${categories}" th:value="${cat.id}" th:text="${cat.name}"></option>
 										</select>
 									</div>
 								</div>

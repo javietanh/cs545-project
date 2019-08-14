@@ -16,6 +16,8 @@ public interface MessageService {
 
     void setMessageRead(Long id);
 
+    void delete(Message message);
+
     // David
     void sendMessageToUser(User toUser, String content);
 

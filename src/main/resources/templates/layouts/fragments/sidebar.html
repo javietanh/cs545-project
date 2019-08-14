@@ -15,6 +15,15 @@
 		<div th:text="${userInfo.joinedDate}"></div>
 	</div>
 	<!-- user avatar -->
+
+	<!-- user messages -->
+	<li class="nav-item">
+		<a class="nav-link"
+		   th:href="@{/account/message}">
+			<i class="fas fa-fw fa-mail-bulk"></i>
+			<span>Message</span>
+		</a>
+	</li>
 	
 	<div sec:authorize="hasAuthority('ADMIN')"
 	     th:remove="tag"

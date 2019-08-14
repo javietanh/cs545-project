@@ -57,6 +57,15 @@ public class OrderServiceImpl implements OrderService {
             }
         }
         order.setTotalAmount(totalAmount);
+        String info = order.getPaymentInfo();
+        String last4Digits;
+        if (info.length() <= 4) {
+            last4Digits = info;
+        } else {
+            last4Digits = info.substring(info.length() - 4);
+        }
+        info = "Paid by the card number XXXX XXXX XXXX " + last4Digits;
+        order.setPaymentInfo(info);
         order.setBuyer(buyer);
         order.setOrderedDate(LocalDateTime.now());
         buyer.addOrder(order);

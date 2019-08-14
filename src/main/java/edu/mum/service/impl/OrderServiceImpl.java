@@ -100,6 +100,10 @@ public class OrderServiceImpl implements OrderService {
         return orderItemRepository.getOrderItemsBySeller(sellerId);
     }
 
+    @Override
+    public List<Order> getAll() {
+        return (List<Order>) orderRepository.findAll();
+    }
 
 
 }

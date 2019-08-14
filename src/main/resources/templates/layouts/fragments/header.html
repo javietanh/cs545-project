@@ -61,7 +61,7 @@
         <li class="nav-item dropdown no-arrow mx-1">
             <a class="nav-link dropdown-toggle"
                href="#"
-               id="alertsDropdown"
+               id="messageDropdown"
                role="button"
                data-toggle="dropdown"
                aria-haspopup="true"
@@ -70,13 +70,12 @@
                 <span class="badge badge-danger m-0"
                       id="user-message-count"></span>
             </a>
-            <div class="dropdown-menu dropdown-menu-right shadow"
-                 style="min-width: 300px"
-                 aria-labelledby="alertsDropdown">
-                <ul id="user-messages"
-                    class="list-group list-group-flush">
-
-                </ul>
+            <div class="dropdown-menu dropdown-menu-right shadow pb-0"
+                 style="min-width: 350px"
+                 aria-labelledby="messageDropdown">
+                <div class="card-body pl-3 pr-3 pt-2 pb-0">
+                    <div id="user-messages"></div>
+                </div>
             </div>
         </li>
         <li class="nav-item dropdown no-arrow mx-1">

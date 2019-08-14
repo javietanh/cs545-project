@@ -12,52 +12,44 @@ $(document).ready(function () {
             contentType: 'application/json',
             success: function (messages) {
                 if (messages !== null) {
-                    // display total unread messages.
                     if (messages.length > 0) {
-                        $('#user-message-count').html(messages.length);
-
-                        // clear the message list.
-                        $('#user-messages').empty();
-
-                        // display message items.
+                        $('#user-message-count').html(messages.length).show();
+                        let messageHtml = '';
                         $.each(messages, function (index, item) {
-                            let msgItem = `<li class="list-group-item d-flex justify-content-between align-items-center">${item.content} <a class="message-read" href="javascript:void(0)" data-id="${item.id}">&times;</a></li>`;
-                            $('#user-messages').append(msgItem);
+                            messageHtml += `<div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                              ${item.content}
+                                              <button title="Ignored" type="button" class="close message-read" data-id="${item.id}" data-dismiss="alert" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                              </button>
+                                            </div> `;
                         });
+                        $('#user-messages').empty().html(messageHtml);
                     }
+                    else{
+                        $('#user-message-count').hide();
+                    }
+                }else{
+                    $('#user-message-count').hide();
                 }
             }, error: function (errors) {
                 console.log(errors);
             }
         });
     };
+    queryUserMessages();
 
-    $('.dropdown-menu a.message-read').click(function (e) {
+    $(document).on('click', '.message-read', function (event) {
 
-        console.log(1)
-        e.stopPropagation();
-
-    });
-
-    // set message read.
-    $(".message-read").click(function (event) {
-        let id = $(this).attr('id');
-        console.log(id);
-
-        if (id !== null) {
-            $.ajax({
-                method: 'DELETE',
-                url: serverUrl,
-                dataType: 'json',
-                data: {id: id},
-                contentType: 'application/json',
-                success: function () {
-                    queryUserMessages();
-                }, error: function (errors) {
-                    console.log(errors);
-                }
-            });
-        }
+        $.ajax({
+            method: 'DELETE',
+            url: serverUrl + "/account/messages/read/" + $(this).data('id'),
+            contentType: 'application/json',
+            success: function () {
+                queryUserMessages();
+            }, error: function (errors) {
+                console.log(errors);
+            }
+        });
     });
 
     $(".custom-file-input").on("change", function () {
@@ -67,24 +59,6 @@ $(document).ready(function () {
 
     // setup automatic get user messages every 3s.
     setInterval(queryUserMessages, 10000);
-
-    // add items to shopping cart.
-    // $(document).on('click', '.add-to-cart', function (e) {
-    //     let productId = $(this).data('id');
-    //     let jsonData = {id: productId};
-    //     $.ajax({
-    //         method: 'POST',
-    //         url: serverUrl + "/product/addToCart",
-    //         dataType: 'json',
-    //         data: JSON.stringify(jsonData),
-    //         contentType: 'application/json',
-    //         success: function (product) {
-    //             loadShoppingCart();
-    //         }, error: function (errors) {
-    //             console.log(errors);
-    //         }
-    //     });
-    // });
 
     let loadShoppingCart = function () {
         $.ajax({
@@ -96,7 +70,7 @@ $(document).ready(function () {
                     $('#cart-item-count').html(items.length);
                     let itemHtml = '';
                     $.each(items, function (i, item) {
-                        itemHtml +=`<tr>
+                        itemHtml += `<tr>
                                         <td style="width: 100px">
                                             <a href="/product/${item.id}"><img src="${item.picture}" class="border-0 rounded-circle img-fluid img-thumbnail w-75" /></a>
                                         </td>
@@ -120,10 +94,10 @@ $(document).ready(function () {
 
     loadShoppingCart();
 
-    // setup gridview
+    // setup gridView
     $('#grid').DataTable({
         "autoWidth": true,
-        "lengthMenu": [ [10, 25, 50, -1], [10, 25, 50, "All"] ]
+        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]]
     });
 
 });

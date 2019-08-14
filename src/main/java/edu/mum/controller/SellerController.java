@@ -1,9 +1,7 @@
 package edu.mum.controller;
 
-import edu.mum.domain.Buyer;
-import edu.mum.domain.OrderItem;
-import edu.mum.domain.Seller;
-import edu.mum.domain.User;
+import edu.mum.domain.*;
+import edu.mum.service.CategoryService;
 import edu.mum.service.OrderService;
 import edu.mum.service.SellerService;
 import edu.mum.service.UserService;
@@ -16,11 +14,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -44,6 +39,14 @@ public class SellerController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private CategoryService categoryService;
+
+    @ModelAttribute("categories")
+    public List<Category> getCategories(){
+        return categoryService.getCategories();
+    }
 
     @GetMapping("/orders")
     public String getOrdersBySeller(Model model) {

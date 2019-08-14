@@ -1,11 +1,7 @@
 package edu.mum.controller;
 
-import edu.mum.domain.OrderItem;
-import edu.mum.domain.Seller;
-import edu.mum.domain.Status;
-import edu.mum.service.OrderItemService;
-import edu.mum.service.SellerService;
-import edu.mum.service.UserService;
+import edu.mum.domain.*;
+import edu.mum.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,6 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/admin")
@@ -26,6 +24,67 @@ public class AdminController {
     @Autowired
     private OrderItemService orderItemService;
 
+    @Autowired
+    private OrderService orderService;
+
+    @Autowired
+    private ProductService productService;
+
+    // admin homepage
+    @GetMapping(value = {"/dashboard", "/", ""})
+    public String adminHomepage(Model model) {
+
+        // get total reviews.
+        Long totoReviews = orderItemService
+                .getOrderItems()
+                .stream()
+                .filter(x-> x.getReview() != null)
+                .count();
+        model.addAttribute("totalReviews", totoReviews);
+
+        // get total orders
+        List<Order> orderList = orderService.getAll();
+
+        Long totalOrders = orderList
+                .stream()
+                .count();
+
+        Long totalCompletedOrders = orderList
+                .stream()
+                .filter(x->x.getStatus() == OrderStatus.COMPLETED)
+                .count();
+
+        Long totalCancelOrders = orderList
+                .stream()
+                .filter(x->x.getStatus() == OrderStatus.CANCELED)
+                .count();
+
+        Long totalProcessingOrders = orderList
+                .stream()
+                .filter(x->x.getStatus() == OrderStatus.PROCESSING)
+                .count();
+
+        model.addAttribute("totalOrders", totalOrders);
+        model.addAttribute("totalCompletedOrders", totalCompletedOrders);
+        model.addAttribute("totalCancelOrders", totalCancelOrders);
+        model.addAttribute("totalProcessingOrders", totalProcessingOrders);
+
+        // get total products.
+        int totalProducts = productService.getAll().size();
+        model.addAttribute("totalProducts", totalProducts);
+
+        // get total sellers
+        Long totalSellers = sellerService.getAllSellers()
+                .stream()
+                .filter(x->x.getStatus() == Status.APPROVED)
+                .count();
+
+        model.addAttribute("totalActiveSellers", totalSellers);
+
+        return "/admin/dashboard";
+
+    }
+
     @GetMapping("/sellers")
     public String getSellers(Model model) {
         model.addAttribute("sellers", sellerService.getAllSellers());
@@ -35,7 +94,7 @@ public class AdminController {
     @PostMapping("/sellers/{sellerId}/approve")
     public String approveSeller(@PathVariable("sellerId") Long sellerId, Model model) {
         Seller s = sellerService.getSellerById(sellerId);
-        if(s != null){
+        if (s != null) {
             s.setStatus(Status.APPROVED);
             sellerService.save(s);
         }
@@ -46,7 +105,7 @@ public class AdminController {
     @PostMapping("/sellers/{sellerId}/reject")
     public String rejectSeller(@PathVariable("sellerId") Long sellerId, Model model) {
         Seller s = sellerService.getSellerById(sellerId);
-        if(s != null){
+        if (s != null) {
             s.setStatus(Status.REJECTED);
             sellerService.save(s);
         }
@@ -63,7 +122,7 @@ public class AdminController {
     @PostMapping("/reviews/{itemId}/approve")
     public String approveReview(@PathVariable("itemId") Long itemId, Model model) {
         OrderItem orderItem = orderItemService.getOrderItemById(itemId);
-        if(orderItem != null){
+        if (orderItem != null) {
             orderItem.setReviewStatus(Status.APPROVED);
             orderItemService.saveOrderItem(orderItem);
         }
@@ -74,7 +133,7 @@ public class AdminController {
     @PostMapping("/reviews/{itemId}/reject")
     public String rejectReview(@PathVariable("itemId") Long itemId, Model model) {
         OrderItem orderItem = orderItemService.getOrderItemById(itemId);
-        if(orderItem != null){
+        if (orderItem != null) {
             orderItem.setReviewStatus(Status.REJECTED);
             orderItemService.saveOrderItem(orderItem);
         }

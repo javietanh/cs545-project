@@ -326,10 +326,11 @@ public class AccountController {
     /*
         DELETE
      */
-    @DeleteMapping(value = {"/messages"}, produces = MediaType.APPLICATION_JSON_VALUE,
+    @DeleteMapping(value = {"/messages/read/{id}"},
+            produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody
-    boolean setMessageRead(@RequestBody Long id) {
+    boolean setMessageRead(@PathVariable(value = "id") Long id) {
         messageService.setMessageRead(id);
         return true;
     }

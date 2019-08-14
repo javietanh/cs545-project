@@ -41,7 +41,11 @@ public class MessageServiceImpl implements MessageService {
 
     @Override
     public void setMessageRead(Long id) {
-        messageRepository.setMessageRead(id);
+        Message msg = messageRepository.findById(id).get();
+        if(msg != null){
+            msg.setRead(true);
+            messageRepository.save(msg);
+        }
     }
 
     @Override

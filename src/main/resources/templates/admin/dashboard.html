@@ -1,10 +1,86 @@
 <html lang="en"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
       layout:decorate="~{layouts/user}">
 <div class="container" layout:fragment="content">
-    <P>
-        <h1>Admin homepage!!!!</h1>
-        <small>Implement your admin function on this area</small>
-    </p>
+    <!-- Icon Cards-->
+    <div class="row">
+        <div class="col-xl-3 col-sm-6 mb-3">
+            <div class="card text-white bg-primary o-hidden h-100">
+                <div class="card-body">
+                    <div class="card-body-icon">
+                        <i class="fas fa-fw fa-comments"></i>
+                    </div>
+                    <div class="mr-5"><span th:text="${totalReviews}"></span> Product Reviews!</div>
+                </div>
+                <a class="card-footer text-white clearfix small z-1" th:href="@{/admin/reviews}">
+                    <span class="float-left">View Details</span>
+                    <span class="float-right">
+                  <i class="fas fa-angle-right"></i>
+                </span>
+                </a>
+            </div>
+        </div>
+        <div class="col-xl-3 col-sm-6 mb-3">
+            <div class="card text-white bg-warning o-hidden h-100">
+                <div class="card-body">
+                    <div class="card-body-icon">
+                        <i class="fas fa-fw fa-list"></i>
+                    </div>
+                    <div class="mr-5">
+                        <span th:text="${totalProducts}"></span> Products <br/>
+                        <span th:text="${totalActiveSellers}"></span> Active Sellers
+                    </div>
+                </div>
+                <div class="card-footer text-white clearfix small z-1">
+                    <span class="float-left">View Details</span>
+                    <span class="float-right">
+                  <i class="fas fa-angle-right"></i>
+                </span>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-sm-6 mb-3">
+            <div class="card text-white bg-success o-hidden h-100">
+                <div class="card-body mb-0 pb-0">
+                    <div class="card-body-icon">
+                        <i class="fas fa-fw fa-shopping-cart"></i>
+                    </div>
+                    <div class="mr-5">
+                        <span th:text="${totalOrders}"></span> Orders.<br/>
+                        <div class="text-white clearfix small">
+                            <ul>
+                                <li>
+                                    Completed: <span th:text="${totalCompletedOrders}"></span>
+                                </li>
+                                <li>
+                                    Processing: <span th:text="${totalProcessingOrders}"></span>
+                                </li>
+                                <li>
+                                    Canceled: <span th:text="${totalCancelOrders}"></span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-sm-6 mb-3">
+            <div class="card text-white bg-danger o-hidden h-100">
+                <div class="card-body">
+                    <div class="card-body-icon">
+                        <i class="fas fa-fw fa-life-ring"></i>
+                    </div>
+                    <div class="mr-5">13 New Tickets!</div>
+                </div>
+                <a class="card-footer text-white clearfix small z-1" href="#">
+                    <span class="float-left">View Details</span>
+                    <span class="float-right">
+                  <i class="fas fa-angle-right"></i>
+                </span>
+                </a>
+            </div>
+        </div>
+    </div>
 </div>
 </html>

@@ -16,4 +16,5 @@ public interface OrderService {
     File downloadReceipt(Order order) throws Exception;
     OrderItem getOrderItemById(Long itemId);
     List<OrderItem> getOrderItemsBySeller(Long sellerId);
+    List<Order> getAll();
 }

@@ -35,12 +35,6 @@ public class HomeController {
     private CartService cartService;
 
     @Autowired
-    private CartItemService cartItemService;
-
-    @Autowired
-    private OrderItemService orderItemService;
-
-    @Autowired
     private CategoryService categoryService;
 
 
@@ -105,12 +99,23 @@ public class HomeController {
             // get product.
             Product product = productService.findById(Long.parseLong(id));
             Buyer buyer = buyerService.getBuyerByUser(user);
+            List<CartItem> cartItems = buyer.getCartItems();
+            CartItem cartItem = new CartItem();
+
+            for(CartItem item : cartItems){
+                if(item.getProduct().getId().equals(product.getId())){
+                    cartItem = item;
+                    cartItem.setQuantity(cartItem.getQuantity() + 1);
+                    break;
+                }
+            }
 
             // make new cart item with the product id.
-            CartItem cartItem = new CartItem();
-            cartItem.setProduct(product);
-            cartItem.setBuyer(buyer);
-            cartItem.setQuantity(1);
+            if(cartItem.getId() == null){
+                cartItem.setProduct(product);
+                cartItem.setBuyer(buyer);
+                cartItem.setQuantity(1);
+            }
 
             cartService.saveCartItem(buyer, cartItem);
 
@@ -137,13 +142,6 @@ public class HomeController {
         return "403";
     }
 
-    // admin homepage
-    @GetMapping(value = {"/admin/dashboard", "/admin"})
-    public String adminHomepage() {
-        return "/admin/dashboard.html";
-    }
-
-
     @RequestMapping(value = {"/product/{id}/cart"})
     public String addProductToCart(@PathVariable(value = "id") Long id){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -159,12 +157,24 @@ public class HomeController {
         // query product to add to cart
         Product product = productService.findById(id);
         Buyer buyer = buyerService.getBuyerByUser(user);
-
-        // create new cart item and add to shopping cart.
+        List<CartItem> cartItems = buyer.getCartItems();
         CartItem cartItem = new CartItem();
-        cartItem.setProduct(product);
-        cartItem.setBuyer(buyer);
-        cartItem.setQuantity(1);
+
+        for(CartItem item : cartItems){
+            if(item.getProduct().getId().equals(product.getId())){
+                cartItem = item;
+                cartItem.setQuantity(cartItem.getQuantity() + 1);
+                break;
+            }
+        }
+
+        // make new cart item with the product id.
+        if(cartItem.getId() == null){
+            cartItem.setProduct(product);
+            cartItem.setBuyer(buyer);
+            cartItem.setQuantity(1);
+        }
+
 
         cartService.addCartItem(cartItem);
 

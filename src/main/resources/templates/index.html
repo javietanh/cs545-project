@@ -29,7 +29,9 @@
 
                 <div class="carousel-inner" role="listbox" >
                     <div class="carousel-item" th:each="ad : ${adverts}" th:classappend="${adStat.index == 0} ? 'active' : '' ">
-                        <img class="d-block img-fluid" th:src="${ad.image}" alt="First slide">
+                        <a th:href="'https://' + ${ad.url}">
+                            <img class="d-block img-fluid" th:src="${ad.image}" alt="First slide" style="height: 250px; width: 100%; ">
+                        </a>
                     </div>
 <!--                    <div class="carousel-item" th:unless="${adStat.index > 0}">-->
 <!--                        <img class="d-block img-fluid" th:src="${ad.image}" alt="First slide">-->

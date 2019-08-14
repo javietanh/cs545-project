@@ -20,7 +20,7 @@ public class OrderItem {
     private Order order;
     private String review;
     @Enumerated(EnumType.STRING)
-    private Status reviewStatus;
+    private Status reviewStatus = Status.PENDING;
     private int rating = 0;
     @Enumerated(EnumType.STRING)
     private OrderItemStatus orderStatus = OrderItemStatus.ORDERED;

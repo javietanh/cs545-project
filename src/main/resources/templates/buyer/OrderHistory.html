@@ -6,9 +6,14 @@
 
     <div class="card mb-3">
         <div class="card-header">
+
+            <span class="fa fas fa-barcode fa-2x text-primary"> Orders History</span>
+
             <i class="fas fa-table"></i>
             Order History
+
         </div>
+
         <div class="card-body">
             <div class="table-responsive">
                 <table class="table table-bordered" id="grid" width="100%" cellspacing="0">
@@ -41,16 +46,19 @@
                         <td th:text="${#temporals.format(order.orderedDate, 'dd-MM-yyyy HH:mm')}"></td>
                         <td>
                             <form th:object="${order}" action="#" th:action="@{/orders/} + ${order.id}">
+
+                                <input type="submit" value="Details" class="btn btn-primary"/>
+
                                 <input type="submit" value="Details" class="btn btn-info btn-sm"/>
+
                             </form>
                         </td>
                     </tr>
-
                     </tbody>
                 </table>
             </div>
         </div>
-        <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
     </div>
+
 </div>
 </html>

@@ -11,13 +11,12 @@
 			<form method="post"
 			      th:object="${product}"
 			      enctype="multipart/form-data"
-			      th:action="@{/seller/product/} + ${product.id}">
+			      th:action="@{/seller/product/{id}(id=${product.id})}">
 				<div class="card">
 					<div class="card-header">
-						<span class="fa fas fa-edit"></span> Update Product
+						<h5><span class="fa fa-edit text-primary fa-2x"></span> Update Product</h5>
 					</div>
 					<div class="card-body">
-						
 						
 						<div class="row">
 							<div class="col-8">
@@ -121,13 +120,19 @@
 					<div class="card-footer">
 						<button class="btn btn-primary"
 						        type="submit">
-							<span class="fa fa-floppy-o"> Update</span>
+							<span class="fa fa-save"></span> Update
 						</button>
+
+						<a th:href="@{/seller/product}" class="btn btn-outline-primary">
+							<span class="fa fa-undo"></span> Cancel
+						</a>
 					</div>
 				</div>
 			</form>
 		</div>
 	</div>
+
+	<div class="m-5"></div>
 
 </div>
 </html>

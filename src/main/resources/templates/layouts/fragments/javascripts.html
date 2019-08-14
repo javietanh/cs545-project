@@ -1,9 +1,9 @@
-<div th:fragment="javascripts" xmlns:th="http://www.thymeleaf.org/">
-	<script th:src="@{/vendor/jquery/jquery.min.js}"></script>
-	<script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
-	<script th:src="@{/vendor/jquery-easing/jquery.easing.min.js}"></script>
-	<script th:src="@{/vendor/datatables/jquery.dataTables.js}"></script>
-	<script th:src="@{/vendor/datatables/dataTables.bootstrap4.js}"></script>
-	<script th:src="@{/js/sb-admin.min.js}"></script>
-	<script th:src="@{/js/main.js}"></script>
+<div th:fragment="javascripts" xmlns:th="http://www.thymeleaf.org/" th:remove="tag">
+	<script type="text/javascript" th:src="@{/vendor/jquery/jquery.min.js}"></script>
+	<script type="text/javascript" th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+	<script type="text/javascript" th:src="@{/vendor/jquery-easing/jquery.easing.min.js}"></script>
+	<script type="text/javascript" th:src="@{/vendor/datatables/jquery.dataTables.min.js}"></script>
+	<script type="text/javascript" th:src="@{/vendor/datatables/dataTables.bootstrap4.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/sb-admin.js}"></script>
+	<script type="text/javascript" th:src="@{/js/main.js}"></script>
 </div>

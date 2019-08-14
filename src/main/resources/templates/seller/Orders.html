@@ -7,7 +7,7 @@
 
     <div class="card-body">
         <div class="table-responsive">
-            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+            <table class="table table-bordered" id="grid" width="100%" cellspacing="0">
                 <thead>
                 <tr>
                     <th>Buyer</th>
@@ -32,18 +32,21 @@
                 <tr th:each="item: ${orderItems}">
                     <td th:text="${item.order.buyer.user.firstName} + ' ' + ${item.order.buyer.user.lastName}"></td>
                     <td th:text="${item.product.name}"></td>
-                    <td th:text="${item.product.price}"></td>
+                    <td>$<span th:text="${item.product.price}"></span></td>
                     <td th:text="${item.quantity}"></td>
                     <td th:text="${item.orderStatus}"></td>
-                    <td>
+                    <td class="text-center">
                         <form action="#" th:action="@{/seller/orders/} + ${item.id}">
-                            <input type="submit" value="Details" class="btn btn-info"/>
+                            <input title="View Order Detail" type="submit" value="Details" class="btn btn-primary"/>
                         </form>
                     </td>
                 </tr>
 
                 </tbody>
             </table>
+
+            <div class="m-5"></div>
+
         </div>
     </div>
 </div>

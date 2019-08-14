@@ -8,9 +8,14 @@
 		<div class="col-12">
 			<form th:object="${advert}"
 			      method="post"
-			      th:action="@{'/admin/addAdvert/' + ${advert.id}}"
+			      th:action="@{/admin/addAdvert/{id}(id=${advert.id})}"
 			      enctype="multipart/form-data">
+
 				<div class="card">
+					<div class="card-header">
+						<h5><i class="fa fa-2x fas fa-ad"></i> Update Advertisement Info</h5>
+					</div>
+
 					<img class="card-img-top"
 					     alt=""
 					     data-src="holder.js/100px180/"
@@ -21,19 +26,7 @@
 					
 					<div class="card-body p-3 pt-4">
 						<div class="row">
-<!--							<div class="col-3">-->
-<!--								<ul class="list-group">-->
-<!--									<li class="list-group-item d-flex justify-content-between align-items-center">-->
-<!--										<span th:text="*{status}" th:classappend="${#status == 'APPROVED'} ? text-success : text_danger"></span>-->
-<!--										<span class="fa fas fa-check"></span>-->
-<!--									</li>-->
-<!--									<li class="list-group-item d-flex justify-content-between align-items-center">-->
-<!--										<span th:text="*{created}"></span>-->
-<!--										<span class="fa fas fa-calendar"></span>-->
-<!--									</li>-->
-<!--								</ul>-->
-<!--							</div>-->
-							<div class="col-9">
+							<div class="col-12">
 								<div class="form-group">
 									<div class="form-row">
 										<div class="col-12">
@@ -44,7 +37,7 @@
 												       th:field="*{title}"
 												       class="form-control form-control-lg"
 												       autofocus="autofocus">
-												<label for="title">Shop Title</label>
+												<label for="title">Ads Title</label>
 											</div>
 										</div>
 									</div>
@@ -54,7 +47,7 @@
 										<textarea th:field="*{description}"
 										          id="description"
 										          name="description"
-										          placeholder="Shop Description"
+										          placeholder="Ads Description"
 										          th:rows="5"
 										          class="form-control">
 										</textarea>
@@ -70,12 +63,12 @@
 												       th:field="*{imageUpload}"
 												       id="imageUpload">
 												<label class="custom-file-label"
-												       for="imageUpload">Upload Image</label>
+												       for="imageUpload">Ads Image</label>
 											</div>
 										</div>
 									</div>
 									<div class="form-row">
-										<div class="col-12">
+										<div class="col-12 mt-3">
 											<div class="form-label-group">
 												<input type="text"
 													   id="url"
@@ -83,7 +76,7 @@
 													   th:field="*{url}"
 													   class="form-control form-control-lg"
 													   autofocus="autofocus">
-												<label for="url">URL</label>
+												<label for="url">Ads Url</label>
 											</div>
 										</div>
 									</div>
@@ -105,15 +98,22 @@
 						</div>
 					</div>
 					<div class="card-footer">
-						<button class="btn btn-lg btn-primary"
+						<button class="btn btn-primary"
 						        type="submit">
-							<i class="fa fas fa-save"></i> Save
+							<i class="fa fas fa-save"></i> Update
 						</button>
+
+						<a th:href="@{/admin/ads}" class="btn btn-outline-primary">
+							<span class="fa fa-undo"></span> Cancel
+						</a>
+
 						<span th:if="${success != null}"
 						      class="ml-5 text-success"
 						      th:text="${success}"></span>
 					</div>
 				</div>
+
+				<div class="m-5"></div>
 			</form>
 		</div>
 	</div>

@@ -2,8 +2,6 @@ package edu.mum.service.impl;
 
 import edu.mum.domain.Buyer;
 import edu.mum.domain.CartItem;
-import edu.mum.domain.OrderItem;
-import edu.mum.repository.BuyerRepository;
 import edu.mum.repository.CartRepository;
 import edu.mum.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +12,14 @@ import java.util.List;
 
 @Service
 public class CartServiceImpl implements CartService {
+
     @Autowired
     CartRepository cartRepository;
+
+    @Override
+    public void addCartItem(CartItem item) {
+        cartRepository.save(item);
+    }
 
     @Override
     public CartItem saveCartItem(Buyer buyer, CartItem item) {

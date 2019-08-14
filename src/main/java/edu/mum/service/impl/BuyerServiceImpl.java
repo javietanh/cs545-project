@@ -7,6 +7,7 @@ import edu.mum.service.BuyerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -63,6 +64,7 @@ public class BuyerServiceImpl implements BuyerService {
     @Override
     public void addReview(OrderItem item, String review) {
         item.setReview(review);
+        item.setReviewDate(LocalDateTime.now());
         orderItemRepository.save(item);
     }
 

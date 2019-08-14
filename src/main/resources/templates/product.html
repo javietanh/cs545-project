@@ -68,11 +68,11 @@
                 <div class="card-header">
                     Product Reviews
                 </div>
-                <div class="card-body" th:each="orderItem : ${orderItems}">
+                <div class="card-body pb-1 pt-1 pl-3" th:each="orderItem : ${orderItems}">
                     <p th:text="${orderItem.review}"></p>
-                    <small class="text-muted">Posted by Anonymous on 3/1/17</small>
+                    <small class="text-muted" th:text="'Posted by ' + ${orderItem.order.buyer.user.firstName} + ' on ' +
+                    ${#temporals.format(orderItem.reviewDate, 'MM-dd-yyyy HH:mm')}">Posted by Anonymous on 3/1/17</small>
                     <hr>
-                    <a href="#" class="btn btn-success">Leave a Review</a>
                 </div>
             </div>
 

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.security.Principal;
 import java.util.Collections;
 import java.util.List;
@@ -169,6 +170,26 @@ public class HomeController {
         cartService.addCartItem(cartItem);
 
         return "redirect:/buyer/cart";
+    }
+
+    @GetMapping("/category")
+    public String getProductsByCategoryPage(@RequestParam("id") Long categoryId, Model model) {
+        Category category = categoryService.getCategoryById(categoryId);
+        List<Product> products = productService.getProductsByCategory(category);
+
+        Collections.shuffle(products, new Random());
+
+        model.addAttribute("products", products);
+        //brings the ads
+        List<Advert> adverts = advertService.getAdverts();
+        model.addAttribute("adverts", adverts);
+        //brings categories
+        List<Category> categories = categoryService.getCategories();
+        model.addAttribute("categories", categories);
+
+
+
+        return "index";
     }
 
 }

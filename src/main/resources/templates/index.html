@@ -7,13 +7,13 @@
 
     <div class="row">
 
-<!--        <div class="col-lg-3">-->
-<!--            <h1 class="my-4">Shop Name</h1>-->
-<!--            <div class="list-group">-->
-<!--                <a href="#" class="list-group-item" th:each="category : ${categories}" th:text="${category.name}"></a>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--        <div class="col-lg-9">-->
+        <div class="col-lg-3">
+            <h1 class="my-4">JPA Market</h1>
+            <div class="list-group">
+                <a href="#" th:href="@{/category?id=} + ${category.id}" class="list-group-item" th:each="category : ${categories}" th:text="${category.name}"></a>
+            </div>
+        </div>
+        <div class="col-lg-9">
 
             <div id="carouselExampleIndicators" class="carousel slide my-4" data-ride="carousel">
                 <div class="carousel-inner" role="listbox">

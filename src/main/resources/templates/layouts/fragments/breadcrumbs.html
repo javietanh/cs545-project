@@ -1,10 +1,13 @@
 <div th:remove="tag"
      th:fragment="breadcrumbs"
+	 xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
      xmlns:th="http://www.thymeleaf.org/">
 	<ol class="breadcrumb mt-2">
 		<li class="breadcrumb-item">
-			<a href="index.html">Dashboard</a>
+			<a sec:authorize="hasAuthority('SELLER')" th:href="@{/seller}">Dashboard</a>
+			<a sec:authorize="hasAuthority('BUYER')" th:href="@{/buyer}">Dashboard</a>
+			<a sec:authorize="hasAuthority('ADMIN')" th:href="@{/admin}">Dashboard</a>
 		</li>
-		<li class="breadcrumb-item active">Blank Page</li>
+<!--		<li class="breadcrumb-item active">Blank Page</li>-->
 	</ol>
 </div>

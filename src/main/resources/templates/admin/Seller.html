@@ -6,50 +6,50 @@
 
     <div class="card-body">
         <div class="table-responsive">
-            <table class="table table-bordered" id="grid" width="100%" cellspacing="0">
-                <thead>
-                <tr>
-                    <th>Shop</th>
-                    <th>Description</th>
-                    <th>Phone</th>
-                    <th>Email</th>
-                    <th>Address</th>
-                    <th>Status</th>
-                    <th></th>
-                </tr>
-                </thead>
-                <tfoot>
-                <tr>
-                    <th>Shop</th>
-                    <th>Description</th>
-                    <th>Phone</th>
-                    <th>Email</th>
-                    <th>Address</th>
-                    <th>Status</th>
-                    <th></th>
-                </tr>
-                </tfoot>
-                <tbody>
+        <table class="table table-striped table-bordered"
+               id="grid"
+               width="100%"
+               cellspacing="0">
+            <thead>
+            <tr>
+                <th>Shop</th>
+                <th>Phone</th>
+                <th>Email</th>
+                <th>Address</th>
+                <th>Status</th>
+                <th colspan="2">Action</th>
+            </tr>
+            </thead>
+            <tfoot>
+            <tr>
+                <th>Shop</th>
+                <th>Phone</th>
+                <th>Email</th>
+                <th>Address</th>
+                <th>Status</th>
+                <th colspan="2">Action</th>
+            </tr>
+            </tfoot>
+            <tbody>
                 <tr th:each="seller: ${sellers}">
                     <td th:text="${seller.name}"></td>
-                    <td th:text="${seller.description}"></td>
                     <td th:text="${seller.user.phone}"></td>
                     <td th:text="${seller.user.email}"></td>
                     <td th:text="${seller.user.address}"></td>
                     <td th:text="${seller.status}"></td>
                     <td>
                         <form action="#" th:action="@{/admin/sellers/} + ${seller.id} + @{/approve}" method="post">
-                            <input type="submit" value="Approve" class="btn btn-success" th:if="${seller.status.toString() != 'APPROVED'}"/>
+                            <input type="submit" value="Approve" th:if="${seller.status.toString() != 'APPROVED'}" class="btn btn-success btn-sm"/>
                         </form>
+                    </td>
+                    <td>
                         <form action="#" th:action="@{/admin/sellers/} + ${seller.id} + @{/reject}" method="post">
-                            <input type="submit" value="Reject" class="btn btn-danger mt-3" th:if="${seller.status.toString() != 'REJECTED'}"/>
+                            <input type="submit" value="Reject" th:if="${seller.status.toString() != 'REJECTED'}" class="btn btn-danger btn-sm"/>
                         </form>
                     </td>
                 </tr>
-
-                </tbody>
-            </table>
-
+            </tbody>
+        </table>
             <div class="m-5"></div>
 
         </div>

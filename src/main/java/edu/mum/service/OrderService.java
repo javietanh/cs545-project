@@ -10,6 +10,7 @@ import java.util.List;
 public interface OrderService {
     Order getOrderById(Long id);
     Order saveOrder(Buyer buyer, Order order);
+    Order updateOrder(Order order);
     OrderItem saveOrderItem(OrderItem orderItem);
     void completeOrder(Order order);
     void cancelOrder(Order order);

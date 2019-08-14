@@ -98,6 +98,12 @@ public class AccountController {
                 profileDto.setPhone(user.getPhone());
                 profileDto.setAddress(user.getAddress());
                 model.addAttribute("profile", profileDto);
+
+                // get the buyer points
+                Buyer buyer= buyerService.getBuyerByUser(user);
+                if(buyer != null) {
+                    model.addAttribute("points", buyer.getPoints());
+                }
             }
         }
 

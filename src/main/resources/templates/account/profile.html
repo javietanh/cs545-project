@@ -23,6 +23,10 @@
 							Joined: <span th:text="${userInfo.joinedDate}"></span>
 							<span class="fa fas fa-clock"></span>
 						</li>
+						<li class="list-group-item d-flex justify-content-between align-items-center" sec:authorize="hasAuthority('BUYER')">
+							Points: <span th:text="${points}"></span>
+							<span class="fa fas fa-poll"></span>
+						</li>
 					</ul>
 				</div>
 			</div>

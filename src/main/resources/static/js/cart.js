@@ -28,7 +28,7 @@ $(document).ready(function () {
                    $("#cart-item").append('<tr><td>' + item.productName + '</td>' +
                    '<td>' + item.productPrice + '</td>' +
                    '<td>' + item.quantity + '</td>' +
-                       '<td><a href="javascript:void(0)" class="remove-item" data-id="' + item.id + '">Remove</a></td></tr>');
+                   '<td><button class="remove-item btn btn-primary" data-id="' + item.id + '">Remove</button></td></tr>');
                });
            },
            error: function () {

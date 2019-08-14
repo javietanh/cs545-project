@@ -70,6 +70,12 @@ VALUES (8, 'Swimwear', 'Swimwear');
 INSERT INTO category (id, name, description)
 VALUES (9, 'Suits', 'Suits');
 
+INSERT INTO category (id, name, description)
+VALUES (10, 'Pants', 'Pants');
+
+INSERT INTO category (id, name, description)
+VALUES (11, 'Jackets', 'Jackets');
+
 INSERT INTO product (id, name, description, price, available, image, category_id, seller_id)
 VALUES (1, 'Dress with Tie Belt',
         'V-neck, knee-length dress in airy chiffon with details on shoulders. Cap sleeves, buttons at front, and elastication at back of waist. Attached tie belt. Satin lining',
@@ -161,11 +167,5 @@ VALUES (1 ,'banner1', 'long sleeves', '/img/adverts/5be8da29-cd51-4b56-8ef2-5e16
 
 INSERT INTO advert (id, title, description , image, url)
 VALUES (2, 'banner2', 'women clothing', '/img/adverts/5daab05d-dd51-43f8-9f36-b84fef1a3377.jpg', 'banner2.com');
-VALUES (2, 'From Phoenix shop: New product is added', now(), false, 1);
 
-INSERT INTO category (id, name, description)
-VALUES (1, 'pants', 'pants');
-INSERT INTO category (id, name, description)
-VALUES (2, 'jackets', 'jackets');
-INSERT INTO category (id, name, description)
-VALUES (3, 'shirts', 'shirts');
+

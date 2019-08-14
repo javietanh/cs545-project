@@ -8,16 +8,16 @@
 
         <div>
             <dl class="row">
-                <dt class="col-sm-3">Name:</dt>
+                <dt class="col-sm-3">Name</dt>
                 <dd class="col-sm-9" th:text="${item.product.name}"></dd>
 
-                <dt class="col-sm-3">Description:</dt>
+                <dt class="col-sm-3">Description</dt>
                 <dd class="col-sm-9" th:text="${item.product.description}"></dd>
 
-                <dt class="col-sm-3">Price:</dt>
-                <dd class="col-sm-9" th:text="${item.product.price}"></dd>
+                <dt class="col-sm-3">Price</dt>
+                <dd class="col-sm-9" th:text="'$' + ${item.product.price}"></dd>
 
-                <dt class="col-sm-3">Seller:</dt>
+                <dt class="col-sm-3">Seller</dt>
                 <dd class="col-sm-9" th:text="${item.product.seller.name}"></dd>
 
             </dl>

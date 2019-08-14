@@ -40,6 +40,7 @@ public class OrderController {
                 }
             }
             order.setStatus(OrderStatus.COMPLETED);
+            orderService.saveOrder(order.getBuyer(), order);
         }
         model.addAttribute("order", orderService.getOrderById(orderId));
         return "/buyer/OrderDetail";

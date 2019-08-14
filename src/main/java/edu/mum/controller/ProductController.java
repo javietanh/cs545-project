@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.io.IOException;
@@ -100,6 +101,7 @@ public class ProductController {
     @GetMapping(value = {"/seller/product"})
     public String getProductList(Model model) {
         model.addAttribute("products", productService.getAll());
+
         return "/seller/productList";
     }
 
@@ -112,14 +114,46 @@ public class ProductController {
     }
 
     @GetMapping(value = {"/seller/product/add"})
-    public String addProductForm(Model model) {
+    public String addProductForm(Model model, RedirectAttributes rd) {
+        // find the seller of this product.
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Seller seller = null;
+        if(authentication != null){
+            User user = userService.findByEmail(authentication.getName());
+            if(user != null){
+                seller = user.getSeller();
+
+                // if the seller is not approved yet, just return error and not allow for update.
+                if(seller.getStatus() != Status.APPROVED){
+                    rd.addFlashAttribute("error", "Unapproved Seller can not change the product.");
+                    return "redirect:/error";
+                }
+            }
+        }
         model.addAttribute("product", new Product());
         model.addAttribute("categories", categoryService.getCategories());
         return "/seller/productEdit";
     }
 
     @GetMapping(value = {"/seller/product/{id}"})
-    public String editProduct(@PathVariable(value = "id", required = false) Long id, Model model) {
+    public String editProduct(@PathVariable(value = "id", required = false) Long id, Model model, RedirectAttributes rd) {
+
+        // find the seller of this product.
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Seller seller = null;
+        if(authentication != null){
+            User user = userService.findByEmail(authentication.getName());
+            if(user != null){
+                seller = user.getSeller();
+
+                // if the seller is not approved yet, just return error and not allow for update.
+                if(seller.getStatus() != Status.APPROVED){
+                    rd.addFlashAttribute("error", "Unapproved Seller can not change the product.");
+                    return "redirect:/error";
+                }
+            }
+        }
+
         if (id != null) {
             model.addAttribute("product", productService.findById(id));
             model.addAttribute("categories", categoryService.getCategories());
@@ -128,7 +162,23 @@ public class ProductController {
     }
 
     @PostMapping(value = {"/seller/product/{id}"})
-    public String saveProduct(@Valid Product product, BindingResult result, @PathVariable(value = "id", required = false) Long id) {
+    public String saveProduct(@Valid Product product, BindingResult result, @PathVariable(value = "id", required = false) Long id, RedirectAttributes rd) {
+
+        // find the seller of this product.
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Seller seller = null;
+        if(authentication != null){
+            User user = userService.findByEmail(authentication.getName());
+            if(user != null){
+                seller = user.getSeller();
+
+                // if the seller is not approved yet, just return error and not allow for update.
+                if(seller.getStatus() != Status.APPROVED){
+                    rd.addFlashAttribute("error", "Unapproved Seller can not change the product.");
+                    return "redirect:/error";
+                }
+            }
+        }
 
         // upload file.
         MultipartFile upload = product.getUpload();
@@ -159,16 +209,6 @@ public class ProductController {
 
         // load category of product.
         Category category = categoryService.getCategoryById(product.getCategory().getId());
-
-        // find the seller of this product.
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Seller seller = null;
-        if(authentication != null){
-            User user = userService.findByEmail(authentication.getName());
-            if(user != null){
-                seller = user.getSeller();
-            }
-        }
 
         // get the product.
         if (id != null) {

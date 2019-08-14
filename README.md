@@ -59,7 +59,7 @@ Group Submission – DueDate: 5PM August, 15th, 2019 (Thursday)
 6.	One group submit only one 
  
  
-Project Topic – Some online Market 
+#### Project Topic – Some online Market
  
 1.	Users: Admin, Seller and Buyer 
 2.	Features of Admin 
@@ -91,3 +91,43 @@ b.	Can cancel order before shipping, after shipping cannot
 c.	Download/Print receipt as PDF or Excel 
 d.	Write Product Review. Review must be approved by Admin before live 
  	 
+## Online Marketing Project
+
+
+Github url: https://github.com/javietanh/cs545-project.git 
+Diagram: https://www.draw.io/#G1r-3mbf9fY7bXn7rIoG83pTlCA4mc43R2
+
+First look at the system functionalities:
+Admin:
+Manager ads display on the homepage.
+Manager and approve seller.
+Manager product previews.
+
+Seller:
+Register as a seller.
+Manager selling products
+Maintain orders.
+
+Buyer:
+Register as a buyer.
+Follow & Unfollower seller.
+Place an order
+
+Features:
+User management system:
+Login, Register
+
+Product management system: 
+Product, Category, Review, Following
+
+Shopping card system:
+Place an order, tracking 
+  B   Buyer place an order: 
+Adding products to their shopping card.
+Check out using a credit card or paypal.
+Tracking and receiving delivery notification:
+By email
+By website messages
+
+Membership system:
+Discount for members: can use the discount points to buy the products.

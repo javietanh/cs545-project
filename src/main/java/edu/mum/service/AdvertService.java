@@ -7,6 +7,8 @@ import java.util.List;
 
 public interface AdvertService {
 
+    List<Advert> getAll();
+
     public Advert saveAdvert(Advert advert);
 
     public List<Advert> getAdverts();

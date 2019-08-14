@@ -34,6 +34,9 @@ public class AdminController {
     @Autowired
     private MessageService messageService;
 
+    @Autowired
+    private AdvertService advertService;
+
     // admin homepage
     @GetMapping(value = {"/dashboard", "/", ""})
     public String adminHomepage(Model model) {
@@ -84,6 +87,11 @@ public class AdminController {
                 .count();
 
         model.addAttribute("totalActiveSellers", totalSellers);
+
+        // get total ads
+        int totalAds = advertService.getAll().size();
+        model.addAttribute("totalAds", totalAds);
+
 
         return "/admin/dashboard";
 

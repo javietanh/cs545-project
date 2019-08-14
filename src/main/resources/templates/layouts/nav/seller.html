@@ -2,13 +2,7 @@
      th:remove="tag"
      xmlns:th="http://www.thymeleaf.org/"
      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<!--	<li class="nav-item">-->
-<!--		<a class="nav-link"-->
-<!--		   th:href="@{/seller/dashboard}">-->
-<!--			<i class="fas fa-fw fa-tachometer-alt"></i>-->
-<!--			<span>Dashboard</span>-->
-<!--		</a>-->
-<!--	</li>-->
+
 
 	<li class="nav-item">
 		<a class="nav-link"
@@ -31,7 +25,7 @@
 			<span>Shop Info</span></a>
 	</li>
 
-	<li class="nav-item">
+	<li class="nav-item" th:if="${allowUpdateProduct == true}">
 		<a class="nav-link"
 		   th:href="@{/seller/product}">
 			<i class="fas fa-fw fa-boxes"></i>

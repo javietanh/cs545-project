@@ -49,13 +49,9 @@ public class ProductController {
         Product product = productService.findById(id);
 
         model.addAttribute("product", product);
-        List<OrderItem> orderItems = orderItemService.getOrderItems().stream().filter(x -> x.getProduct().equals(product)).collect(Collectors.toList());
+        List<OrderItem> orderItems = orderItemService.getOrderItems().stream().filter(x -> x.getProduct().equals(product) && x.getReviewStatus().equals(Status.APPROVED)).collect(Collectors.toList());
         model.addAttribute("orderItems", orderItems);
-        Double rating = 0.0;
-        if (orderItems.size() != 0) {
-            rating = orderItems.stream().mapToDouble(x -> x.getRating()).average().getAsDouble();
-        }
-        model.addAttribute("rating", rating);
+
         Seller seller = product.getSeller();
         model.addAttribute("seller", seller);
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();

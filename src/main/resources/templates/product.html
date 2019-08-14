@@ -14,22 +14,26 @@
             <div class="list-group">
                 <img th:src="${seller.picture}" th:alt="seller.picture" style="width: 100%;">
                 <span th:text="${seller.description}"></span>
-                <form th:action="(${follow} == 1) ? @{'/buyer/seller/' + ${seller.id} + '/follow'} :
-                @{'/buyer/seller/' + ${seller.id} + '/unfollow'}" th:method="POST">
+<!--                <form th:action="(${follow} == 1) ? @{'/buyer/seller/' + ${seller.id} + '/follow'} :-->
+<!--                @{'/buyer/seller/' + ${seller.id} + '/unfollow'}" th:method="POST">-->
 
-                    <input type="submit" class="btn btn-success" th:hidden="(${follow} > 0) ? 'false' : 'true' "
-                           th:value="(${follow} == 1) ? 'Unfollow' : 'Follow' "/>
+<!--                    <input type="submit" id="followBtn" class="btn btn-success" th:hidden="(${follow} > 0) ? 'false' : 'true' "-->
+<!--                           th:value="(${follow} == 1) ? 'Unfollow' : 'Follow' "/>-->
+                    <input id="sellerId" th:value="${seller.id}" hidden="hidden">
+                    <button id="followBtn" class="btn btn-success" th:hidden="(${follow} > 0) ? 'false' : 'true' "
+                            th:text="(${follow} == 1) ? 'Unfollow' : 'Follow' "></button>
 
-                </form>
+<!--                </form>-->
             </div>
             <div class="list-group">
                 <h2 class="my-3">Related Products</h2>
 
-                <div class="card h-100 p-3" th:each="product,iterStat : ${seller.products}" th:if="${iterStat.index}<3">
+                <div class="card h-100 mb-3 p-2" th:each="product,iterStat : ${seller.products}" th:if="${iterStat.index}<3">
                     <a th:href="@{'/product/' + ${product.id}}">
                         <img th:src="${product.image}" class="img-thumbnail">
                     </a>
                     <a th:href="${product.image}" th:text="${product.name}"></a>
+                    <span th:text="'$'+${product.price}"></span>
                 </div>
 
             </div>
@@ -52,9 +56,10 @@
                         </button>
                     </form>
                     <p class="card-text" th:text="${product.description}"></p>
-                    <span class="text-warning">&#9733; &#9733; &#9733; &#9733; &#9734;</span>
-                    <span th:if="${rating == 0}">No rating</span>
-                    <span th:unless="${rating == 0}" th:text="${rating} + ' Stars'"></span>
+
+<!--                    <span class="text-warning" id="rating">&#9733; &#9733; &#9733; &#9733; &#9734;</span>-->
+<!--                    <span th:if="${rating == 0}">No rating</span>-->
+<!--                    <span th:unless="${rating == 0}" th:text="${rating} + ' Stars'"></span>-->
                 </div>
             </div>
             <!-- /.card -->

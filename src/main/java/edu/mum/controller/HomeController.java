@@ -22,10 +22,10 @@ import java.util.stream.Collectors;
 public class HomeController {
 
     @Autowired
-    ProductService productService;
+    private ProductService productService;
 
     @Autowired
-    AdvertService advertService;
+    private AdvertService advertService;
 
     @Autowired
     private UserService userService;
@@ -37,16 +37,13 @@ public class HomeController {
     private CartService cartService;
 
     @Autowired
-    BuyerService buyerService;
+    private CartItemService cartItemService;
 
     @Autowired
-    CartItemService cartItemService;
+    private OrderItemService orderItemService;
 
     @Autowired
-    OrderItemService orderItemService;
-
-    @Autowired
-    CategoryService categoryService;
+    private CategoryService categoryService;
 
     // get index page
     @GetMapping(value = {"/"})
@@ -119,38 +116,5 @@ public class HomeController {
         return "/admin/dashboard.html";
     }
 
-    @GetMapping("/product/{productId}")
-    public String loadProduct(@PathVariable("productId") Long id, Model model){
-        Product product = productService.findById(id);
 
-        model.addAttribute("product", product);
-        List<OrderItem> orderItems = orderItemService.getOrderItems().stream().filter(x -> x.getProduct().equals(product)).collect(Collectors.toList());
-        model.addAttribute("orderItems", orderItems);
-        Double rating = 0.0;
-        if(orderItems.size() != 0) {
-            rating = orderItems.stream().mapToDouble(x -> x.getRating()).average().getAsDouble();
-        }
-        model.addAttribute("rating", rating);
-
-        return "product";
-    }
-
-    @GetMapping("/product/addToCart/{productId}")
-    public String addToCart(@PathVariable("productId") Long productId){
-        Product newProduct = productService.findById(productId);
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User user;
-        if(!auth.getPrincipal().equals("anonymousUser")){
-            String email = auth.getName();
-            user = userService.findByEmail(email);
-        } else {
-            return "redirect:/account/login";
-        }
-        CartItem newCartItem = new CartItem();
-        newCartItem.setProduct(newProduct);
-        newCartItem.setBuyer(buyerService.getBuyerByUser(user));
-        newCartItem.setQuantity(1);
-        cartItemService.saveCartItem(newCartItem);
-        return "redirect:/";
-    }
 }

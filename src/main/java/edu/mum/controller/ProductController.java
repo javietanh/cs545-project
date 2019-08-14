@@ -1,10 +1,7 @@
 package edu.mum.controller;
 
 import edu.mum.ShoppingApplication;
-import edu.mum.domain.CartItem;
-import edu.mum.domain.OrderItem;
-import edu.mum.domain.Product;
-import edu.mum.domain.User;
+import edu.mum.domain.*;
 import edu.mum.service.*;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,6 +56,20 @@ public class ProductController {
             rating = orderItems.stream().mapToDouble(x -> x.getRating()).average().getAsDouble();
         }
         model.addAttribute("rating", rating);
+        Seller seller = product.getSeller();
+        model.addAttribute("seller", seller);
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.findByEmail(auth.getName());
+        Buyer buyer = buyerService.getBuyerByUser(user);
+        if(buyer != null){
+            if(buyerService.getFollowings(buyer.getId()).contains(seller)){
+                model.addAttribute("follow",1);
+            } else {
+                model.addAttribute("follow", 2);
+            }
+        } else {
+            model.addAttribute("follow", 0);
+        }
 
         return "product";
     }

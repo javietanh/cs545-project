@@ -197,7 +197,7 @@ public class HomeController {
         List<Category> categories = categoryService.getCategories();
         model.addAttribute("categories", categories);
 
-
+        model.addAttribute("currentCategoryId", category.getId());
 
         return "index";
     }

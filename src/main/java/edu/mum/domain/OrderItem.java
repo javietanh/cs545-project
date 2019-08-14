@@ -26,4 +26,5 @@ public class OrderItem {
     private OrderItemStatus orderStatus = OrderItemStatus.ORDERED;
     private LocalDateTime shippingDate;
     private LocalDateTime deliveredDate;
+    private LocalDateTime reviewDate;
 }

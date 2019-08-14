@@ -9,8 +9,10 @@
 
         <div class="col-lg-3">
             <h1 class="my-4">JPA Market</h1>
-            <div class="list-group">
-                <a href="#" th:href="@{/category?id=} + ${category.id}" class="list-group-item" th:each="category : ${categories}" th:text="${category.name}"></a>
+            <div class="list-group w3-light-grey">
+                <a href="#" th:href="@{/category?id=} + ${category.id}" class="list-group-item list-group-item-action"
+                   th:each="category : ${categories}" th:text="${category.name}"
+                   th:classappend="(${category.id} == ${currentCategoryId}) ? 'active' : ''"></a>
             </div>
         </div>
         <div class="col-lg-9">

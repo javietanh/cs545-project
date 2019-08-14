@@ -2,12 +2,19 @@
      th:remove="tag"
      xmlns:th="http://www.thymeleaf.org/"
      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<!--	<li class="nav-item">-->
+<!--		<a class="nav-link"-->
+<!--		   th:href="@{/seller/dashboard}">-->
+<!--			<i class="fas fa-fw fa-tachometer-alt"></i>-->
+<!--			<span>Dashboard</span>-->
+<!--		</a>-->
+<!--	</li>-->
+
 	<li class="nav-item">
 		<a class="nav-link"
-		   th:href="@{/seller/dashboard}">
-			<i class="fas fa-fw fa-tachometer-alt"></i>
-			<span>Dashboard</span>
-		</a>
+		   th:href="@{/seller/orders}">
+			<i class="fas fa-fw fa-barcode"></i>
+			<span>Orders</span></a>
 	</li>
 	
 	<li class="nav-item">
@@ -23,19 +30,19 @@
 			<i class="fas fa-fw fa-store-alt"></i>
 			<span>Shop Info</span></a>
 	</li>
-	
-	<li class="nav-item">
-		<a class="nav-link"
-		   th:href="@{/seller/shop}">
-			<i class="fas fa-fw fa-store-alt"></i>
-			<span>Shop Info</span></a>
-	</li>
-	
+
 	<li class="nav-item">
 		<a class="nav-link"
 		   th:href="@{/seller/product}">
 			<i class="fas fa-fw fa-boxes"></i>
 			<span>Product</span></a>
+	</li>
+
+	<li class="nav-item">
+		<a class="nav-link"
+		   th:href="@{/seller/followers}">
+			<i class="fas fa-fw fa-user-plus"></i>
+			<span>Followers</span></a>
 	</li>
 	
 </div>

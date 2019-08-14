@@ -42,4 +42,9 @@ public class SellerServiceImpl implements SellerService {
         selectSeller.setPicture(seller.getPicture());
         return sellerRepository.save(selectSeller);
     }
+
+    @Override
+    public List<Seller> getAllSellers() {
+        return (List) sellerRepository.findAll();
+    }
 }

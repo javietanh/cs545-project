@@ -1,6 +1,6 @@
 package edu.mum.domain;
 
-public enum SellerStatus {
+public enum Status {
     PENDING,
     APPROVED,
     REJECTED

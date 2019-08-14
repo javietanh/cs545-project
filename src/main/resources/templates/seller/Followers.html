@@ -3,28 +3,37 @@
       xmlns:th="http://www.thymeleaf.org"
       layout:decorate="~{layouts/user}">
 <div class="container" layout:fragment="content">
-    <P>
-        <h1>Seller homepage!!!!</h1>
-        <small>Implement your seller function on this area</small>
-    </p>
 
-    <div >
-        <table class="table">
-            <tr>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Phone</th>
-                <th>Address</th>
-            </tr>
-
-            <tr th:each="buyer: ${buyers}">
-                <td th:text="${buyer.user.firstName} + ' ' + ${buyer.user.lastName}"></td>
-                <td th:text="${buyer.user.email}"></td>
-                <td th:text="${buyer.user.phone}"></td>
-                <td th:text="${buyer.user.address}"></td>
-            </tr>
-
-        </table>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Address</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tfoot>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Address</th>
+                </tr>
+                </tfoot>
+                <tbody>
+                <tr th:each="buyer: ${buyers}">
+                    <td th:text="${buyer.user.firstName} + ' ' + ${buyer.user.lastName}"></td>
+                    <td th:text="${buyer.user.email}"></td>
+                    <td th:text="${buyer.user.phone}"></td>
+                    <td th:text="${buyer.user.address}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 </html>

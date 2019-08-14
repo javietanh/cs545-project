@@ -14,4 +14,5 @@ public interface OrderItemRepository extends CrudRepository<OrderItem, Long> {
             "inner join Order o on i.order.id = o.id " +
             "where s.id = :sellerId")
     public List<OrderItem> getOrderItemsBySeller(Long sellerId);
+
 }

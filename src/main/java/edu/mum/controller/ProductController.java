@@ -157,6 +157,4 @@ public class ProductController {
 
         return "redirect:/seller/product";
     }
-
-
 }

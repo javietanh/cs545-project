@@ -7,33 +7,8 @@
     <script type="text/javascript" th:src="@{/js/cart.js}"></script>
 </head>
 <div class="container" layout:fragment="content">
-    <P>
-        <h1>Buyer homepage!!!!</h1>
-        <small>Implement your buyer function on this area</small>
-    </p>
 
     <div >
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Product</th>
-                    <th>Price</th>
-                    <th>Quantity</th>
-                </tr>
-            </thead>
-            <tbody id='cart-item'>
-                <tr  th:each="item: ${cart}">
-                    <td th:text="${item.product.name}"></td>
-                    <td th:text="${item.product.price}"></td>
-                    <td th:text="${item.quantity}"></td>
-                    <td>
-                        <a href="#" class='remove-item' th:data="${item.id}">Remove</a>
-                    </td>
-                </tr>
-            </tbody>
-
-
-        </table>
 
         <div class="card-body">
             <div class="table-responsive">
@@ -43,6 +18,7 @@
                         <th>Product</th>
                         <th>Price</th>
                         <th>Quantity</th>
+                        <th></th>
                     </tr>
                     </thead>
                     <tfoot>
@@ -50,17 +26,10 @@
                         <th>Product</th>
                         <th>Price</th>
                         <th>Quantity</th>
+                        <th></th>
                     </tr>
                     </tfoot>
                     <tbody id='cart-item'>
-                    <tr  th:each="item: ${cart}">
-                        <td th:text="${item.product.name}"></td>
-                        <td th:text="${item.product.price}"></td>
-                        <td th:text="${item.quantity}"></td>
-                        <td>
-                            <a href="#" class='remove-item' th:data="${item.id}">Remove</a>
-                        </td>
-                    </tr>
                     </tbody>
                 </table>
             </div>

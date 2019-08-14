@@ -132,7 +132,7 @@
 					
 					<a class="dropdown-item"
 					   sec:authorize="hasAuthority('SELLER')"
-					   th:href="@{/seller/dashboard}">
+					   th:href="@{/seller/orders}">
 						<span class="fa fas fa-fw fa-tachometer-alt"></span>
 						Dashboard
 						<!-- Seller dashboard link -->
@@ -140,7 +140,7 @@
 					
 					<a class="dropdown-item"
 					   sec:authorize="hasAuthority('BUYER')"
-					   th:href="@{/buyer/dashboard}">
+					   th:href="@{/buyer/orders}">
 						<span class="fa fas fa-fw fa-tachometer-alt"></span>
 						Dashboard
 						<!-- Buyer dashboard link -->

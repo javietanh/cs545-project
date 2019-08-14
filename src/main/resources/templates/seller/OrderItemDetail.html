@@ -3,34 +3,57 @@
       xmlns:th="http://www.thymeleaf.org"
       layout:decorate="~{layouts/user}">
 <div class="container" layout:fragment="content">
-    <P>
-        <h1>Seller homepage!!!!</h1>
-        <small>Implement your seller function on this area</small>
-    </p>
 
     <div >
-        Buyer: <span th:text="${item.order.buyer.user.firstName} + ' ' + ${item.order.buyer.user.lastName}"></span></br>
-        Buyer's phone: <span th:text="${item.order.buyer.user.phone}"></span></br>
-        Buyer's email: <span th:text="${item.order.buyer.user.email}"></span></br>
-        Product: <span th:text="${item.product.name}"></span></br>
-        Price: <span th:text="${item.product.price}"></span></br>
-        Quantity: <span th:text="${item.quantity}"></span></br>
-        Total Price: <span th:text="${totalPrice}"></span></br>
-        Shipping Address: <span th:text="${item.order.shippingAddress}"></span></br>
-        Billing Address: <span th:text="${item.order.billingAddress}"></span></br>
-<!--        Status: <span th:text="${item.orderStatus}"></span></br>-->
-        <form th:object="${item}" action="#" th:action="@{/seller/orders/} + ${item.id} + @{/status}" method="post">
-            <label>Status: </label>
-            <select th:field="*{orderStatus}">
-                <option th:value="'ORDERED'">ORDERED</option>
-                <option th:value="'SHIPPED'">SHIPPED</option>
-                <option th:value="'DELIVERED'">DELIVERED</option>
-                <option th:value="'RETURNED'">RETURNED</option>
-                <option th:value="'CANCELED'">CANCELED</option>
-            </select><br/>
-            <input type="submit" value="Change status"/>
-        </form>
+        <div>
+            <form th:object="${item}" action="#" th:action="@{/seller/orders/} + ${item.id} + @{/status}" method="post">
+            <dl class="row">
+                <dt class="col-sm-3">Buyer:</dt>
+                <dd class="col-sm-9" th:text="${item.order.buyer.user.firstName} + ' ' + ${item.order.buyer.user.lastName}"></dd>
 
+                <dt class="col-sm-3">Buyer's phone:</dt>
+                <dd class="col-sm-9" th:text="${item.order.buyer.user.phone}"></dd>
+
+                <dt class="col-sm-3">Buyer's email:</dt>
+                <dd class="col-sm-9" th:text="${item.order.buyer.user.email}"></dd>
+
+                <dt class="col-sm-3">Product:</dt>
+                <dd class="col-sm-9" th:text="${item.product.name}"></dd>
+
+                <dt class="col-sm-3">Price:</dt>
+                <dd class="col-sm-9" th:text="${item.product.price}"></dd>
+
+                <dt class="col-sm-3">Quantity:</dt>
+                <dd class="col-sm-9" th:text="${item.quantity}"></dd>
+
+                <dt class="col-sm-3">Total Price:</dt>
+                <dd class="col-sm-9" th:text="${totalPrice}"></dd>
+
+                <dt class="col-sm-3">Shipping Address:</dt>
+                <dd class="col-sm-9" th:text="${item.order.shippingAddress}"></dd>
+
+                <dt class="col-sm-3">Billing Address:</dt>
+                <dd class="col-sm-9" th:text="${item.order.billingAddress}"></dd>
+
+                <dt class="col-sm-3">Status:</dt>
+                <dd class="col-sm-9" >
+                    <select th:field="*{orderStatus}">
+                        <option th:value="'ORDERED'">ORDERED</option>
+                        <option th:value="'SHIPPED'">SHIPPED</option>
+                        <option th:value="'DELIVERED'">DELIVERED</option>
+                        <option th:value="'RETURNED'">RETURNED</option>
+                        <option th:value="'CANCELED'">CANCELED</option>
+                    </select>
+                </dd>
+
+                <dt class="col-sm-3"></dt>
+                <dd class="col-sm-9">
+                    <input type="submit" value="Change status" class="btn btn-info"/>
+                </dd>
+
+            </dl>
+            </form>
+        </div>
     </div>
 </div>
 </html>

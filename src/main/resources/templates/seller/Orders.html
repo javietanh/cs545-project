@@ -3,35 +3,48 @@
       xmlns:th="http://www.thymeleaf.org"
       layout:decorate="~{layouts/user}">
 <div class="container" layout:fragment="content">
-    <P>
-        <h1>Seller homepage!!!!</h1>
-        <small>Implement your seller function on this area</small>
-    </p>
 
-    <div >
-        <table class="table">
-            <tr>
-                <th>Buyer</th>
-                <th>Product</th>
-                <th>Price</th>
-                <th>Quantity</th>
-                <th>Status</th>
-            </tr>
 
-            <tr th:each="item: ${orderItems}">
-                <td th:text="${item.order.buyer.user.firstName} + ' ' + ${item.order.buyer.user.lastName}"></td>
-                <td th:text="${item.product.name}"></td>
-                <td th:text="${item.product.price}"></td>
-                <td th:text="${item.quantity}"></td>
-                <td th:text="${item.orderStatus}"></td>
-                <td>
-                    <form action="#" th:action="@{/seller/orders/} + ${item.id}">
-                        <input type="submit" value="Details"/>
-                    </form>
-                </td>
-            </tr>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                <tr>
+                    <th>Buyer</th>
+                    <th>Product</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Status</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tfoot>
+                <tr>
+                    <th>Buyer</th>
+                    <th>Product</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Status</th>
+                    <th></th>
+                </tr>
+                </tfoot>
+                <tbody>
+                <tr th:each="item: ${orderItems}">
+                    <td th:text="${item.order.buyer.user.firstName} + ' ' + ${item.order.buyer.user.lastName}"></td>
+                    <td th:text="${item.product.name}"></td>
+                    <td th:text="${item.product.price}"></td>
+                    <td th:text="${item.quantity}"></td>
+                    <td th:text="${item.orderStatus}"></td>
+                    <td>
+                        <form action="#" th:action="@{/seller/orders/} + ${item.id}">
+                            <input type="submit" value="Details" class="btn btn-info"/>
+                        </form>
+                    </td>
+                </tr>
 
-        </table>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 </html>

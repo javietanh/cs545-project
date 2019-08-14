@@ -117,6 +117,24 @@ public class BuyerController {
         return true;
     }
 
+    @PostMapping("/buyer/follow/{action}/{sellerId}")
+    @ResponseBody
+    public Boolean followSeller(@PathVariable("sellerId") Long sellerId, @PathVariable("action") String action){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.findByEmail(auth.getName());
+        Buyer buyer = buyerService.getBuyerByUser(user);
+        Seller seller = sellerService.getSellerById(sellerId);
+        if(action.equals("Follow")){
+
+        buyerService.followSeller(buyer, seller);
+        return true;
+        } else {
+        buyerService.unfollowSeller(buyer, seller);
+        return false;
+
+        }
+    }
+
     @PostMapping("/buyer/seller/{sellerId}/follow")
     public String followSeller(@PathVariable("sellerId") Long sellerId, Model model) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();

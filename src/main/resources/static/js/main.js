@@ -126,4 +126,28 @@ $(document).ready(function () {
         "lengthMenu": [ [10, 25, 50, -1], [10, 25, 50, "All"] ]
     });
 
+    $("#followBtn").click(function() {
+        let action = $("#followBtn").text();
+        let sellerId = $("#sellerId").val();
+
+        $.ajax({
+            method: 'POST',
+            url: serverUrl + "/buyer/follow/"+ action + "/" + sellerId,
+            dataType: 'json',
+            contentType: 'application/json',
+            success: function (result) {
+                if(result){
+                $("#followBtn").html('Unfollow');
+
+                } else {
+                $("#followBtn").html('Follow');
+
+                }
+
+            }, error: function (errors) {
+                console.log(errors);
+            }
+        });
+    });
+
 });

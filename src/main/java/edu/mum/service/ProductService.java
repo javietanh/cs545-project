@@ -18,4 +18,6 @@ public interface ProductService {
     List<Product> getProductsByCategory(Category category);
 
     List<Product> getProductsBySeller(Seller seller);
+
+    List<Product> getProductsByName(String name);
 }

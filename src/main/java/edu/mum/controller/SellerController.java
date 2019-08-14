@@ -74,6 +74,7 @@ public class SellerController {
     @PostMapping("/orders/{itemId}/status")
     public String updateOrderStatus(@PathVariable("itemId") Long itemId, @Valid OrderItem item, Model model) {
         OrderItem orderItem = orderService.getOrderItemById(itemId);
+        BigDecimal totalPrice = orderItem.getProduct().getPrice().multiply(new BigDecimal(orderItem.getQuantity()));
         if(orderItem != null){
             orderItem.setOrderStatus(item.getOrderStatus());
             if (orderItem.getOrderStatus() == OrderItemStatus.CANCELED) {
@@ -85,12 +86,14 @@ public class SellerController {
                     orderItem.getOrder().setStatus(OrderStatus.PROCESSING);
                 }
             }
+            if (orderItem.getOrderStatus() == OrderItemStatus.CANCELED || orderItem.getOrderStatus() == OrderItemStatus.RETURNED) {
+                orderItem.getOrder().setTotalAmount(orderItem.getOrder().getTotalAmount().subtract(totalPrice));
+            }
             orderService.saveOrderItem(orderItem);
         }
-        BigDecimal totalPrice = orderItem.getProduct().getPrice().multiply(new BigDecimal(orderItem.getQuantity()));
         model.addAttribute("item", orderItem);
         model.addAttribute("totalPrice", totalPrice);
-        return "redirect:/seller/orders/" + itemId;
+        return "redirect:/seller/orders/";
     }
 
     @GetMapping("/followers")

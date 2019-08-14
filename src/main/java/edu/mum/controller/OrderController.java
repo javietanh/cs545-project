@@ -20,6 +20,8 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @Controller
 public class OrderController {
@@ -35,14 +37,16 @@ public class OrderController {
         if (order.getStatus() != OrderStatus.COMPLETED) {
             for (OrderItem item : order.getOrderItems()) {
                 if (item.getOrderStatus() == OrderItemStatus.ORDERED || item.getOrderStatus() == OrderItemStatus.SHIPPED) {
-                    model.addAttribute("order", orderService.getOrderById(orderId));
+                    model.addAttribute("order", order);
                     return "/buyer/OrderDetail";
                 }
             }
             order.setStatus(OrderStatus.COMPLETED);
-            orderService.saveOrder(order.getBuyer(), order);
+            order.setEndDate(LocalDateTime.now());
+            order.getBuyer().setPoints(order.getBuyer().getPoints() + order.getTotalAmount().divide(new BigDecimal(100)).intValue());
+            orderService.updateOrder(order);
         }
-        model.addAttribute("order", orderService.getOrderById(orderId));
+        model.addAttribute("order", order);
         return "/buyer/OrderDetail";
     }
 

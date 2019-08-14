@@ -6,6 +6,7 @@ import edu.mum.repository.OrderItemRepository;
 import edu.mum.repository.OrderRepository;
 import edu.mum.service.OrderService;
 import edu.mum.util.PdfGenerator;
+import org.apache.tomcat.jni.Local;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -72,6 +73,10 @@ public class OrderServiceImpl implements OrderService {
         return orderRepository.save(order);
     }
 
+    public Order updateOrder(Order order) {
+        return orderRepository.save(order);
+    }
+
     @Override
     public void completeOrder(Order order) {
         order.setStatus(OrderStatus.COMPLETED);
@@ -88,6 +93,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public void cancelOrder(Order order) {
         order.setStatus(OrderStatus.CANCELED);
+        order.setEndDate(LocalDateTime.now());
         orderRepository.save(order);
     }
 

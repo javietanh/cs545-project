@@ -8,11 +8,10 @@ $(document).ready(function () {
                $('#seller').html("");
                $.each(sellers, function (i, seller) {
                    $("#seller").append('<tr><td>' + seller.name + '</td>' +
-                   '<td>' + seller.description + '</td>' +
                    '<td>' + seller.phone + '</td>' +
                    '<td>' + seller.email + '</td>' +
                    '<td>' + seller.address + '</td>' +
-                       '<td><button class="unfollow btn btn-primary" data-id="' + seller.id + '">Unfollow</button></td></tr>');
+                   '<td><button class="unfollow btn btn-primary" data-id="' + seller.id + '">Unfollow</button></td></tr>');
                });
            },
            error: function () {

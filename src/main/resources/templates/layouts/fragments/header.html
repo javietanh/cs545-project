@@ -5,13 +5,7 @@
 	
 	<a class="navbar-brand mr-1"
 	   th:href="@{/}">Online Shopping</a>
-	
-	<!-- only display on dashboard or back page -->
-	<!--	<button class="btn btn-link btn-sm text-white order-1 order-sm-0 hide" id="sidebarToggle" href="#">-->
-	<!--		<i class="fas fa-bars"></i>-->
-	<!--	</button>-->
-	<!-- only display on dashboard or back page -->
-	
+
 	<!-- Navbar Search -->
 	<form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
 		<div class="input-group">
@@ -31,10 +25,38 @@
 	
 	<!-- Navbar -->
 	<ul class="navbar-nav ml-auto ml-md-0">
-		<li><a th:href="@{/buyer/cart}">
-			<i class="fas fa-shopping-cart fa-2x text-light fa-fw"></i>
+		
+		<li class="nav-item dropdown no-arrow mx-1">
+			
+			<a class="nav-link dropdown-toggle"
+			   href="#"
+			   id="shoppingCartDropdown"
+			   role="button"
+			   data-toggle="dropdown"
+			   aria-haspopup="true"
+			   aria-expanded="false">
+				<i class="fas fa-shopping-cart fa-2x text-light fa-fw"></i>
+				<span class="badge badge-danger m-0"
+				      id="cart-item-count"></span>
+			</a>
+			
+			<div class="dropdown-menu dropdown-menu-right shadow"
+			     style="min-width: 300px"
+			     aria-labelledby="shoppingCartDropdown">
+				<div class="card border-0 m-0 p-0">
+					<div class="card-body">
+						<ul id="cart-items"
+						    class="list-group list-group-flush">
+						</ul>
+					</div>
+					<div class="card-footer mb-0 text-right">
+						<a th:href="@{/buyer/cart}">View Shopping Cart</a>
+					</div>
+				</div>
+			</div>
 		</a>
 		</li>
+		
 		<li class="nav-item dropdown no-arrow mx-1">
 			<a class="nav-link dropdown-toggle"
 			   href="#"

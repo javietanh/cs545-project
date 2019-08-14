@@ -2,6 +2,7 @@ package edu.mum.controller;
 
 import edu.mum.domain.*;
 import edu.mum.service.CategoryService;
+import edu.mum.service.MessageService;
 import edu.mum.service.OrderService;
 import edu.mum.service.SellerService;
 import edu.mum.service.UserService;
@@ -47,6 +48,9 @@ public class SellerController {
     public List<Category> getCategories(){
         return categoryService.getCategories();
     }
+  
+    @Autowired
+    private MessageService messageService;
 
     @GetMapping("/orders")
     public String getOrdersBySeller(Model model) {
@@ -72,6 +76,15 @@ public class SellerController {
         OrderItem orderItem = orderService.getOrderItemById(itemId);
         if(orderItem != null){
             orderItem.setOrderStatus(item.getOrderStatus());
+            if (orderItem.getOrderStatus() == OrderItemStatus.CANCELED) {
+                String message = "The order for " + orderItem.getProduct().getName() + " is canceled";
+                messageService.sendMessageToUser(orderItem.getOrder().getBuyer().getUser(), message);
+            }
+            if (orderItem.getOrder().getStatus() == OrderStatus.NEW) {
+                if (orderItem.getOrderStatus() != OrderItemStatus.ORDERED && orderItem.getOrderStatus() != OrderItemStatus.CANCELED) {
+                    orderItem.getOrder().setStatus(OrderStatus.PROCESSING);
+                }
+            }
             orderService.saveOrderItem(orderItem);
         }
         BigDecimal totalPrice = orderItem.getProduct().getPrice().multiply(new BigDecimal(orderItem.getQuantity()));

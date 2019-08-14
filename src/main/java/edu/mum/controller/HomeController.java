@@ -11,7 +11,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.Collections;
 import java.util.List;
+import java.util.Random;
+import java.util.stream.Collectors;
 
 @Controller
 public class HomeController {
@@ -34,11 +37,16 @@ public class HomeController {
     @Autowired
     private CategoryService categoryService;
 
+
+
     // get index page
     @GetMapping(value = {"/"})
     public String index(Model model) {
         //brings products
         List<Product> products = productService.getAll();
+
+        Collections.shuffle(products, new Random());
+
         model.addAttribute("products", products);
         //brings the ads
         List<Advert> adverts = advertService.getAdverts();
@@ -48,8 +56,32 @@ public class HomeController {
         model.addAttribute("categories", categories);
 
 
+
         return "index";
     }
+
+
+    @GetMapping("/search")
+    public String indexSearch(@RequestParam("searchWord") String searchWord ,Model model) {
+        //brings products
+        List<Product> products = productService.getAll().stream()
+                .filter(x -> x.getName().toLowerCase().contains(searchWord.toLowerCase())).collect(Collectors.toList());
+
+        Collections.shuffle(products, new Random());
+
+        model.addAttribute("products", products);
+        //brings the ads
+        List<Advert> adverts = advertService.getAdverts();
+        model.addAttribute("adverts", adverts);
+        //brings categories
+        List<Category> categories = categoryService.getCategories();
+        model.addAttribute("categories", categories);
+
+
+
+        return "index";
+    }
+
 
     // add product to shopping cart.
     @PostMapping(value = {"/product/addToCart"},

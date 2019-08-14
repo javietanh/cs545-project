@@ -5,9 +5,11 @@ import edu.mum.domain.OrderItem;
 import java.util.List;
 
 public interface OrderItemService {
-    public OrderItem saveOrderItem(OrderItem orderItem);
+    OrderItem saveOrderItem(OrderItem orderItem);
 
-    public List<OrderItem> getOrderItems();
+    List<OrderItem> getOrderItems();
 
-    public OrderItem getOrderItemById(Long id);
+    OrderItem getOrderItemById(Long id);
+
+    List<String> getApprovedReviews(Long itemId);
 }

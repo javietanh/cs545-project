@@ -1,6 +1,9 @@
 package edu.mum.controller;
 
 import edu.mum.domain.Order;
+import edu.mum.domain.OrderItem;
+import edu.mum.domain.OrderItemStatus;
+import edu.mum.domain.OrderStatus;
 import edu.mum.service.BuyerService;
 import edu.mum.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,15 +31,19 @@ public class OrderController {
 
     @GetMapping("/orders/{orderId}")
     public String getOrder(@PathVariable("orderId") Long orderId, Model model) {
+        Order order = orderService.getOrderById(orderId);
+        if (order.getStatus() != OrderStatus.COMPLETED) {
+            for (OrderItem item : order.getOrderItems()) {
+                if (item.getOrderStatus() == OrderItemStatus.ORDERED || item.getOrderStatus() == OrderItemStatus.SHIPPED) {
+                    model.addAttribute("order", orderService.getOrderById(orderId));
+                    return "/buyer/OrderDetail";
+                }
+            }
+            order.setStatus(OrderStatus.COMPLETED);
+            orderService.saveOrder(order.getBuyer(), order);
+        }
         model.addAttribute("order", orderService.getOrderById(orderId));
         return "/buyer/OrderDetail";
-    }
-
-    @PostMapping("/orders/{orderId}/complete")
-    public String completeOrder(@PathVariable("orderId") Long orderId, Model model) {
-        Order order = orderService.getOrderById(orderId);
-        orderService.completeOrder(order);
-        return "redirect:/buyer/orders/";
     }
 
     @PostMapping("/orders/{orderId}/cancel")

@@ -12,7 +12,7 @@ $(document).ready(function () {
                    '<td>' + seller.phone + '</td>' +
                    '<td>' + seller.email + '</td>' +
                    '<td>' + seller.address + '</td>' +
-                       '<td><a href="javascript:void(0)" class="unfollow" data-id="' + seller.id + '">Unfollow</a></td></tr>');
+                       '<td><button class="unfollow btn btn-primary" data-id="' + seller.id + '">Unfollow</button></td></tr>');
                });
            },
            error: function () {
@@ -38,8 +38,6 @@ $(document).ready(function () {
             }
         });
    });
-
-   $("#")
 
 });
 

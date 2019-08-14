@@ -3,27 +3,33 @@
       xmlns:th="http://www.thymeleaf.org"
       layout:decorate="~{layouts/user}">
 <div class="container" layout:fragment="content">
+    <p>
+        <h1>Order Details</h1>
+    </p>
 
     <div>
         <div>
             <dl class="row">
-                <dt class="col-sm-3">Shipping Address:</dt>
+                <dt class="col-sm-3">Status</dt>
+                <dd class="col-sm-9" th:text="${order.status}"></dd>
+
+                <dt class="col-sm-3">Shipping Address</dt>
                 <dd class="col-sm-9" th:text="${order.shippingAddress}"></dd>
 
-                <dt class="col-sm-3">Billing Address:</dt>
+                <dt class="col-sm-3">Billing Address</dt>
                 <dd class="col-sm-9" th:text="${order.billingAddress}"></dd>
 
-                <dt class="col-sm-3">Total Amount:</dt>
-                <dd class="col-sm-9" th:text="${order.totalAmount}"></dd>
+                <dt class="col-sm-3">Total Amount</dt>
+                <dd class="col-sm-9" th:text="'$' + ${order.totalAmount}"></dd>
 
-                <dt class="col-sm-3">Payment Info:</dt>
+                <dt class="col-sm-3">Payment Info</dt>
                 <dd class="col-sm-9" th:text="${order.paymentInfo}"></dd>
 
-                <dt class="col-sm-3">Ordered Date:</dt>
-                <dd class="col-sm-9" th:text="${order.orderedDate}"></dd>
+                <dt class="col-sm-3">Ordered Date</dt>
+                <dd class="col-sm-9" th:text="${#temporals.format(order.orderedDate, 'dd-MM-yyyy HH:mm')}"></dd>
 
-                <dt class="col-sm-3">End Date:</dt>
-                <dd class="col-sm-9" th:text="${order.endDate}"></dd>
+                <dt class="col-sm-3">End Date</dt>
+                <dd class="col-sm-9" th:text="${#temporals.format(order.endDate, 'dd-MM-yyyy HH:mm')}"></dd>
 
             </dl>
 
@@ -31,19 +37,12 @@
         <div class="row">
             <div class="col-xs-6 pl-3">
                 <form th:object="${order}" action="#" th:action="@{/orders/} + ${order.id} + @{/cancel}" method="post">
-                    <input type="submit" value="Cancel" class="btn btn-info btn-sm"/>
+                    <input type="submit" value="Cancel" th:if="${order.status.toString() == 'NEW'}" class="btn btn-primary"/>
                 </form>
             </div>
             <div class="col-xs-6 pl-3">
-                <form th:object="${order}" action="#" th:action="@{/orders/} + ${order.id} + @{/complete}"
-                      method="post">
-                    <input type="submit" value="Complete" class="bth btn-success btn-sm" />
-                </form>
-            </div>
-            <div class="col-xs-6 pl-3">
-                <form th:object="${order}" action="#" th:action="@{/orders/} + ${order.id} + @{/download}"
-                      method="post">
-                    <input type="submit" value="Download Receipt" class="btn btn-danger btn-sm"/>
+                <form th:object="${order}" action="#" th:action="@{/orders/} + ${order.id} + @{/download}" method="post">
+                    <input type="submit" value="Download Receipt" class="btn btn-danger"/>
                 </form>
             </div>
         </div>
@@ -86,18 +85,21 @@
                         <th>Price</th>
                         <th>Quantity</th>
                         <th>Status</th>
-                        <th></th>
+                        <th>Action</th>
                     </tr>
                     </tfoot>
                     <tbody>
                     <tr th:each="item: ${order.orderItems}">
                         <td th:text="${item.product.name}"></td>
-                        <td th:text="${item.product.price}"></td>
+                        <td th:text="'$' + ${item.product.price}"></td>
                         <td th:text="${item.quantity}"></td>
                         <td th:text="${item.orderStatus}"></td>
-                        <td>
+                        <td class="align-items-center">
                             <form action="#" th:action="@{/item/} + ${item.id} + @{/review}">
-                                <input type="submit" value="Review" class="btn btn-info"/>
+                                <input type="submit" value="Review" class="btn btn-primary btn-sm"/>
+                            </form>
+                            <form action="#" th:action="@{/item/} + ${item.id} + @{/cancel}">
+                                <input type="submit" value="Cancel" th:if="${item.orderStatus.toString() == 'ORDERED'}" class="btn btn-primary btn-sm"/>
                             </form>
                         </td>
                     </tr>

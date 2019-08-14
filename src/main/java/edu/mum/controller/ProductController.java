@@ -1,16 +1,11 @@
 package edu.mum.controller;
 
 import edu.mum.ShoppingApplication;
-import edu.mum.domain.CartItem;
-import edu.mum.domain.OrderItem;
 import edu.mum.domain.Product;
-import edu.mum.domain.User;
-import edu.mum.service.*;
+import edu.mum.service.ProductService;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.system.ApplicationHome;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -24,64 +19,13 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Controller
 public class ProductController {
 
     @Autowired
     private ProductService productService;
-
-    @Autowired
-    private OrderItemService orderItemService;
-
-    @Autowired
-    private UserService userService;
-
-    @Autowired
-    private BuyerService buyerService;
-
-    @Autowired
-    private CartItemService cartItemService;
-
-    // home page
-    @GetMapping("/product/{productId}")
-    public String loadProduct(@PathVariable("productId") Long id, Model model) {
-        Product product = productService.findById(id);
-
-        model.addAttribute("product", product);
-        List<OrderItem> orderItems = orderItemService.getOrderItems().stream().filter(x -> x.getProduct().equals(product)).collect(Collectors.toList());
-        model.addAttribute("orderItems", orderItems);
-        Double rating = 0.0;
-        if (orderItems.size() != 0) {
-            rating = orderItems.stream().mapToDouble(x -> x.getRating()).average().getAsDouble();
-        }
-        model.addAttribute("rating", rating);
-
-        return "product";
-    }
-
-    @GetMapping("/product/addToCart/{productId}")
-    public String addToCart(@PathVariable("productId") Long productId) {
-        Product newProduct = productService.findById(productId);
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User user = new User();
-        if (!auth.getPrincipal().equals("anonymousUser")) {
-            String email = auth.getName();
-            user = userService.findByEmail(email);
-
-        } else {
-            return "redirect:/account/login";
-        }
-        CartItem newCartItem = new CartItem();
-        newCartItem.setProduct(newProduct);
-        newCartItem.setBuyer(buyerService.getBuyerByUser(user));
-        newCartItem.setQuantity(1);
-        cartItemService.saveCartItem(newCartItem);
-        return "redirect:/";
-    }
 
     // seller
     @GetMapping(value = {"/seller/product"})

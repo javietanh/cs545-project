@@ -69,22 +69,22 @@ $(document).ready(function () {
     setInterval(queryUserMessages, 10000);
 
     // add items to shopping cart.
-    $(document).on('click', '.add-to-cart', function (e) {
-        let productId = $(this).data('id');
-        let jsonData = {id: productId};
-        $.ajax({
-            method: 'POST',
-            url: serverUrl + "/product/addToCart",
-            dataType: 'json',
-            data: JSON.stringify(jsonData),
-            contentType: 'application/json',
-            success: function (product) {
-                loadShoppingCart();
-            }, error: function (errors) {
-                console.log(errors);
-            }
-        });
-    });
+    // $(document).on('click', '.add-to-cart', function (e) {
+    //     let productId = $(this).data('id');
+    //     let jsonData = {id: productId};
+    //     $.ajax({
+    //         method: 'POST',
+    //         url: serverUrl + "/product/addToCart",
+    //         dataType: 'json',
+    //         data: JSON.stringify(jsonData),
+    //         contentType: 'application/json',
+    //         success: function (product) {
+    //             loadShoppingCart();
+    //         }, error: function (errors) {
+    //             console.log(errors);
+    //         }
+    //     });
+    // });
 
     let loadShoppingCart = function () {
         $.ajax({
@@ -96,9 +96,21 @@ $(document).ready(function () {
                     $('#cart-item-count').html(items.length);
                     let itemHtml = '';
                     $.each(items, function (i, item) {
-                        itemHtml += '<li class="list-group-item d-flex justify-content-between align-items-center"><img src="' + item.picture + '"> <a class="close" href="javascript:void(0)" data-id="' + item.id + '">&times;</a></li>'
+                        itemHtml +=`<tr>
+                                        <td style="width: 100px">
+                                            <a href="/product/${item.id}"><img src="${item.picture}" class="border-0 rounded-circle img-fluid img-thumbnail w-75" /></a>
+                                        </td>
+                                        <td>
+                                            <div class="row">
+                                                <span class="text-info font-italic"><a href="/product/${item.id}">${item.productName}</a></span>
+                                            </div>
+                                            <div class="row">
+                                                <span>$${item.productPrice}</span>
+                                            </div>
+                                        </td>                                        
+                                    </tr> `;
                     });
-                    $("#cart-items").append(itemHtml);
+                    $("#shopping-cart-items").empty().append(itemHtml);
                 }
             }, error: function (errors) {
                 console.log(errors);
@@ -107,5 +119,11 @@ $(document).ready(function () {
     };
 
     loadShoppingCart();
+
+    // setup gridview
+    $('#grid').DataTable({
+        "autoWidth": true,
+        "lengthMenu": [ [10, 25, 50, -1], [10, 25, 50, "All"] ]
+    });
 
 });

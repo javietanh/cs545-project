@@ -8,7 +8,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
-import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -39,6 +38,7 @@ public class ServletInitializer implements WebMvcConfigurer {
         templateResolver.setTemplateMode("XHTML");
         templateResolver.setCharacterEncoding("UTF-8");
         templateResolver.setOrder(1);
+        templateResolver.setCacheable(false);
         return templateResolver;
     }
 
@@ -71,6 +71,7 @@ public class ServletInitializer implements WebMvcConfigurer {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry
                 .addResourceHandler("/resources/**")
-                .addResourceLocations("/resources/");
+                .addResourceLocations("/resources/")
+                .setCachePeriod(0);
     }
 }

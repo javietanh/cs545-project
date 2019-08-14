@@ -3,16 +3,13 @@ package edu.mum.controller;
 import edu.mum.domain.*;
 import edu.mum.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.security.Principal;
 import java.util.List;
@@ -37,9 +34,6 @@ public class HomeController {
     private CartService cartService;
 
     @Autowired
-    BuyerService buyerService;
-
-    @Autowired
     CartItemService cartItemService;
 
     @Autowired
@@ -61,39 +55,7 @@ public class HomeController {
         List<Category> categories = categoryService.getCategories();
         model.addAttribute("categories", categories);
 
-
         return "index";
-    }
-
-    // add product to shopping cart.
-    @PostMapping(value = {"/product/addToCart"},
-            produces = MediaType.APPLICATION_JSON_VALUE,
-            consumes = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseBody
-    public boolean addProductToCart(@RequestBody String id) {
-        // get current user.
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if(authentication != null){
-            User user = userService.findByEmail(authentication.getName());
-            if(user == null)
-                return false;
-
-            // get product.
-            Product product = productService.findById(Long.parseLong(id));
-            Buyer buyer = buyerService.getBuyerByUser(user);
-
-            // make new cart item with the product id.
-            CartItem cartItem = new CartItem();
-            cartItem.setProduct(product);
-            cartItem.setBuyer(buyer);
-            cartItem.setQuantity(1);
-
-            cartService.saveCartItem(buyer, cartItem);
-
-        }else{
-            return false;
-        }
-        return true;
     }
 
     // 404 page
@@ -135,22 +97,31 @@ public class HomeController {
         return "product";
     }
 
-    @GetMapping("/product/addToCart/{productId}")
-    public String addToCart(@PathVariable("productId") Long productId){
-        Product newProduct = productService.findById(productId);
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User user;
-        if(!auth.getPrincipal().equals("anonymousUser")){
-            String email = auth.getName();
-            user = userService.findByEmail(email);
-        } else {
+    @RequestMapping(value = {"/product/{id}/cart"})
+    public String addProductToCart(@PathVariable(value = "id") Long id){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if(authentication == null || !authentication.isAuthenticated()){
             return "redirect:/account/login";
         }
-        CartItem newCartItem = new CartItem();
-        newCartItem.setProduct(newProduct);
-        newCartItem.setBuyer(buyerService.getBuyerByUser(user));
-        newCartItem.setQuantity(1);
-        cartItemService.saveCartItem(newCartItem);
-        return "redirect:/";
+
+        User user = userService.findByEmail(authentication.getName());
+        if(user == null){
+            return "redirect:/account/login";
+        }
+
+        // query product to add to cart
+        Product product = productService.findById(id);
+        Buyer buyer = buyerService.getBuyerByUser(user);
+
+        // create new cart item and add to shopping cart.
+        CartItem cartItem = new CartItem();
+        cartItem.setProduct(product);
+        cartItem.setBuyer(buyer);
+        cartItem.setQuantity(1);
+
+        cartService.addCartItem(cartItem);
+
+        return "redirect:/buyer/cart";
     }
+
 }

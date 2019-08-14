@@ -2,70 +2,69 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       xmlns:th="http://www.thymeleaf.org"
       layout:decorate="~{layouts/user}">
-
 <div class="container"
      layout:fragment="content">
-	
-	<div class="row">
-		<div class="col-12">
-			<div class="row">
-				<div class="col-12 text-right mb-3">
-					<a th:href="@{/seller/product/add}"
-					   class="btn btn-primary">Add New Product</a>
-				</div>
-			</div>
-			<div class="table-responsive">
-				<table class="table table-bordered"
-				       id="dataTable"
-				       width="100%"
-				       cellspacing="0">
-					<thead>
-					<tr>
-						<th>Picture</th>
-						<th>Name</th>
-						<th>Description</th>
-						<th>Price</th>
-						<th></th>
-					</tr>
-					</thead>
-					<tfoot>
-					<tr>
-						<th>Picture</th>
-						<th>Name</th>
-						<th>Description</th>
-						<th>Price</th>
-						<th></th>
-					</tr>
-					</tfoot>
-					<tbody>
-					<tr th:each="prod : ${products}">
-						<td>
-							<img class="img-thumbnail w-25"
-							     th:src="${prod.image}"/>
-						</td>
-						<td>
-							<span th:text="${prod.name}"></span>
-						</td>
-						<td>
-							<span th:text="${prod.description}"></span>
-						</td>
-						<td>
-							$<span th:text="${#numbers.formatDecimal(prod.price, 0, 'COMMA', 2, 'POINT')}"></span>
-						</td>
-						<td>
-							<div class="">
-								<a title="Edit"
-								   th:href="@{/seller/product/{id}(id=${prod.id})}"><i class="fa fas fa-pen-square text-primary"></i></a>
-								<a title="Delete"
-								   class="btn btn-block pl-3"
-								   th:href="@{/seller/product/delete/{id}(id=${prod.id})}"><i class="fa fas fa-trash text-danger"></i></a>
-							</div>
-						</td>
-					</tr>
-					</tbody>
-				</table>
-			</div>
-		</div>
-	</div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="row">
+                <div class="col-12 text-right mb-3">
+                    <a th:href="@{/seller/product/add}"
+                       class="btn btn-primary"><i class="fa fa-plus"></i>  Add New Product</a>
+                </div>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-striped table-bordered"
+                       id="grid"
+                       width="100%"
+                       cellspacing="0">
+                    <thead>
+                    <tr>
+                        <th style="width: 75px">Picture</th>
+                        <th style="width: 100px">Name</th>
+                        <th>Description</th>
+                        <th style="width: 65px">Price</th>
+                        <th style="width: 75px"></th>
+                    </tr>
+                    </thead>
+                    <tfoot>
+                    <tr>
+                        <th>Picture</th>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Price</th>
+                        <th></th>
+                    </tr>
+                    </tfoot>
+                    <tbody>
+                    <tr th:each="prod : ${products}">
+                        <td>
+                            <img class="img-thumbnail w-100"
+                                 th:src="${prod.image}"/>
+                        </td>
+                        <td>
+                            <span th:text="${prod.name}"></span>
+                        </td>
+                        <td>
+                            <span th:text="${prod.description}"></span>
+                        </td>
+                        <td>
+                            $<span th:text="${#numbers.formatDecimal(prod.price, 0, 'COMMA', 2, 'POINT')}"></span>
+                        </td>
+                        <td class="align-middle">
+                            <a title="Edit" class="btn btn-primary"
+                               th:href="@{/seller/product/{id}(id=${prod.id})}">
+                                <i class="fa fas fa-pen"></i></a>
+                            <a title="Delete" class="btn btn-warning"
+                               th:href="@{/seller/product/delete/{id}(id=${prod.id})}"><i
+                                    class="fa fas fa-trash text-danger"></i></a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="m-5"></div>
+            </div>
+        </div>
+    </div>
 </div>
 </html>

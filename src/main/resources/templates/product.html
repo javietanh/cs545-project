@@ -2,6 +2,7 @@
 <html lang="en"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       xmlns:th="http://www.thymeleaf.org/"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorate="~{layouts/home}">
 
 <div class="container" layout:fragment="content">
@@ -26,10 +27,17 @@
                 <div class="card-body">
                     <h3 class="card-title" th:text="${product.name}"></h3>
                     <h4>$24.99</h4>
-                    <a th:href="@{'/product/addToCart/'+${product.id}}" class="btn btn-success">Add to Cart</a>
+                    <form sec:authorize="hasAuthority('BUYER') || isAnonymous()"
+                          th:action="@{/product/{id}/cart(id=${product.id})}"
+                          method="post" class="m-0 p-0">
+                        <button title="Add to Cart" class="btn btn-success"
+                                type="submit">
+                            <i class="fa fas fa-cart-plus"></i> Add to Cart
+                        </button>
+                    </form>
                     <p class="card-text" th:text="${product.description}"></p>
                     <span class="text-warning">&#9733; &#9733; &#9733; &#9733; &#9734;</span>
-                    <span th:if="${rating == 0}" >No rating</span>
+                    <span th:if="${rating == 0}">No rating</span>
                     <span th:unless="${rating == 0}" th:text="${rating} + ' Stars'"></span>
                 </div>
             </div>
@@ -43,24 +51,11 @@
                     <p th:text="${orderItem.review}"></p>
                     <small class="text-muted">Posted by Anonymous on 3/1/17</small>
                     <hr>
-<!--                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis et enim aperiam inventore,-->
-<!--                        similique necessitatibus neque non! Doloribus, modi sapiente laboriosam aperiam fugiat laborum.-->
-<!--                        Sequi mollitia, necessitatibus quae sint natus.</p>-->
-<!--                    <small class="text-muted">Posted by Anonymous on 3/1/17</small>-->
-<!--                    <hr>-->
-<!--                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis et enim aperiam inventore,-->
-<!--                        similique necessitatibus neque non! Doloribus, modi sapiente laboriosam aperiam fugiat laborum.-->
-<!--                        Sequi mollitia, necessitatibus quae sint natus.</p>-->
-<!--                    <small class="text-muted">Posted by Anonymous on 3/1/17</small>-->
-<!--                    <hr>-->
                     <a href="#" class="btn btn-success">Leave a Review</a>
                 </div>
             </div>
-            <!-- /.card -->
 
         </div>
-        <!-- /.col-lg-9 -->
-
     </div>
 </div>
 

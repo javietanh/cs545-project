@@ -142,7 +142,7 @@ INSERT INTO orders (id, total_amount, buyer_id, shipping_address, billing_addres
 VALUES (3, '19.99', 3, '1000 N 4th St, Fairfield, IA', '1000 N 4th St, Fairfield, IA', 'CREDIT CARD', 'Paid by the card number XXXX XXXX XXXX 3456', 'COMPLETED', now(), false);
 
 INSERT INTO order_item (id, product_id, order_id, quantity, review, review_status, rating, order_status)
-VALUES (1, 4, 1, 1, 'Nice jeans', 'APPROVED', 4, 'ORDERED');
+VALUES (1, 8, 1, 1, 'Nice jeans', 'APPROVED', 4, 'ORDERED');
 
 INSERT INTO order_item (id, product_id, order_id, quantity, review, review_status, rating, order_status)
 VALUES (2, 5, 1, 1, 'Nice shirt', 'PENDING', 4, 'ORDERED');
@@ -151,10 +151,10 @@ INSERT INTO order_item (id, product_id, order_id, quantity, review, review_statu
 VALUES (3, 6, 1, 1, 'Nice blazer', 'PENDING', 4, 'ORDERED');
 
 INSERT INTO order_item (id, product_id, order_id, quantity, review, review_status, rating, order_status)
-VALUES (4, 4, 2, 1, 'Too tight!!!', 'APPROVED', 1, 'DELIVERED');
+VALUES (4, 8, 2, 1, 'Too tight!!!', 'APPROVED', 1, 'DELIVERED');
 
 INSERT INTO order_item (id, product_id, order_id, quantity, review, review_status, rating, order_status)
-VALUES (5, 4, 3, 1, 'It does not look like the photo', 'APPROVED', 3, 'DELIVERED');
+VALUES (5, 8, 3, 1, 'It does not look like the photo', 'APPROVED', 3, 'DELIVERED');
 
 INSERT INTO message (id, content, received_date, read, user_id)
 VALUES (1, 'From Phoenix shop: New product is added', now(), false, 1);

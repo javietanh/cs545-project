@@ -53,6 +53,21 @@ public class AccountController {
         Get Request
      */
 
+    @GetMapping(value = {"/message"})
+    public String getMessageListForm(Model model){
+        // get the current user message.
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if(authentication != null){
+            User user = userService.findByEmail(authentication.getName());
+            if(user != null){
+                List<Message> messages = user.getMessages();
+                model.addAttribute("messages", messages);
+            }
+        }
+
+        return "/account/messages";
+    }
+
     @GetMapping(value = {"/messages"},
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE
@@ -333,6 +348,21 @@ public class AccountController {
     boolean setMessageRead(@PathVariable(value = "id") Long id) {
         messageService.setMessageRead(id);
         return true;
+    }
+
+    @GetMapping(value = {"/message/read/{id}"})
+    public String readMessage(@PathVariable(value = "id") Long id){
+        Message message = messageService.getMessageById(id);
+        message.setRead(true);
+        messageService.saveMessage(message);
+        return "redirect:/account/message";
+    }
+
+    @GetMapping(value = {"/message/delete/{id}"})
+    public String deleteMessage(@PathVariable(value = "id") Long id){
+        Message message = messageService.getMessageById(id);
+        messageService.delete(message);
+        return "redirect:/account/message";
     }
 
 }

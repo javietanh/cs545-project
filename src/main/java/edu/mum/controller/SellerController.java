@@ -1,9 +1,6 @@
 package edu.mum.controller;
 
-import edu.mum.domain.Buyer;
-import edu.mum.domain.OrderItem;
-import edu.mum.domain.Seller;
-import edu.mum.domain.User;
+import edu.mum.domain.*;
 import edu.mum.service.OrderService;
 import edu.mum.service.SellerService;
 import edu.mum.service.UserService;
@@ -69,6 +66,11 @@ public class SellerController {
         OrderItem orderItem = orderService.getOrderItemById(itemId);
         if(orderItem != null){
             orderItem.setOrderStatus(item.getOrderStatus());
+            if (orderItem.getOrder().getStatus() == OrderStatus.NEW) {
+                if (orderItem.getOrderStatus() != OrderItemStatus.ORDERED && orderItem.getOrderStatus() != OrderItemStatus.CANCELED) {
+                    orderItem.getOrder().setStatus(OrderStatus.PROCESSING);
+                }
+            }
             orderService.saveOrderItem(orderItem);
         }
         BigDecimal totalPrice = orderItem.getProduct().getPrice().multiply(new BigDecimal(orderItem.getQuantity()));

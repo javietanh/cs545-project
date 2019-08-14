@@ -16,10 +16,7 @@
         Ordered Date: <span th:text="${order.orderedDate}"></span></br>
         End Date: <span th:text="${order.endDate}"></span></br>
         <form th:object="${order}" action="#" th:action="@{/orders/} + ${order.id} + @{/cancel}" method="post">
-            <input type="submit" value="Cancel"/>
-        </form>
-        <form th:object="${order}" action="#" th:action="@{/orders/} + ${order.id} + @{/complete}" method="post">
-            <input type="submit" value="Complete"/>
+            <input type="submit" value="Cancel" th:if="${order.status.toString() == 'NEW'}"/>
         </form>
         <form th:object="${order}" action="#" th:action="@{/orders/} + ${order.id} + @{/download}" method="post">
             <input type="submit" value="Download Receipt"/>
@@ -40,6 +37,9 @@
                 <td>
                     <form action="#" th:action="@{/item/} + ${item.id} + @{/review}">
                         <input type="submit" value="Review"/>
+                    </form>
+                    <form action="#" th:action="@{/item/} + ${item.id} + @{/cancel}">
+                        <input type="submit" value="Cancel" th:if="${item.orderStatus.toString() == 'ORDERED'}/>
                     </form>
                 </td>
             </tr>

@@ -43,35 +43,82 @@ VALUES (2, 1);
 INSERT INTO following (buyer_id, seller_id)
 VALUES (3, 1);
 
-INSERT INTO product (id, name, description, price, available, image, seller_id)
+INSERT INTO category (id, name, description)
+VALUES (1, 'Dresses', 'Dresses');
+
+INSERT INTO category (id, name, description)
+VALUES (2, 'Shirts', 'Shirts');
+
+INSERT INTO category (id, name, description)
+VALUES (3, 'Blazers', 'Blazers');
+
+INSERT INTO category (id, name, description)
+VALUES (4, 'Jeans', 'Jeans');
+
+INSERT INTO category (id, name, description)
+VALUES (5, 'Sweaters', 'Sweaters');
+
+INSERT INTO category (id, name, description)
+VALUES (6, 'Skirts', 'Skirts');
+
+INSERT INTO category (id, name, description)
+VALUES (7, 'Sportswear', 'Sportswear');
+
+INSERT INTO category (id, name, description)
+VALUES (8, 'Swimwear', 'Swimwear');
+
+INSERT INTO category (id, name, description)
+VALUES (9, 'Suits', 'Suits');
+
+INSERT INTO product (id, name, description, price, available, image, category_id, seller_id)
 VALUES (1, 'Dress with Tie Belt',
         'V-neck, knee-length dress in airy chiffon with details on shoulders. Cap sleeves, buttons at front, and elastication at back of waist. Attached tie belt. Satin lining',
-        '34.99', 100, '/img/product/beltdress.jpg', 1);
+        '34.99', 100, '/img/product/beltdress.jpg', 1, 1);
 
-INSERT INTO product (id, name, description, price, available, image, seller_id)
+INSERT INTO product (id, name, description, price, available, image, category_id, seller_id)
 VALUES (2, 'Bib Overall Dress',
         'Short, gently fitted bib overall dress in woven fabric. Buttons at front, wide, adjustable shoulder straps, and a seam at waist',
-        '34.99', 100, '/img/product/overalldress.jpg', 1);
+        '34.99', 100, '/img/product/overalldress.jpg', 1, 1);
 
-INSERT INTO product (id, name, description, price, available, image, seller_id)
-VALUES (3, 'Skinny Regular Ankle Jeans',
+INSERT INTO product (id, name, description, price, available, image, category_id, seller_id)
+VALUES (3, 'Patterned Dress',
+        'Calf-length dress in airy, woven fabric with a printed pattern. Jersey liner dress',
+        '39.99', 100, '/img/product/patterneddress.jpg', 1, 1);
+
+INSERT INTO product (id, name, description, price, available, image, category_id, seller_id)
+VALUES (4, 'Pleated Wrap Dress',
+        'Sleeveless, calf-length wrap dress in airy, woven plumeti fabric. Narrow, adjustable shoulder straps and seam below bust with ties',
+        '79.99', 100, '/img/product/wrapdress.jpg', 1, 1);
+
+INSERT INTO product (id, name, description, price, available, image, category_id, seller_id)
+VALUES (5, 'Sleeveless Shirt Dress',
+        'Sleeveless shirt dress in woven viscose fabric with a collar, buttons at front, and removable tie belt at waist. Gently rounded hem.',
+        '17.99', 100, '/img/product/shirtdress.jpg', 1, 1);
+
+INSERT INTO product (id, name, description, price, available, image, category_id, seller_id)
+VALUES (6, 'Lace V-neck Dress',
+        'Short, sleeveless dress in lace with scalloped edges. V-neck, adjustable, extra-narrow shoulder straps, and a concealed zip at back. Gently flared skirt',
+        '59.99', 100, '/img/product/vneckdress.jpg', 1, 1);
+
+INSERT INTO product (id, name, description, price, available, image, category_id, seller_id)
+VALUES (7, 'Skinny Regular Ankle Jeans',
         'Ankle-length jeans in washed stretch denim with a regular waist. Mock front pockets, regular back pockets, and skinny legs',
-        '9.99', 100, '/img/product/skinnyjeans.jpg', 1);
+        '9.99', 100, '/img/product/skinnyjeans.jpg', 4, 1);
 
-INSERT INTO product (id, name, description, price, available, image, seller_id)
-VALUES (4, 'Slim Jeans',
+INSERT INTO product (id, name, description, price, available, image, category_id, seller_id)
+VALUES (8, 'Slim Jeans',
         '5-pocket jeans in washed denim with a regular waist, zip fly, and slim legs',
-        '19.99', 100, '/img/product/slimjeans.jpg', 1);
+        '19.99', 100, '/img/product/slimjeans.jpg', 4, 1);
 
-INSERT INTO product (id, name, description, price, available, image, seller_id)
-VALUES (5, 'Regular Fit Henley Shirt',
+INSERT INTO product (id, name, description, price, available, image, category_id, seller_id)
+VALUES (9, 'Regular Fit Henley Shirt',
         'Shirt in woven cotton-blend fabric. Regular Fit – classic fit with good room for movement and gently shaped waist for a comfortable, tailored silhouette',
-        '24.99', 100, '/img/product/fitshirt.jpg', 1);
+        '24.99', 100, '/img/product/fitshirt.jpg', 2, 1);
 
-INSERT INTO product (id, name, description, price, available, image, seller_id)
-VALUES (6, 'Super Skinny Fit Blazer',
+INSERT INTO product (id, name, description, price, available, image, category_id, seller_id)
+VALUES (10, 'Super Skinny Fit Blazer',
         'Single-breasted blazer in woven stretch fabric with narrow, notched lapels. Super skinny fit – slightly shorter style, shaped at chest, tapered sharply at waist, combined with narrow shoulders and sleeves for a completely tailored silhouette',
-        '19.99', 100, '/img/product/fitblazer.jpg', 1);
+        '19.99', 100, '/img/product/fitblazer.jpg', 3, 1);
 
 INSERT INTO cart_item (id, product_id, quantity, buyer_id) VALUES (1, 1, 1, 1);
 

@@ -4,70 +4,77 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
-	<title layout:title-pattern="$CONTENT_TITLE - $LAYOUT_TITLE">MUM</title>
-	<meta charset="utf-8">
-	<meta name="viewport"
-	      content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<meta name="description"
-	      content="">
-	<meta name="author"
-	      content="">
-	<!-- stylesheet -->
-	<link type="text/css"
-	      rel="stylesheet"
-	      th:href="@{/vendor/bootstrap/css/bootstrap.min.css}">
-	<link type="text/css"
-	      rel="stylesheet"
-	      th:href="@{/css/shop-homepage.css}">
-	<link type="text/css"
-	      rel="stylesheet"
-	      th:href="@{/vendor/fontawesome-free/css/all.min.css}">
-	<link type="text/css"
-	      rel="stylesheet"
-	      th:href="@{/css/sb-admin.css}">
-	<link th:href="@{/vendor/datatables/dataTables.bootstrap4.css}" rel="stylesheet">
+    <title layout:title-pattern="$CONTENT_TITLE - $LAYOUT_TITLE">MUM</title>
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description"
+          content="">
+    <meta name="author"
+          content="">
+    <!-- stylesheet -->
+    <link type="text/css"
+          rel="stylesheet"
+          th:href="@{/vendor/bootstrap/css/bootstrap.min.css}">
+    <link type="text/css"
+          rel="stylesheet"
+          th:href="@{/css/shop-homepage.css}">
+    <link type="text/css"
+          rel="stylesheet"
+          th:href="@{/vendor/fontawesome-free/css/all.min.css}">
+    <link type="text/css"
+          rel="stylesheet"
+          th:href="@{/css/sb-admin.css}">
+    <link th:href="@{/vendor/datatables/dataTables.bootstrap4.css}" rel="stylesheet">
 </head>
 <body id="page-top" sec:authorize="isAuthenticated()">
-	<!-- header -->
-	<nav th:replace="layouts/fragments/header :: header">This is the website header</nav>
-	<!-- header -->
-	
-	<!-- container -->
-	<div id="wrapper">
+
+<nav th:replace="layouts/fragments/header :: header">
+    <!-- header -->
+</nav>
+
+<!-- container -->
+<div id="wrapper">
 		
-		<!-- Sidebar -->
-		<span th:replace="layouts/fragments/sidebar :: sidebar" th:remove="tag"></span>
-		
-		<div id="content-wrapper">
-			
-			<div class="container-fluid">
-				
-				<div th:replace="layouts/fragments/breadcrumbs :: breadcrumbs" th:remove="tag"><!-- Breadcrumbs--></div>
-				
-				<div layout:fragment="content"><!-- Page Content --></div>
-			
-			</div>
-			<!-- /.container-fluid -->
-			
-			<!-- footer -->
-			<footer th:replace="layouts/fragments/sticky-footer :: footer">This is the website footer</footer>
-		
-		</div>
-		<!-- /.content-wrapper -->
-	
-	</div>
-	<!-- container -->
-	
-	<!-- logout -->
-	<div th:replace="layouts/fragments/logout :: logout" th:remove="tag">Modal logout function</div>
-	<!-- logout -->
-	
-	<!-- Scroll to Top Button-->
-	<div th:replace="layouts/fragments/scrolltop :: scrolltop" th:remove="tag">scroll top module</div>
-	<!-- Scroll to Top Button-->
-	
-	<!-- javascript -->
-	<div th:replace="layouts/fragments/javascripts :: javascripts" th:remove="tag">javascript module</div>
+		<span th:replace="layouts/fragments/sidebar :: sidebar" th:remove="tag">
+			<!-- Sidebar -->
+		</span>
+
+    <div id="content-wrapper">
+
+        <div class="container-fluid">
+
+            <div th:replace="layouts/fragments/breadcrumbs :: breadcrumbs" th:remove="tag">
+                <!-- Breadcrumbs-->
+            </div>
+
+            <div layout:fragment="content">
+                <!-- Page Content -->
+            </div>
+
+        </div>
+
+        <footer th:replace="layouts/fragments/sticky-footer :: footer">
+            <!-- footer -->
+        </footer>
+
+    </div>
+
+</div>
+<!-- container -->
+
+
+<div th:replace="layouts/fragments/logout :: logout" th:remove="tag">
+    <!-- logout -->
+</div>
+
+<div th:replace="layouts/fragments/scrolltop :: scrolltop" th:remove="tag">
+    <!-- Scroll to Top Button-->
+</div>
+
+<div th:replace="layouts/fragments/javascripts :: javascripts" th:remove="tag">
+    <!-- javascript -->
+</div>
 
 </body>
 </html>

@@ -24,6 +24,7 @@
 	<link type="text/css"
 	      rel="stylesheet"
 	      th:href="@{/css/sb-admin.css}">
+	<link th:href="@{/vendor/datatables/dataTables.bootstrap4.css}" rel="stylesheet">
 </head>
 <body id="page-top">
 	<!-- header -->
@@ -48,12 +49,8 @@
 		<i class="fas fa-angle-up"></i>
 	</a>
 	<!-- Scroll to Top Button-->
-	
+
 	<!-- javascript -->
-	<script th:src="@{/vendor/jquery/jquery.min.js}"></script>
-	<script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
-	<script th:src="@{/vendor/jquery-easing/jquery.easing.min.js}"></script>
-	<script th:src="@{/js/sb-admin.min.js}"></script>
-	<script th:src="@{/js/main.js}"></script>
+	<div th:replace="layouts/fragments/javascripts :: javascripts" th:remove="tag">javascript module</div>
 </body>
 </html>

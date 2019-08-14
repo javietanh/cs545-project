@@ -8,11 +8,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.List;
@@ -116,5 +112,32 @@ public class HomeController {
         return "/admin/dashboard.html";
     }
 
+
+    @RequestMapping(value = {"/product/{id}/cart"})
+    public String addProductToCart(@PathVariable(value = "id") Long id){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if(authentication == null || !authentication.isAuthenticated()){
+            return "redirect:/account/login";
+        }
+
+        User user = userService.findByEmail(authentication.getName());
+        if(user == null){
+            return "redirect:/account/login";
+        }
+
+        // query product to add to cart
+        Product product = productService.findById(id);
+        Buyer buyer = buyerService.getBuyerByUser(user);
+
+        // create new cart item and add to shopping cart.
+        CartItem cartItem = new CartItem();
+        cartItem.setProduct(product);
+        cartItem.setBuyer(buyer);
+        cartItem.setQuantity(1);
+
+        cartService.addCartItem(cartItem);
+
+        return "redirect:/buyer/cart";
+    }
 
 }

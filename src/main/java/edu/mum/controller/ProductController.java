@@ -43,6 +43,12 @@ public class ProductController {
     @Autowired
     private CartItemService cartItemService;
 
+    @Autowired
+    private CategoryService categoryService;
+
+    @Autowired
+    private MessageService messageService;
+
     // home page
     @GetMapping("/product/{productId}")
     public String loadProduct(@PathVariable("productId") Long id, Model model) {
@@ -108,6 +114,7 @@ public class ProductController {
     @GetMapping(value = {"/seller/product/add"})
     public String addProductForm(Model model) {
         model.addAttribute("product", new Product());
+        model.addAttribute("categories", categoryService.getCategories());
         return "/seller/productEdit";
     }
 
@@ -115,6 +122,7 @@ public class ProductController {
     public String editProduct(@PathVariable(value = "id", required = false) Long id, Model model) {
         if (id != null) {
             model.addAttribute("product", productService.findById(id));
+            model.addAttribute("categories", categoryService.getCategories());
         }
         return "/seller/productEdit";
     }
@@ -149,6 +157,19 @@ public class ProductController {
             return "/seller/productEdit";
         }
 
+        // load category of product.
+        Category category = categoryService.getCategoryById(product.getCategory().getId());
+
+        // find the seller of this product.
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Seller seller = null;
+        if(authentication != null){
+            User user = userService.findByEmail(authentication.getName());
+            if(user != null){
+                seller = user.getSeller();
+            }
+        }
+
         // get the product.
         if (id != null) {
             Product updateProduct = productService.findById(id);
@@ -157,9 +178,19 @@ public class ProductController {
             updateProduct.setPrice(product.getPrice());
             updateProduct.setImage(product.getImage());
             updateProduct.setAvailable(product.getAvailable());
+            updateProduct.setCategory(category);
             productService.save(updateProduct);
         } else {
+            product.setCategory(category);
+            product.setSeller(seller);
             productService.save(product);
+
+            // send notify message to followers
+            List<Buyer> followers = seller.getBuyers();
+            for(Buyer follower : followers){
+                String message = "From " + seller.getName() +" shop: New product added.";
+                messageService.sendMessageToUser(follower.getUser(), message);
+            }
         }
 
         return "redirect:/seller/product";

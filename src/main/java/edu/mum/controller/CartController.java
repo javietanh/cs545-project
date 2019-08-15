@@ -6,6 +6,7 @@ import edu.mum.domain.Product;
 import edu.mum.domain.User;
 import edu.mum.domain.view.CartInfo;
 import edu.mum.service.BuyerService;
+import edu.mum.service.CartItemService;
 import edu.mum.service.CartService;
 import edu.mum.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,9 @@ public class CartController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private CartItemService cartItemService;
+
     @GetMapping(value = {"/buyer/cart"})
     public String getShoppingCartForm() {
         return "/buyer/ShoppingCart";
@@ -46,7 +50,6 @@ public class CartController {
                 if (buyer != null) {
                     List<CartItem> cartItems = cartService.getCartByBuyerId(buyer.getId());
                     List<CartInfo> items = new ArrayList<>();
-
                     for (CartItem ci : cartItems) {
                         Product product = ci.getProduct();
                         items.add(new CartInfo(ci.getId(),
@@ -74,7 +77,31 @@ public class CartController {
         return cartService.saveCartItem(buyer, item);
     }
 
-    @DeleteMapping(value = "/cart/remove/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/buyer/cart/{id}/increaseQuantity", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public CartItem increaseQuantity(@PathVariable Long id) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.findByEmail(auth.getName());
+        Buyer buyer = buyerService.getBuyerByUser(user);
+        CartItem i = cartItemService.getCartItemById(id);
+        i.setQuantity(i.getQuantity() + 1);
+        return cartService.saveCartItem(buyer, i);
+    }
+
+    @PutMapping(value = "/buyer/cart/{id}/decreaseQuantity", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public CartItem decreaseQuantity(@PathVariable Long id) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.findByEmail(auth.getName());
+        Buyer buyer = buyerService.getBuyerByUser(user);
+        CartItem i = cartItemService.getCartItemById(id);
+        if (i.getQuantity() > 1) {
+            i.setQuantity(i.getQuantity() - 1);
+        }
+        return cartService.saveCartItem(buyer, i);
+    }
+
+    @DeleteMapping(value = "/buyer/cart/remove/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public Boolean removeCartItem(@PathVariable Long id) {
         cartService.removeCartItem(id);

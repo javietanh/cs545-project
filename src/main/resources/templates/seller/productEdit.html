@@ -8,10 +8,11 @@
 	
 	<div class="row">
 		<div class="col-12">
-			<form method="post"
-			      th:object="${product}"
-			      enctype="multipart/form-data"
-			      th:action="@{/seller/product/{id}(id=${product.id})}">
+				<form method="post"
+					  th:object="${product}"
+					  enctype="multipart/form-data"
+					  th:action="@{/seller/product/{id}(id=${product.id})}">
+
 				<div class="card">
 					<div class="card-header">
 						<h5><span class="fa fa-edit text-primary fa-2x"></span> Update Product</h5>

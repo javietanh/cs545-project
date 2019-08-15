@@ -161,6 +161,8 @@ public class ProductController {
         return "/seller/productEdit";
     }
 
+
+
     @PostMapping(value = {"/seller/product/{id}"})
     public String saveProduct(@Valid Product product, BindingResult result, @PathVariable(value = "id", required = false) Long id, RedirectAttributes rd) {
 
@@ -216,7 +218,9 @@ public class ProductController {
             updateProduct.setName(product.getName());
             updateProduct.setDescription(product.getDescription());
             updateProduct.setPrice(product.getPrice());
-            updateProduct.setImage(product.getImage());
+            if(product.getImage() != null){
+                updateProduct.setImage(product.getImage());
+            }
             updateProduct.setAvailable(product.getAvailable());
             updateProduct.setCategory(category);
             productService.save(updateProduct);
@@ -231,6 +235,70 @@ public class ProductController {
                 String message = "From " + seller.getName() +" shop: New product added.";
                 messageService.sendMessageToUser(follower.getUser(), message);
             }
+        }
+
+        return "redirect:/seller/product";
+    }
+
+    @PostMapping(value = {"/seller/product"})
+    public String saveProduct(@Valid Product product, BindingResult result, RedirectAttributes rd) {
+
+        // find the seller of this product.
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Seller seller = null;
+        if(authentication != null){
+            User user = userService.findByEmail(authentication.getName());
+            if(user != null){
+                seller = user.getSeller();
+
+                // if the seller is not approved yet, just return error and not allow for update.
+                if(seller.getStatus() != Status.APPROVED){
+                    rd.addFlashAttribute("error", "Unapproved Seller can not change the product.");
+                    return "redirect:/error";
+                }
+            }
+        }
+
+        // upload file.
+        MultipartFile upload = product.getUpload();
+        String homeUrl = new ApplicationHome(ShoppingApplication.class).getDir() + "\\static\\img\\products";
+        Path rootLocation = Paths.get(homeUrl);
+
+        if (!Files.exists(rootLocation)) {
+            try {
+                Files.createDirectory(rootLocation);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        if (upload != null && !upload.isEmpty()) {
+            try {
+                String imageName = UUID.randomUUID().toString() + "." + FilenameUtils.getExtension(upload.getOriginalFilename());
+                Files.copy(upload.getInputStream(), rootLocation.resolve(imageName));
+                product.setImage("/img/products/" + imageName);
+            } catch (Exception ex) {
+                result.rejectValue("upload", "", "Problem on saving product picture.");
+            }
+        }
+
+        if (result.hasErrors()) {
+            return "/seller/productEdit";
+        }
+
+        // load category of product.
+        Category category = categoryService.getCategoryById(product.getCategory().getId());
+
+        // get the product.
+        product.setCategory(category);
+        product.setSeller(seller);
+        productService.save(product);
+
+        // send notify message to followers
+        List<Buyer> followers = seller.getBuyers();
+        for(Buyer follower : followers){
+            String message = "From " + seller.getName() +" shop: New product added.";
+            messageService.sendMessageToUser(follower.getUser(), message);
         }
 
         return "redirect:/seller/product";

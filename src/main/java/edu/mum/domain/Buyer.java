@@ -10,7 +10,7 @@ import java.util.List;
 @Entity
 public class Buyer {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Integer points = 0;
     @OneToOne(cascade = CascadeType.ALL)

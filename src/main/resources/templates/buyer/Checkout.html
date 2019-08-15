@@ -27,7 +27,7 @@
                     <div class="form-group row">
                         <div class="form-check">
                             <input type="checkbox" th:field="*{usingPoints}" class="form-check-input"/>
-                            <label class="form-check-label">Use my points</label>
+                            <label class="form-check-label">Use my points   (With each point, you will be given $1) </label>
                         </div>
                     </div>
                 </div>
@@ -67,7 +67,7 @@
                     </thead>
                     <tr th:each="item: ${cart}">
                         <td th:text="${item.product.name}"></td>
-                        <td th:text="${item.product.price}"></td>
+                        <td th:text="'$' + ${item.product.price}"></td>
                         <td th:text="${item.quantity}"></td>
                     </tr>
                     <tfoot>

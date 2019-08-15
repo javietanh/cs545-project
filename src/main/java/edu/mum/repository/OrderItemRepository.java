@@ -20,4 +20,7 @@ public interface OrderItemRepository extends CrudRepository<OrderItem, Long> {
 
     @Query(value = "select * from order_item i where i.review is not null", nativeQuery = true)
     List<OrderItem> getOrderItemWithNotNullReviews();
+
+    @Query(value = "select * from order_item i where i.order_status = 'DELIVERED' and i.order_id = ?", nativeQuery = true)
+    List<OrderItem> getDeliveredOrderItemsByOrder(Long orderId);
 }

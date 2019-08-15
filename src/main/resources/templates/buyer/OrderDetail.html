@@ -31,18 +31,20 @@
                 <dt class="col-sm-3">End Date</dt>
                 <dd class="col-sm-9" th:text="${#temporals.format(order.endDate, 'dd-MM-yyyy HH:mm')}"></dd>
 
+                <dt class="col-sm-3"></dt>
+                <dd class="col-sm-9">** With each $100, you will be given 1 point if you complete the order</dd>
             </dl>
 
         </div>
         <div class="row">
             <div class="col-xs-6 pl-3">
-                <form th:object="${order}" action="#" th:action="@{/orders/} + ${order.id} + @{/cancel}" method="post">
+                <form th:object="${order}" action="#" th:action="@{/buyer/orders/} + ${order.id} + @{/cancel}" method="post">
                     <input type="submit" value="Cancel" th:if="${order.status.toString() == 'NEW'}" class="btn btn-primary"/>
                 </form>
             </div>
             <div class="col-xs-6 pl-3">
-                <form th:object="${order}" action="#" th:action="@{/orders/} + ${order.id} + @{/download}" method="post">
-                    <input type="submit" value="Download Receipt" class="btn btn-danger"/>
+                <form th:object="${order}" action="#" th:action="@{/buyer/orders/} + ${order.id} + @{/download}" method="post">
+                    <input type="submit" value="Download Receipt" th:if="${order.status.toString() == 'COMPLETED' and order.totalAmount > 0}" class="btn btn-danger"/>
                 </form>
             </div>
         </div>
@@ -74,11 +76,11 @@
                         <td th:text="${item.quantity}"></td>
                         <td th:text="${item.orderStatus}"></td>
                         <td class="align-middle">
-                            <form action="#" th:action="@{/item/} + ${item.id} + @{/review}">
-                                <input type="submit" value="Review" class="btn btn-primary"/>
+                            <form action="#" th:action="@{/buyer/item/} + ${item.id} + @{/review}">
+                                <input type="submit" value="Review" class="btn btn-primary btn-sm"/>
                             </form>
-                            <form action="#" th:action="@{/item/} + ${item.id} + @{/cancel}">
-                                <input type="submit" value="Cancel" th:if="${item.orderStatus.toString() == 'ORDERED'}" class="btn btn-danger mt-3"/>
+                            <form action="#" th:action="@{/buyer/item/} + ${item.id} + @{/cancel}" method="post">
+                                <input type="submit" value="Cancel" th:if="${item.orderStatus.toString() == 'ORDERED'}" class="btn btn-primary btn-sm mt-3"/>
                             </form>
                         </td>
                     </tr>

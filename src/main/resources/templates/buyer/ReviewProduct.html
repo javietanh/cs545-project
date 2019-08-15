@@ -22,7 +22,7 @@
             </dl>
         </div>
         <div>
-            <form th:object="${item}" action="#" th:action="@{/item/} + ${item.id} + @{/review}" method="post">
+            <form th:object="${item}" action="#" th:action="@{/buyer/item/} + ${item.id} + @{/review}" method="post">
                 <textarea th:field="*{review}" class="form-control"></textarea><br/>
                 <input type="submit" value="Submit" class="btn btn-success"/>
             </form>

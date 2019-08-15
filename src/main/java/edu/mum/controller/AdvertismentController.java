@@ -6,11 +6,9 @@ import edu.mum.service.AdvertService;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.system.ApplicationHome;
-import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.ResourceUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -21,7 +19,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -65,8 +62,8 @@ public class AdvertismentController {
     }
 
     @PostMapping("/admin/addAdvert/{advertId}")
-    String addAdvert(@Valid Advert advert, BindingResult bindingResult, RedirectAttributes ra, 
-                     HttpServletRequest request, @PathVariable("advertId") String advertId) {
+    String addAdvert(@Valid Advert advert, BindingResult bindingResult, RedirectAttributes ra,
+                     HttpServletRequest request, @PathVariable("advertId") Long advertId) {
 
 
         MultipartFile uploadAdvert = advert.getImageUpload();
@@ -80,13 +77,10 @@ public class AdvertismentController {
                 e.printStackTrace();
             }
         }
-//
-//        String avatarName = UUID.randomUUID().toString() + "." + FilenameUtils.getExtension(uploadAvatar.getOriginalFilename());
-
-        String advertName = UUID.randomUUID().toString() + "." + FilenameUtils.getExtension(uploadAdvert.getOriginalFilename());
 
         if (uploadAdvert != null && !uploadAdvert.isEmpty()) {
             try {
+                String advertName = UUID.randomUUID().toString() + "." + FilenameUtils.getExtension(uploadAdvert.getOriginalFilename());
                 Files.copy(uploadAdvert.getInputStream(), rootLocation.resolve(advertName));
                 advert.setImage("/img/adverts/" + advertName);
             } catch (Exception ex) {
@@ -98,16 +92,50 @@ public class AdvertismentController {
             return "/admin/advertisment";
         }
 
-        if(!advertId.equals("null")){
-            Advert advertSaved = advertService.getAdvertById(Long.parseLong(advertId));
-            advertSaved.setTitle(advert.getTitle());
-            if(advert.getImage() != null) {advertSaved.setImage(advert.getImage());};
-            advertSaved.setDescription(advert.getDescription());
-            advertService.saveAdvert(advertSaved);
-        } else {
-            advertService.saveAdvert(advert);
+        Advert advertSaved = advertService.getAdvertById(advertId);
+        advertSaved.setTitle(advert.getTitle());
+        if(advert.getImage() != null) {
+            advertSaved.setImage(advert.getImage());
+        };
+        advertSaved.setDescription(advert.getDescription());
+        advertService.saveAdvert(advertSaved);
 
+
+        return "redirect:/admin/ads";
+    }
+
+    @PostMapping("/admin/addAdvert")
+    String addAdvert(@Valid Advert advert, BindingResult bindingResult, RedirectAttributes ra,
+                     HttpServletRequest request) {
+
+
+        MultipartFile uploadAdvert = advert.getImageUpload();
+        String homeUrl = new ApplicationHome(ShoppingApplication.class).getDir() + "/static/img/adverts";
+        Path rootLocation = Paths.get(homeUrl);
+
+        if (!Files.exists(rootLocation)) {
+            try {
+                Files.createDirectory(rootLocation);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
+
+        if (uploadAdvert != null && !uploadAdvert.isEmpty()) {
+            try {
+                String advertName = UUID.randomUUID().toString() + "." + FilenameUtils.getExtension(uploadAdvert.getOriginalFilename());
+                Files.copy(uploadAdvert.getInputStream(), rootLocation.resolve(advertName));
+                advert.setImage("/img/adverts/" + advertName);
+            } catch (Exception ex) {
+                bindingResult.rejectValue("uploadAdvert", "", "Problem on saving advert picture.");
+            }
+        }
+
+        if (bindingResult.hasErrors()) {
+            return "/admin/advertisment";
+        }
+
+        advertService.saveAdvert(advert);
 
 
         return "redirect:/admin/ads";

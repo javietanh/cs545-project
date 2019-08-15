@@ -12,6 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -135,28 +136,6 @@ public class BuyerController {
         }
     }
 
-    @PostMapping("/buyer/seller/{sellerId}/follow")
-    public String followSeller(@PathVariable("sellerId") Long sellerId, Model model) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User user = userService.findByEmail(auth.getName());
-        Buyer buyer = buyerService.getBuyerByUser(user);
-        Seller seller = sellerService.getSellerById(sellerId);
-        buyerService.followSeller(buyer, seller);
-        model.addAttribute("seller", seller);
-        return "SellerPage";
-    }
-
-    @PostMapping("/buyer/seller/{sellerId}/unfollow")
-    public String unfollowSeller(@PathVariable("sellerId") Long sellerId, Model model) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User user = userService.findByEmail(auth.getName());
-        Buyer buyer = buyerService.getBuyerByUser(user);
-        Seller seller = sellerService.getSellerById(sellerId);
-        buyerService.unfollowSeller(buyer, seller);
-        model.addAttribute("seller", seller);
-        return "SellerPage";
-    }
-
     @GetMapping("/buyer/orders")
     public String getOrderHistory(Model model) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -183,33 +162,35 @@ public class BuyerController {
         Buyer buyer = buyerService.getBuyerByUser(user);
         orderService.saveOrder(buyer, order);
         Long orderId = order.getId();
-        return "redirect:/orders/" + orderId;
+        return "redirect:/buyer/orders/" + orderId;
     }
 
-    @GetMapping("/item/{itemId}/review")
+    @GetMapping("/buyer/item/{itemId}/review")
     public String getReview(@PathVariable("itemId") Long itemId, @ModelAttribute("review") String review, Model model) {
         model.addAttribute("item", orderService.getOrderItemById(itemId));
         return "/buyer/ReviewProduct";
     }
 
-    @PostMapping("/item/{itemId}/review")
+    @PostMapping("/buyer/item/{itemId}/review")
     public String saveReview(@PathVariable("itemId") Long itemId, @Valid String review) {
         OrderItem item = orderService.getOrderItemById(itemId);
         buyerService.addReview(item, review);
         Long orderId = item.getOrder().getId();
-        return "redirect:/orders/" + orderId;
+        return "redirect:/buyer/orders/" + orderId;
     }
 
-    @PostMapping("/item/{itemId}/cancel")
+    @PostMapping("/buyer/item/{itemId}/cancel")
     public String cancelOrderItem(@PathVariable("itemId") Long itemId, Model model) {
         OrderItem orderItem = orderService.getOrderItemById(itemId);
+        BigDecimal totalPrice = orderItem.getProduct().getPrice().multiply(new BigDecimal(orderItem.getQuantity()));
         if(orderItem != null){
             orderItem.setOrderStatus(OrderItemStatus.CANCELED);
+            orderItem.getOrder().setTotalAmount(orderItem.getOrder().getTotalAmount().subtract(totalPrice));
             orderService.saveOrderItem(orderItem);
         }
         model.addAttribute("item", orderItem);
         Long orderId = orderItem.getOrder().getId();
-        return "redirect:/orders/" + orderId;
+        return "redirect:/buyer/orders/" + orderId;
     }
 
 }

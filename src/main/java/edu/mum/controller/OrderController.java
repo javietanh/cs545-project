@@ -4,6 +4,7 @@ import edu.mum.domain.Order;
 import edu.mum.domain.OrderItem;
 import edu.mum.domain.OrderItemStatus;
 import edu.mum.domain.OrderStatus;
+import edu.mum.domain.view.OrderInfo;
 import edu.mum.service.BuyerService;
 import edu.mum.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Controller
 public class OrderController {
@@ -31,10 +33,10 @@ public class OrderController {
     @Autowired
     private BuyerService buyerService;
 
-    @GetMapping("/orders/{orderId}")
+    @GetMapping("/buyer/orders/{orderId}")
     public String getOrder(@PathVariable("orderId") Long orderId, Model model) {
         Order order = orderService.getOrderById(orderId);
-        if (order.getStatus() != OrderStatus.COMPLETED) {
+        if (order.getStatus() == OrderStatus.PROCESSING) {
             for (OrderItem item : order.getOrderItems()) {
                 if (item.getOrderStatus() == OrderItemStatus.ORDERED || item.getOrderStatus() == OrderItemStatus.SHIPPED) {
                     model.addAttribute("order", order);
@@ -47,20 +49,30 @@ public class OrderController {
             orderService.updateOrder(order);
         }
         model.addAttribute("order", order);
+        model.addAttribute("deliveredOrderItems", orderService.getDeliveredOrderItemsByOrder(orderId));
         return "/buyer/OrderDetail";
     }
 
-    @PostMapping("/orders/{orderId}/cancel")
+    @PostMapping("/buyer/orders/{orderId}/cancel")
     public String cancelOrder(@PathVariable("orderId") Long orderId, Model model) {
         Order order = orderService.getOrderById(orderId);
         orderService.cancelOrder(order);
-        return "redirect:/buyer/orders";
+        return "redirect:/buyer/orders/" + orderId;
     }
 
-    @PostMapping("/orders/{orderId}/download")
+    @PostMapping("/buyer/orders/{orderId}/download")
     public String downloadReceipt(@PathVariable("orderId") Long orderId, Model model, HttpServletResponse response) throws Exception {
         Order order = orderService.getOrderById(orderId);
-        File file = orderService.downloadReceipt(order);
+        List<OrderItem> deliveredOrderItems = orderService.getDeliveredOrderItemsByOrder(orderId);
+        OrderInfo orderInfo = new OrderInfo();
+        orderInfo.setId(order.getId());
+        orderInfo.setBillingAddress(order.getBillingAddress());
+        orderInfo.setBuyer(order.getBuyer());
+        orderInfo.setPaymentInfo(order.getPaymentInfo());
+        orderInfo.setPaymentMethod(order.getPaymentMethod());
+        orderInfo.setTotalAmount(order.getTotalAmount());
+        orderInfo.setOrderItems(deliveredOrderItems);
+        File file = orderService.downloadReceipt(orderInfo);
         if (file.exists()) {
             response.setContentType("application/pdf");
             response.addHeader("Content-Disposition", "attachment; filename=order.pdf");
@@ -83,8 +95,9 @@ public class OrderController {
                     buf.close();
             }
         }
-        return "redirect:/orders/" + orderId;
+        return "redirect:/buyer/orders/" + orderId;
     }
+
 
 
 }

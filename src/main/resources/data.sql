@@ -145,10 +145,10 @@ INSERT INTO order_item (id, product_id, order_id, quantity, review, review_statu
 VALUES (1, 8, 1, 1, 'Nice jeans', 'APPROVED', 4, 'ORDERED', now());
 
 INSERT INTO order_item (id, product_id, order_id, quantity, review, review_status, rating, order_status, review_date)
-VALUES (2, 5, 1, 1, 'Nice shirt', 'PENDING', 4, 'ORDERED', now());
+VALUES (2, 9, 1, 1, 'Nice shirt', 'PENDING', 4, 'ORDERED', now());
 
 INSERT INTO order_item (id, product_id, order_id, quantity, review, review_status, rating, order_status, review_date)
-VALUES (3, 6, 1, 1, 'Nice blazer', 'PENDING', 4, 'ORDERED', now());
+VALUES (3, 10, 1, 1, 'Nice blazer', 'PENDING', 4, 'ORDERED', now());
 
 INSERT INTO order_item (id, product_id, order_id, quantity, review, review_status, rating, order_status, review_date)
 VALUES (4, 8, 2, 1, 'Too tight!!!', 'APPROVED', 1, 'DELIVERED', now());
@@ -160,7 +160,7 @@ INSERT INTO message (id, content, received_date, read, user_id)
 VALUES (1, 'From Phoenix shop: New product is added', now(), false, 1);
 
 INSERT INTO message (id, content, received_date, read, user_id)
-VALUES (11, 'From Phoenix shop: New product is added', LocalDateTime.now(), false, 1);
+VALUES (2, 'From Phoenix shop: New product is added', now(), false, 1);
 
 INSERT INTO advert (id, title, description , image, url)
 VALUES (1 ,'banner1', 'long sleeves', '/img/adverts/5be8da29-cd51-4b56-8ef2-5e16a927027a.jpg', 'banner.com');

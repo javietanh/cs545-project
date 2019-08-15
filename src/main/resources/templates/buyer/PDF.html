@@ -150,8 +150,8 @@
 
     <tr class="item" th:each="item: ${order.orderItems}">
       <td th:text="${item.product.name}"></td>
-      <td th:text="'$' + ${item.product.price}"></td>
       <td th:text="${item.quantity}"></td>
+      <td th:text="'$' + ${item.product.price}"></td>
     </tr>
 
     <tr class="total">

@@ -9,7 +9,7 @@ $(document).ready(function () {
                $('#cart-item').html("");
                $.each(cart, function (i, item) {
                    $("#cart-item").append('<tr><td>' + item.productName + '</td>' +
-                   '<td>' + item.productPrice + '</td>' +
+                   '<td>$' + item.productPrice + '</td>' +
                    '<td><button class="decrease btn btn-light" data-id="' + item.id + '">-</button> ' + item.quantity + ' <button class="increase btn btn-light" data-id="' + item.id + '">+</button></td>' +
                    '<td><button class="remove-item btn btn-primary" data-id="' + item.id + '">Remove</button></td></tr>');
                });

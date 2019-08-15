@@ -1,6 +1,7 @@
 package edu.mum.service.impl;
 
 import edu.mum.domain.*;
+import edu.mum.domain.view.OrderInfo;
 import edu.mum.repository.CartRepository;
 import edu.mum.repository.OrderItemRepository;
 import edu.mum.repository.OrderRepository;
@@ -94,13 +95,19 @@ public class OrderServiceImpl implements OrderService {
     public void cancelOrder(Order order) {
         order.setStatus(OrderStatus.CANCELED);
         order.setEndDate(LocalDateTime.now());
+        order.setTotalAmount(new BigDecimal(0));
+        order.setPaymentInfo("");
+        List<OrderItem> orderItems = order.getOrderItems();
+        for (OrderItem i : orderItems) {
+            i.setOrderStatus(OrderItemStatus.CANCELED);
+        }
         orderRepository.save(order);
     }
 
     @Override
-    public File downloadReceipt(Order order) throws Exception {
-        Map<String, Order> data = new HashMap<String, Order>();
-        data.put("order", order);
+    public File downloadReceipt(OrderInfo orderInfo) throws Exception {
+        Map<String, OrderInfo> data = new HashMap<String, OrderInfo>();
+        data.put("order", orderInfo);
         return pdfGenerator.createPdf("buyer/PDF", data);
 
     }
@@ -118,6 +125,11 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<Order> getAll() {
         return (List<Order>) orderRepository.findAll();
+    }
+
+    @Override
+    public List<OrderItem> getDeliveredOrderItemsByOrder(Long orderId) {
+        return orderItemRepository.getDeliveredOrderItemsByOrder(orderId);
     }
 
 

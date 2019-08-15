@@ -10,7 +10,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.security.Principal;
 import java.util.Collections;
 import java.util.List;
@@ -142,6 +141,13 @@ public class HomeController {
         }
         return "403";
     }
+
+    // common error page
+    @GetMapping("/error")
+    public String getError() {
+        return "error";
+    }
+
 
     @RequestMapping(value = {"/product/{id}/cart"})
     public String addProductToCart(@PathVariable(value = "id") Long id){

@@ -1,5 +1,5 @@
 INSERT INTO user (id, first_name, last_name, email, password, phone, address, role, register_date, avatar)
-VALUES (1, 'First', 'Buyer', 'phuongtm1911@gmail.com', '$2a$10$b.9CsDYMBdFIMB5ja.lg0.3/OHFiv5kMn7yR.FKCZY3JScMRPvE.G', '123-456-7890', '1000 N 4th St, Fairfield, IA', 'BUYER', now(), '/img/avatar/buyer.jpg');
+VALUES (1, 'First', 'Buyer', 'buyer@shopping.com', '$2a$10$b.9CsDYMBdFIMB5ja.lg0.3/OHFiv5kMn7yR.FKCZY3JScMRPvE.G', '123-456-7890', '1000 N 4th St, Fairfield, IA', 'BUYER', now(), '/img/avatar/buyer.jpg');
 
 INSERT INTO user (id, first_name, last_name, email, password, phone, address, role, register_date, avatar)
 VALUES (2, 'First', 'Seller', 'seller@shopping.com', '$2a$10$13wR9hYkIwBP0WIT525/XO23UfTvtjUKjbHCLlwAzYNzF3IkBlZRy', '123-456-7890', '1000 N 4th St, Fairfield, IA', 'SELLER', now(), '/img/avatar/seller.png');

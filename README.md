@@ -88,15 +88,6 @@ If you need to use a new technique which isn’t covered in this course, you mus
  
 Daily Scrum meeting – We’ll hold a daily meeting every day to check everyone’s status if you need any help. 
  
-Group Submission – DueDate: 5PM August, 15th, 2019 (Thursday) 
-1.	Document include WHO did WHAT – VERY IMPORTANT: Not everyone in the same group will get the same grade. 
-2.	Document all the techniques for the project. And listed where you used them. 
-3.	Document how to configure /Install Application o Application should have pre-populated data. 
-4.	Source code or Github links 
-5.	Presentation slides if you have one 
-6.	One group submit only one 
- 
- 
 #### Project Topic – Some online Market
  
 1.	Users: Admin, Seller and Buyer 

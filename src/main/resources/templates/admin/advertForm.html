@@ -8,7 +8,7 @@
 		<div class="col-12">
 			<form th:object="${advert}"
 			      method="post"
-			      th:action="@{'/admin/addAdvert/' + ${advert.id}}"
+			      th:action="@{/admin/addAdvert/{id}(id=${advert.id})}"
 			      enctype="multipart/form-data">
 
 				<div class="card">

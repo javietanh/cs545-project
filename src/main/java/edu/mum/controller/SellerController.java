@@ -1,11 +1,7 @@
 package edu.mum.controller;
 
 import edu.mum.domain.*;
-import edu.mum.service.CategoryService;
-import edu.mum.service.MessageService;
-import edu.mum.service.OrderService;
-import edu.mum.service.SellerService;
-import edu.mum.service.UserService;
+import edu.mum.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import edu.mum.ShoppingApplication;
 import edu.mum.domain.view.SellerDto;
@@ -44,6 +40,9 @@ public class SellerController {
     @Autowired
     private CategoryService categoryService;
 
+    @Autowired
+    private OrderItemService orderItemService;
+
     @ModelAttribute("categories")
     public List<Category> getCategories(){
         return categoryService.getCategories();
@@ -69,6 +68,12 @@ public class SellerController {
         model.addAttribute("item", item);
         model.addAttribute("totalPrice", totalPrice);
         return "/seller/OrderItemDetail";
+    }
+
+    @PostMapping("/orders/delete/{itemId}")
+    public String deleteOrderItem(@PathVariable("itemId") Long itemId, Model model) {
+        orderItemService.deleteOrderItem(itemId);
+        return "redirect:/seller/orders";
     }
 
     @PostMapping("/orders/{itemId}/status")

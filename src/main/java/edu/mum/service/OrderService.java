@@ -12,6 +12,7 @@ public interface OrderService {
     Order getOrderById(Long id);
     Order saveOrder(Buyer buyer, Order order);
     Order updateOrder(Order order);
+    void deleteOrder(Long id);
     OrderItem saveOrderItem(OrderItem orderItem);
     void completeOrder(Order order);
     void cancelOrder(Order order);

@@ -98,6 +98,10 @@ public class OrderController {
         return "redirect:/buyer/orders/" + orderId;
     }
 
-
+    @PostMapping("/buyer/orders/delete/{orderId}")
+    public String deleteOrder(@PathVariable Long orderId) {
+        orderService.deleteOrder(orderId);
+        return "redirect:/buyer/orders";
+    }
 
 }

@@ -14,4 +14,6 @@ public interface OrderItemService {
     OrderItem getOrderItemById(Long id);
 
     List<String> getApprovedReviews(Long itemId);
+
+    void deleteOrderItem(Long id);
 }

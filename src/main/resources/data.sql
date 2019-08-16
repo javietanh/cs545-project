@@ -157,10 +157,10 @@ INSERT INTO order_item (id, product_id, order_id, quantity, review, review_statu
 VALUES (5, 8, 3, 1, 'It does not look like the photo', 'APPROVED', 3, 'DELIVERED', now());
 
 INSERT INTO message (id, content, received_date, read, user_id)
-VALUES (1, 'From Phoenix shop: New product is added', now(), false, 1);
+VALUES (1, 'From Phoenix shop: New product added', now(), false, 1);
 
 INSERT INTO message (id, content, received_date, read, user_id)
-VALUES (2, 'From Phoenix shop: New product is added', now(), false, 1);
+VALUES (2, 'From Phoenix shop: New product added', now(), false, 1);
 
 INSERT INTO advert (id, title, description , image, url)
 VALUES (1 ,'banner1', 'long sleeves', '/img/adverts/5be8da29-cd51-4b56-8ef2-5e16a927027a.jpg', 'banner.com');

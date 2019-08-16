@@ -36,10 +36,10 @@
                     <td th:text="${item.reviewStatus}"></td>
                     <td>
                         <form action="#" th:action="@{/admin/reviews/} + ${item.id} + @{/approve}" method="post">
-                            <input type="submit" value="Approve" th:if="${item.reviewStatus.toString() != 'APPROVED'}" class="btn btn-success"/>
+                            <input type="submit" value="Approve" th:if="${item.reviewStatus.toString() != 'APPROVED'}" class="btn btn-success btn-sm"/>
                         </form>
                         <form action="#" th:action="@{/admin/reviews/} + ${item.id} + @{/reject}" method="post">
-                            <input type="submit" value="Reject" th:if="${item.reviewStatus.toString() != 'REJECTED'}" class="btn btn-danger mt-3"/>
+                            <input type="submit" value="Reject" th:if="${item.reviewStatus.toString() != 'REJECTED'}" class="btn btn-danger btn-sm mt-2"/>
                         </form>
                     </td>
                 </tr>

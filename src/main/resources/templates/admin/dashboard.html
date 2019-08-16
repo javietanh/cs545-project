@@ -32,12 +32,12 @@
                         <span th:text="${totalActiveSellers}"></span> Active Sellers
                     </div>
                 </div>
-                <div class="card-footer text-white clearfix small z-1">
-                    <span class="float-left">View Details</span>
-                    <span class="float-right">
-                  <i class="fas fa-angle-right"></i>
-                </span>
-                </div>
+<!--                <div class="card-footer text-white clearfix small z-1">-->
+<!--                    <span class="float-left">View Details</span>-->
+<!--                    <span class="float-right">-->
+<!--                  <i class="fas fa-angle-right"></i>-->
+<!--                </span>-->
+<!--                </div>-->
             </div>
         </div>
         <div class="col-xl-3 col-sm-6 mb-3">
@@ -47,7 +47,7 @@
                         <i class="fas fa-fw fa-shopping-cart"></i>
                     </div>
                     <div class="mr-5">
-                        <span th:text="${totalOrders}"></span> Orders.<br/>
+                        <span th:text="${totalOrders}"></span> Orders<br/>
                         <div class="text-white clearfix small">
                             <ul>
                                 <li>
@@ -72,7 +72,7 @@
                         <i class="fas fa-fw fa-life-ring"></i>
                     </div>
                     <div class="mr-5">
-                        <span th:text="${totalAds}"></span> Ads.
+                        <span th:text="${totalAds}"></span> Ads
                     </div>
                 </div>
                 <a class="card-footer text-white clearfix small z-1" th:href="@{/admin/ads}">

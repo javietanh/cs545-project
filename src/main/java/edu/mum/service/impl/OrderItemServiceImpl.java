@@ -38,4 +38,9 @@ public class OrderItemServiceImpl implements OrderItemService {
         return orderItemRepository.getApprovedReviews(itemId);
     }
 
+    @Override
+    public void deleteOrderItem(Long id) {
+        orderItemRepository.delete(orderItemRepository.findById(id).get());
+    }
+
 }

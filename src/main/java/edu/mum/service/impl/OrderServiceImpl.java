@@ -79,6 +79,11 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public void deleteOrder(Long id) {
+        orderRepository.delete(orderRepository.findById(id).get());
+    }
+
+    @Override
     public void completeOrder(Order order) {
         order.setStatus(OrderStatus.COMPLETED);
         Integer points = order.getTotalAmount().divide(new BigDecimal(100)).intValue();

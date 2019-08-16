@@ -50,6 +50,9 @@ public class ProductController {
     @Autowired
     private MessageService messageService;
 
+    @Autowired
+    private SellerService sellerService;
+
     // home page
     @GetMapping("/product/{productId}")
     public String loadProduct(@PathVariable("productId") Long id, Model model) {
@@ -100,8 +103,10 @@ public class ProductController {
     // seller
     @GetMapping(value = {"/seller/product"})
     public String getProductList(Model model) {
-        model.addAttribute("products", productService.getAll());
-
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.findByEmail(auth.getName());
+        Seller seller = sellerService.getSellerByUser(user);
+        model.addAttribute("products", productService.getProductsBySeller(seller));
         return "/seller/productList";
     }
 
